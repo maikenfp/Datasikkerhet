@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-    <form>
+    <form >
         <h1>Registrering</h1>
 
         <h3>Student</h3>
