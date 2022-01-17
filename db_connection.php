@@ -1,18 +1,12 @@
 <?php
-function OpenCon()
- { 
- $dbhost = "localhost";
- $dbuser = "root";
- $dbpass = "";
- $db = "example";
- $conn = new mysqli($dbhost, $dbuser, $dbpass,$db) or die("Connect failed: %s\n". $conn -> error);
- 
- return $conn;
- }
- 
-function CloseCon($conn)
- {
- $conn -> close();
- }
-   
+	$db_host = "localhost";
+	$db_user = "root";
+	$db_password = "";
+	$db_name = "test_db";
+
+	$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
+
+	if(!$conn) {
+		echo "Connection failed";
+	}
 ?>
