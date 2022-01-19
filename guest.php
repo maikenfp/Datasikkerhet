@@ -7,33 +7,37 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <h1>Tilbakemeldinger for fag på Høgskolen i Østfold </h1>
+        <header>
+            <h1>Tilbakemeldinger for fag på Høgskolen i Østfold </h1>
+        </header>
+        <main>
+            <form action="pin_get.php" method="get" id="pinkodeForm">
+                <label for="pinkode">Pin-kode:</label>
+                <input type="number" min="0" max="9999" >
+                <button type="submit" form="pinkodeForm" value="Submit">Søk</button>    
+            </form>
 
-        <?php
-        echo "Hello World";
-        ?>
-        
-        <?php
-        $servername = "localhost";
-        $username = "username";
-        $password = "password";
-        $dbname = "myDB";
+            <?php
+                $servername = "localhost";
+                $username = "username";
+                $password = "password";
+                $dbname = "myDB";
 
-        //Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
+                //Create connection
+                $conn = new mysqli($servername, $username, $password, $dbname);
 
-        //Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+                //Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
 
-        $sql = "SELECT emnekode, emnenavn, pinkode, melding_id FROM emne";
-        $result = $conn->query($sql);
+                $sql = "SELECT emnekode, emnenavn, pinkode, melding_id FROM emne";
+                $result = $conn->query($sql);
 
-        //Emne table output
-        echo "<br> Emnekode: " . $emnekode. " Emnenavn: " . $emnenavn. " Pin-kode: " . $pinkode. " <br>";
+                //Emne table output
+                echo "<br> Emnekode: " . $emnekode. " Emnenavn: " . $emnenavn. " Pin-kode: " . $pinkode. " <br>";
 
-        ?>
-
+            ?>
+        </main>
     </body>
 </html>
