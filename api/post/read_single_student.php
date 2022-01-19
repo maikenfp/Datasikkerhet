@@ -5,8 +5,6 @@
 
   include_once '../../config/Database.php';
 
-  //$param = $_GET['name'];
-
   $name = isset($_GET['name']) ? $_GET['name'] : die();
   $database = new Database();
   $db = $database->connect();
