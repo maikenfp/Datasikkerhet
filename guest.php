@@ -23,7 +23,7 @@
                 $password = "password";
                 $dbname = "myDB";
 
-                //Create connection
+                //Create connection to database
                 $conn = new mysqli($servername, $username, $password, $dbname);
 
                 //Check connection
@@ -31,12 +31,20 @@
                     die("Connection failed: " . $conn->connect_error);
                 }
 
-                $sql = "SELECT emnekode, emnenavn, pinkode, melding_id FROM emne";
+                $sql = "SELECT * FROM emne";
                 $result = $conn->query($sql);
 
                 //Emne table output
-                echo "<br> Emnekode: " . $emnekode. " Emnenavn: " . $emnenavn. " Pin-kode: " . $pinkode. " <br>";
-
+                if ($result->num_rows > 0){
+                    while($row = $result->fetch_assoc()) {
+                        echo "<br> Emnekode: " . $row["emnekode"]. " Emnenavn: " . $row["emnenavn"]. 
+                        " Pin-kode: " . $row["pinkode"]. "Melding id:" . $row["melding_id"]. " <br>";
+                    }
+                } else {
+                    echo "Ingen resultat";
+                }
+                
+                $conn->close();
             ?>
         </main>
     </body>
