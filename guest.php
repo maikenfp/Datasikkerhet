@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="NB-NO">
     <head>
         <meta charset="utf-8">
         <title>Hiof tilbakemelding | Gjestebruker</title>
@@ -18,13 +18,7 @@
             </form>
 
             <?php
-                $servername = "localhost";
-                $username = "username";
-                $password = "password";
-                $dbname = "myDB";
-
-                //Create connection to database
-                $conn = new mysqli($servername, $username, $password, $dbname);
+                require "db_connection.php";
 
                 //Check connection
                 if ($conn->connect_error) {
