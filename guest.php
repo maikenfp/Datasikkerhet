@@ -18,7 +18,11 @@
             </form>
 
             <?php
-                require "db_connection.php";
+                include_once "../../config/Database.php";
+                
+                $name = isset($_GET['name']) ? $_GET['name'] : die();
+                $database = new Database();
+                $db = $database->connect();
 
                 //Check connection
                 if ($conn->connect_error) {
@@ -30,11 +34,14 @@
 
                 //Emne table output
                 if ($result->num_rows > 0){
+                    //output data of each row
                     while($row = $result->fetch_assoc()) {
                         echo "<br> Emnekode: " . $row["emnekode"]. " Emnenavn: " . $row["emnenavn"]. 
                         " Pin-kode: " . $row["pinkode"]. "Melding id:" . $row["melding_id"]. " <br>";
                     }
-                } else {
+                } 
+                echo "</table>";
+                else {
                     echo "Ingen resultat";
                 }
                 
@@ -43,3 +50,7 @@
         </main>
     </body>
 </html>
+
+
+
+
