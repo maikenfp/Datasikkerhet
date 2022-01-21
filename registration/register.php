@@ -19,11 +19,11 @@
         </div>
         <div>
         <h4>Epost</h4>
-            <input type="text" name="email" id="email" placeholder="Skriv inn din epostadresse" value="?php echo $epost; ?>">
+            <input type="text" name="email" id="email" placeholder="Skriv inn din epostadresse" value="<?php echo $epost; ?>">
         </div>
         <div>
         <h4>Passord</h4>
-            <input type="text" name="password" id="password" placeholder="Skriv inn ønsket passord" value="php echo $passord; ?>"> <!-- hmmm, usikkert??? -->
+            <input type="text" name="password" id="password" placeholder="Skriv inn ønsket passord" value="<?php echo $passord; ?>"> <!-- -->
         </div>
         <div>
         <h4>Studieretning</h4>
