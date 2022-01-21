@@ -26,10 +26,10 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         header("Location: login_STUDENT.php?error=Du må skrive inn passord!");
         exit();
     } else{
-        $sql = "SELECT * FROM student WHERE `e-post`='$brukerEpost' AND passord='$brukerPassord'";
+        $sql = "SELECT * FROM student WHERE epost='$brukerEpost' AND passord='$brukerPassord'";
 
         $stmt = $db->query($sql);
-        $result = $db->prepare("SELECT SQL_CALC_FOUND_ROWS student_id, passord, studieretning, studiekull, `e-post`, navn FROM student");
+        $result = $db->prepare("SELECT SQL_CALC_FOUND_ROWS student_id, passord, studieretning, studiekull, epost, navn FROM student");
         $result->execute();
         $result = $db->prepare("SELECT FOUND_ROWS()");
         $result->execute();
@@ -38,14 +38,14 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         if ($row_count === 1) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($row['e-post'] === $brukerEpost && $row['passord'] === $brukerPassord) {
+            if ($row['epost'] === $brukerEpost && $row['passord'] === $brukerPassord) {
 
                 echo "Du er logget inn!";
 
                 $_SESSION['student_id'] = $row['student_id'];
                 $_SESSION['studieretning'] = $row['studieretning'];
                 $_SESSION['studiekull'] = $row['studiekull'];
-                $_SESSION['e-post'] = $row['e-post'];
+                $_SESSION['epost'] = $row['epost'];
                 $_SESSION['navn'] = $row['navn'];
 
                 // BYTT MED STUDENT (JOAKIM)

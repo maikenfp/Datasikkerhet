@@ -26,10 +26,10 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         header("Location: login_TEACHER.php?error=Du må skrive inn passord!");
         exit();
     } else{
-        $sql = "SELECT * FROM foreleser WHERE `e-post`='$brukerEpost' AND passord='$brukerPassord'";
+        $sql = "SELECT * FROM foreleser WHERE epost='$brukerEpost' AND passord='$brukerPassord'";
 
         $stmt = $db->query($sql);
-        $result = $db->prepare("SELECT SQL_CALC_FOUND_ROWS foreleser_id, navn, passord, `e-post` FROM foreleser");
+        $result = $db->prepare("SELECT SQL_CALC_FOUND_ROWS foreleser_id, navn, passord, epost FROM foreleser");
         $result->execute();
         $result = $db->prepare("SELECT FOUND_ROWS()");
         $result->execute();
@@ -38,13 +38,13 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         if ($row_count === 1) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($row['e-post'] === $brukerEpost && $row['passord'] === $brukerPassord) {
+            if ($row['epost'] === $brukerEpost && $row['passord'] === $brukerPassord) {
 
                 echo "Du er logget inn!";
 
                 $_SESSION['foreleser_id'] = $row['foreleser_id'];
                 $_SESSION['navn'] = $row['navn'];
-                $_SESSION['e-post'] = $row['e-post'];
+                $_SESSION['epost'] = $row['epost'];
 
                 // BYTT MED FORELESER (HAAKON)
                 header("Location: home_TEACHER.php");
