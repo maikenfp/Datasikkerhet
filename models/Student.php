@@ -65,22 +65,19 @@
 
     public function update() {
           $query = 'UPDATE ' . $this->table . '
-                                SET title = :title, body = :body, author = :author, category_id = :category_id
-                                WHERE id = :id';
+                                SET epost = :epost, studieretning = :studieretning, studiekull = :studiekull WHERE navn = :navn';
 
           $stmt = $this->conn->prepare($query);
 
-          $this->title = htmlspecialchars(strip_tags($this->title));
-          $this->body = htmlspecialchars(strip_tags($this->body));
-          $this->author = htmlspecialchars(strip_tags($this->author));
-          $this->category_id = htmlspecialchars(strip_tags($this->category_id));
-          $this->id = htmlspecialchars(strip_tags($this->id));
+          $this->navn = htmlspecialchars(strip_tags($this->navn));
+          $this->epost = htmlspecialchars(strip_tags($this->epost));
+          $this->studieretning = htmlspecialchars(strip_tags($this->studieretning));
+          $this->studiekull = htmlspecialchars(strip_tags($this->studiekull));
 
-          $stmt->bindParam(':title', $this->title);
-          $stmt->bindParam(':body', $this->body);
-          $stmt->bindParam(':author', $this->author);
-          $stmt->bindParam(':category_id', $this->category_id);
-          $stmt->bindParam(':id', $this->id);
+          $stmt->bindParam(':navn', $this->navn);
+          $stmt->bindParam(':epost', $this->epost);
+          $stmt->bindParam(':studieretning', $this->studieretning);
+          $stmt->bindParam(':studiekull', $this->studiekull);
 
           if($stmt->execute()) {
             return true;
