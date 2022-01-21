@@ -89,13 +89,13 @@
     }
 
     public function delete() {
-          $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+          $query = 'DELETE FROM ' . $this->table . ' WHERE navn = :navn';
 
           $stmt = $this->conn->prepare($query);
 
-          $this->id = htmlspecialchars(strip_tags($this->id));
+          $this->navn = htmlspecialchars(strip_tags($this->navn));
 
-          $stmt->bindParam(':id', $this->id);
+          $stmt->bindParam(':navn', $this->navn);
 
           if($stmt->execute()) {
             return true;
