@@ -6,16 +6,16 @@ CREATE TABLE `emne` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `foreleser` (
-  `forelser_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `foreleser_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `navn` varchar(30) NOT NULL,
   `passord` varchar(30) NOT NULL,
   `epost` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `foreleser_emne` (
-  `forelser_id` int(11) NOT NULL,
+  `foreleser_id` int(11) NOT NULL,
   `emne_id` int(11) NOT NULL,
-  FOREIGN KEY (forelser_id) REFERENCES foreleser(forelser_id),
+  FOREIGN KEY (foreleser_id) REFERENCES foreleser(foreleser_id),
   FOREIGN KEY (emne_id) REFERENCES emne(emne_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -43,9 +43,9 @@ CREATE TABLE `melding` (
   `spørsmål` varchar(1000) NOT NULL,
   `svar` varchar(1000) NOT NULL,
   `student_id` int(11) NOT NULL,
-  `forelser_id` int(11) NOT NULL,
+  `foreleser_id` int(11) NOT NULL,
   `emne_id` int(11) NOT NULL,
-  FOREIGN KEY (forelser_id) REFERENCES foreleser(forelser_id),
+  FOREIGN KEY (foreleser_id) REFERENCES foreleser(foreleser_id),
   FOREIGN KEY (student_id) REFERENCES student(student_id),
   FOREIGN KEY (emne_id) REFERENCES emne(emne_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

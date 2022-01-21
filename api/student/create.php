@@ -1,32 +1,4 @@
-<?php /*
-  // Headers
-  header('Access-Control-Allow-Origin: *');
-  header('Content-Type: application/json');
-  header('Access-Control-Allow-Methods: POST');
-
-  include_once '../../config/Database.php';
-
-  $database = new Database();
-  $db = $database->connect();
-
-  $data = json_decode(file_get_contents("php://input"));
-
-
-  $query = 'INSERT INTO categories SET
-  name = :name ';
-
-$db = $data->name;
-
-
-  $stmt = $db->prepare($query); 
-  $stmt->bindParam(':name', $name);
-  if($stmt->execute()) {
-    return true;
-    }
-    printf("Error: %s.\n", $stmt->error);
-
-    return false;
-*/
+<?php 
   // Headers
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
@@ -34,27 +6,27 @@ $db = $data->name;
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Post.php';
+  include_once '../../models/Student.php';
 
-  // Instantiate DB & connect
   $database = new Database();
   $db = $database->connect();
 
-  // Instantiate blog post object
-  $post = new Post($db);
+  $student = new Student($db);
 
-  // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
-  $post->name = $data->name;
+  $student->navn = $data->navn;
+  $student->epost = $data->epost;
+  $student->passord = $data->passord;
+  $student->studieretning = $data->studieretning;
+  $student->studiekull = $data->studiekull;
 
-  // Create post
-  if($post->create()) {
+  if($student->create()) {
     echo json_encode(
-      array('message' => 'Post Created')
+      array('message' => 'Student Created')
     );
   } else {
     echo json_encode(
-      array('message' => 'Post Not Created')
+      array('message' => 'Student Not Created')
     );
   }
