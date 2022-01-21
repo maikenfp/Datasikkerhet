@@ -1,12 +1,25 @@
 <?php
-	$db_host = "localhost";
-	$db_user = "root";
-	$db_password = "";
-	$db_name = "test_db";
+	class Database {
+		// DB Params
+		private $host = 'localhost';
+		private $db_name = 'proto';
+		private $username = 'root';
+		private $password = '';
+		private $conn;
 
-	$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
+		// DB Connect
+		public function connect() {
+		  $this->conn = null;
 
-	if(!$conn) {
-		echo "Connection failed";
-	}
+		  try {
+		    $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
+		    $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		  } catch(PDOException $e) {
+		    echo 'Connection Error: ' . $e->getMessage();
+		  }
+
+		  return $this->conn;
+			}
+		}
+
 ?>
