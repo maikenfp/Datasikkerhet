@@ -1,6 +1,8 @@
 <?php
 session_start();
 include_once "db_conn.php";
+// CHANGE TO THIS WHEN MERGED v
+// include_once '../../config/Database.php';
 
 $database = new Database();
 $db = $database->connect();
