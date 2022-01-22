@@ -15,7 +15,7 @@
         <h3>Student</h3>
         <div>
             <h4>Navn</h4>
-            <input type="text" name="name" id="name" placeholder="Skriv inn ditt navn" value="<?php echo $brukernavn; ?>">
+            <input type="text" name="name" id="name" placeholder="Skriv inn ditt navn" value="<?php echo $navn; ?>">
         </div>
         <div>
         <h4>Epost</h4>
