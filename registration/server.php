@@ -14,5 +14,5 @@ $db = $database->connect();
 
 // Registere bruker
 if(isset($_POST["reg_user"])) {
-
+|   $username = 
 }
