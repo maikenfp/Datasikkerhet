@@ -1,4 +1,4 @@
-<?php
+<?php 
   class Database {
     // DB Params
     private $host = 'localhost';
@@ -11,7 +11,7 @@
     public function connect() {
       $this->conn = null;
 
-      try {
+      try { 
         $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       } catch(PDOException $e) {
