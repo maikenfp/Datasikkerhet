@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-$username = "";
-$email = "";
+$navn = "";
+$epost = "";
 $passord = "";
 $errors = array();
 
@@ -14,5 +14,5 @@ $db = $database->connect();
 
 // Registere bruker
 if(isset($_POST["reg_user"])) {
-|   $username = 
+   $navn = 
 }
