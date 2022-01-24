@@ -1,24 +1,29 @@
+<?php include("server.php") ?>
 <!DOCTYPE html>
 <html>
     <head>
+    <title>Registering av brukere</title>
     <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-    <form >
-        <h1>Registrering</h1>
+        <div class="header">
+            <h2>Registering</h2>
+        </div>
+    <form method="post" action="register.php">
+        <?php include("errors.php"); ?>
 
         <h3>Student</h3>
         <div>
             <h4>Navn</h4>
-            <input type="text" name="name" id="name" placeholder="Skriv inn ditt navn" >
+            <input type="text" name="name" id="name" placeholder="Skriv inn ditt navn" value="<?php echo $navn; ?>">
         </div>
         <div>
         <h4>Epost</h4>
-            <input type="text" name="email" id="email" placeholder="Skriv inn din epostadresse">
+            <input type="text" name="email" id="email" placeholder="Skriv inn din epostadresse" value="<?php echo $epost; ?>">
         </div>
         <div>
         <h4>Passord</h4>
-            <input type="text" name="password" id="password" placeholder="Skriv inn ønsket passord">
+            <input type="text" name="password" id="password" placeholder="Skriv inn ønsket passord" value="<?php echo $passord; ?>"> <!-- -->
         </div>
         <div>
         <h4>Studieretning</h4>
