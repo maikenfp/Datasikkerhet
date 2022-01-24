@@ -9,36 +9,21 @@
         <div class="header">
             <h2>Registering</h2>
         </div>
-<?php
-if(isset($errorMSG)){
-    foreach($errorMSG as $error) {
-    ?> <div class?"alert alert-danger">
-        <strong><?php echo $error; ?></strong>
-    </div>
-        <?php
-    }
-}
-if(isset($loginMsg)) {
-    ?>
-    <div class="alert alert-success">
-        <strong><?php echo $loginMsg; ?></strong>
-    </div>
-<?php
-}
-?>
- <form >
+    <form method="post" action="register.php">
+        <?php include("errors.php"); ?>
+
         <h3>Student</h3>
         <div>
             <h4>Navn</h4>
-            <input type="text" name="name" id="name" placeholder="Skriv inn ditt navn" >
+            <input type="text" name="name" id="name" placeholder="Skriv inn ditt navn" value="<?php echo $navn; ?>">
         </div>
         <div>
         <h4>Epost</h4>
-            <input type="text" name="email" id="email" placeholder="Skriv inn din epostadresse">
+            <input type="text" name="email" id="email" placeholder="Skriv inn din epostadresse" value="<?php echo $epost; ?>">
         </div>
         <div>
         <h4>Passord</h4>
-            <input type="text" name="password" id="password" placeholder="Skriv inn ønsket passord">
+            <input type="text" name="password" id="password" placeholder="Skriv inn ønsket passord" value="<?php echo $passord; ?>"> <!-- -->
         </div>
         <div>
         <h4>Studieretning</h4>

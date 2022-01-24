@@ -1,9 +1,9 @@
 <?php 
 // Innlogging til server
-$db_host="localhost"; //sett server ip
+$db_host="158.39.188.205"; //sett server ip
 $db_user="root"; //
-$db_password="";
-$db_name="php_pdo_login_db"; // Navn på database
+$db_password="fCXy2uqwHE";
+$db_name="datasikkerhet"; // Navn på database
 
 try {
     $db=new PDO("mysql:host={$db_host};dbname={$db_name}", $db_user, $db_passwird);
