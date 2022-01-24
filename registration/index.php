@@ -58,7 +58,7 @@ if(isset($loginMsg)) {
             </select>
         </div>
         <div>
-            <button>Registrer</button>
+            <input type="submit" name="stud_reg" id="stud_reg" value="Register">
         </div>
 </form>
 
@@ -89,7 +89,7 @@ if(isset($loginMsg)) {
         <input type="file" name="picture" id="picture">
         </div>
         <div>
-            <button>Registrer</button>
+            <input type="submit" name="fore_reg" id="fore_reg" value="Register">
         </div>
 
         </form>
