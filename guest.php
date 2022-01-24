@@ -40,7 +40,7 @@
                         " Pin-kode: " . $row["pinkode"]. "Melding id:" . $row["melding_id"]. " <br>";
                     }
                 } 
-                echo "</table>";
+                // echo "</table>";
                 else {
                     echo "Ingen resultat";
                 }
