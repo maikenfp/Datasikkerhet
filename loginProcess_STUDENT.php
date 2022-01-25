@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once '../../config/Database.php';
+include_once 'config/Database.php';
 
 $database = new Database();
 $db = $database->connect();
@@ -36,7 +36,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         if ($row_count === 1) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($row['epost'] === $brukerEpost && $row['passord'] === $brukerPassord) {
+            if ($row[epost] === $brukerEpost && $row['passord'] === $brukerPassord) {
 
                 echo "Du er logget inn!";
 
