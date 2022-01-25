@@ -1,5 +1,8 @@
 <?php
-require_once "connection.php";
+require_once "config/Database.php";
+
+$database = new Database();
+$db = $database->connect();
 
 if(isset($_REQUEST["stud_reg"])) {
     $username = strip_tags($_REQUEST["navn"]);
