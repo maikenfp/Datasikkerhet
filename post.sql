@@ -1,7 +1,7 @@
 CREATE TABLE `emne` (
   `emne_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `emnenavn` varchar(40) NOT NULL,
-  `emnekode` int(11) NOT NULL,
+  `emnekode` varchar(20) NOT NULL,
   `pinkode` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
