@@ -13,7 +13,7 @@
       <input type="submit" value="FORELESER"\>
     </form>
     <!-- GJESTEBRUKER HER -->
-    <form action="GJESTEBRUKER.php" method="POST">
+    <form action="guest.php" method="POST">
       <input type="submit" value="GJEST"\>
     </form>
 	</body>

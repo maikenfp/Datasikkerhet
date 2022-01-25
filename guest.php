@@ -25,7 +25,7 @@
 
                 $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode, 
                     melding.svar, melding.spørsmål
-                    FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id where pinkode = $_POST[pin]";
+                    FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id WHERE pinkode = '$_POST[pin]'";
 
                 $stmt = $db->query($sql);
                 $result = $db->query($sql);
