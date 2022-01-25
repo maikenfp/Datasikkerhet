@@ -1,3 +1,7 @@
+<?php
+// Start the session
+session_start();
+?>
 <!doctype html>
 <html lang="nb">
 
@@ -19,6 +23,7 @@
                         <option disabled selected value>Vennligst velg et emne!</option>
                         <!--TODO: Få session for den innologgende studenten. Hente tidligere sendte meldinginger med student sessionen hvor man har svar-->
                         <?php
+                        $currentStudentId = $_SESSION["student_id"];
                         require '.././config/Database.php';
 
                         $database = new Database();
@@ -50,7 +55,7 @@
                 <div class="question">
                     <?php
                     //Midlertidig løsning for å hente spørsmål
-                        $query = "SELECT * from kommentar k inner join melding m on m.melding_id = k.melding_id WHERE student_id = 1";
+                        $query = "SELECT * from kommentar k inner join melding m on m.melding_id = k.melding_id WHERE student_id = $currentStudentId";
                         
                         $stmt = $db->query($query);
 
