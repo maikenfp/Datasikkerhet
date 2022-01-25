@@ -1,8 +1,6 @@
 <?php
 session_start();
-include_once "db_conn.php";
-// CHANGE TO THIS WHEN MERGED v
-// include_once '../../config/Database.php';
+include_once '../../config/Database.php';
 
 $database = new Database();
 $db = $database->connect();
@@ -46,8 +44,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 $_SESSION['navn'] = $row['navn'];
                 $_SESSION['epost'] = $row['epost'];
 
-                // BYTT MED FORELESER (HAAKON)
-                header("Location: home_TEACHER.php");
+                header("Location: teacher.php");
                 exit();
             } else{
                 header("Location: login_TEACHER.php?error=Feil brukernavn eller passord");
