@@ -14,11 +14,10 @@
             <form action="" method="post">
                 <label for="pinkode">Pin-kode:</label>
                 <input type="number" name="pin" min="0" max="9999" >
-                <button type="submit" value="Submit">Søk</button>    
+                <button type="submit">Søk</button>    
             </form>
 
             <?php
-            
                 $dbhost = "localhost";
                 $dbuser = "test";
                 $dbpass = "test123";
@@ -30,8 +29,6 @@
                     FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id where pinkode = $_POST[pin]";
                 $result = $conn->query($sql);  
 
-                
-            
                 if ($result->num_rows > 0){
                     $row = $result->fetch_assoc();
                     echo "<br>Emnekode:". $row["emnekode"]. "<br>Emnenavn: " . $row["emnenavn"]. "<br>Pin-kode: " . $row["pinkode"];
@@ -39,16 +36,23 @@
                     //output all emne info from db
                     while($row = $result->fetch_assoc()) {
                         echo "<br><br>Spørsmål: " . $row["spørsmål"]. "<br> Svar: ". $row["svar"]. "<br>";
+                        ?>
+                        <!-- Submit comment -->
+                        <form action="" method="post">
+                            <input type="text" name="Kommenter">
+                            <button type="submit">Kommenter</button>
+                        </form>
+                        <?php
+                        
                     }
                 } 
-                // echo "</table>";
+                
                 else {
                     echo "Ingen resultat";
                 }
-                
 
-                // $sql = "SELECT * FROM melding where "
-                
+
+
                 $conn->close();
             ?>
         </main>
