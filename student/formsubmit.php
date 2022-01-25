@@ -5,8 +5,7 @@ $database = new Database();
 $db = $database->connect();
 
 
-//se hva som har blitt sendt dra skjemaet: 
-var_dump($_POST);
+//se hva som har blitt sendt dra skjemaet: var_dump($_POST);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $subject= $_POST['subject'];
