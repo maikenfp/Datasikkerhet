@@ -46,7 +46,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 $_SESSION['epost'] = $row['epost'];
                 $_SESSION['navn'] = $row['navn'];
 
-                header("Location: student_feedback/index.php");
+                header("Location: student/index.php");
                 exit();
             } else{
                 header("Location: login_STUDENT.php?error=Feil brukernavn eller passord");
