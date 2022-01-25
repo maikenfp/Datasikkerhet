@@ -3,8 +3,8 @@
     // DB Params
     private $host = 'localhost';
     private $db_name = 'datasikkerhet';
-    private $username = 'test';
-    private $password = 'test123';
+    private $username = 'root';
+    private $password = '';
     private $conn;
 
     // DB Connect
