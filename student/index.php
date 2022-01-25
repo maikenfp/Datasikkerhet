@@ -19,7 +19,7 @@
                         <option disabled selected value>Vennligst velg et emne!</option>
                         <!--TODO: Få session for den innologgende studenten. Hente tidligere sendte meldinginger med student sessionen hvor man har svar-->
                         <?php
-                        require '.././config/Database.php';
+                        require './Database.php';
 
                         $database = new Database();
                         $db = $database->connect();
@@ -50,7 +50,7 @@
                 <div class="question">
                     <?php
                     //Midlertidig løsning for å hente spørsmål
-                        $query = "SELECT * FROM melding";
+                        $query = "SELECT * from kommentar k inner join melding m on m.melding_id = k.melding_id WHERE student_id = 1";
                         
                         $stmt = $db->query($query);
 
@@ -60,7 +60,7 @@
                                 echo "<article>
                                 <h1 value=". $row['melding_id'] .">". $row['spørsmål']. "</h1><p>". $row['dato'] . " <br> " . $row['tid'] ."</p>
                                 <h1>Svar fra foreleser</h1><p>" . $row['svar'] . "</p>
-                                </h1><h1>Kommentarer fra andre studenter:</h1><p></p>
+                                </h1><h1>Kommentarer fra andre studenter:</h1><p>". $row['kommentar'] ."</p>
                                 </article>";    
                             }
                         }
