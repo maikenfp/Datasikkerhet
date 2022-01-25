@@ -2,7 +2,7 @@
   class Database {
     // DB Params
     private $host = 'localhost';
-    private $db_name = 'maiken';
+    private $db_name = 'datasikkerhet';
     private $username = 'root';
     private $password = '';
     private $conn;
