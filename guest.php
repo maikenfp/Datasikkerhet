@@ -29,14 +29,16 @@
                     melding.svar, melding.spørsmål
                     FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id where pinkode = $_POST[pin]";
                 $result = $conn->query($sql);  
+
                 
             
                 if ($result->num_rows > 0){
+                    $row = $result->fetch_assoc();
+                    echo "<br>Emnekode:". $row["emnekode"]. "<br>Emnenavn: " . $row["emnenavn"]. "<br>Pin-kode: " . $row["pinkode"];
+
                     //output all emne info from db
                     while($row = $result->fetch_assoc()) {
-                        echo "<br> Emnekode: " . $row["emnekode"]. "<br>Emnenavn: " . $row["emnenavn"]. 
-                        "<br>Pin-kode: " . $row["pinkode"]. 
-                        "<br><br>Spørsmål: " . $row["spørsmål"]. "<br> Svar: ". $row["svar"]. "<br>";
+                        echo "<br><br>Spørsmål: " . $row["spørsmål"]. "<br> Svar: ". $row["svar"]. "<br>";
                     }
                 } 
                 // echo "</table>";
