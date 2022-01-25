@@ -1,18 +1,25 @@
 <?php
-function OpenCon()
- { 
- $dbhost = "localhost";
- $dbuser = "root";
- $dbpass = "";
- $db = "example";
- $conn = new mysqli($dbhost, $dbuser, $dbpass,$db) or die("Connect failed: %s\n". $conn -> error);
- 
- return $conn;
- }
- 
-function CloseCon($conn)
- {
- $conn -> close();
- }
-   
+	class Database {
+		// DB Params
+		private $host = 'localhost';
+		private $db_name = 'proto';
+		private $username = 'root';
+		private $password = '';
+		private $conn;
+
+		// DB Connect
+		public function connect() {
+		  $this->conn = null;
+
+		  try {
+		    $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
+		    $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		  } catch(PDOException $e) {
+		    echo 'Connection Error: ' . $e->getMessage();
+		  }
+
+		  return $this->conn;
+			}
+		}
+
 ?>
