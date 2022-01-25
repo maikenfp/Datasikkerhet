@@ -2,9 +2,9 @@
   class Database {
     // DB Params
     private $host = 'localhost';
-    private $db_name = 'datasikkerhet';
-    private $username = 'root';
-    private $password = '';
+    private $db_name = 'film';
+    private $username = 'test';
+    private $password = 'test123';
     private $conn;
 
     // DB Connect

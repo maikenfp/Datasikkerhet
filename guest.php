@@ -11,39 +11,39 @@
             <h1>Tilbakemeldinger for fag på Høgskolen i Østfold </h1>
         </header>
         <main>
-            <form action="pin_get.php" method="get" id="pinkodeForm">
+            <form action="" method="post">
                 <label for="pinkode">Pin-kode:</label>
-                <input type="number" min="0" max="9999" >
-                <button type="submit" form="pinkodeForm" value="Submit">Søk</button>    
+                <input type="number" name="pin" min="0" max="9999" >
+                <button type="submit" value="Submit">Søk</button>    
             </form>
 
             <?php
-                include_once "../../config/Database.php";
+            
+                $dbhost = "localhost";
+                $dbuser = "test";
+                $dbpass = "test123";
+                $db = "datasikkerhet";
+                $conn = new mysqli($dbhost, $dbuser, $dbpass,$db) or die("Connect failed: %s\n". $conn -> error);
+           
+                $sql = "SELECT * FROM emne where pinkode = $_POST[pin]";
+
                 
-                $name = isset($_GET['name']) ? $_GET['name'] : die();
-                $database = new Database();
-                $db = $database->connect();
 
-                //Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
-
-                $sql = "SELECT * FROM emne";
-                $result = $conn->query($sql);
-
-                //Emne table output
+                $result = $conn->query($sql);  
+                
+            
                 if ($result->num_rows > 0){
-                    //output data of each row
+                    //output all emne info from db
                     while($row = $result->fetch_assoc()) {
-                        echo "<br> Emnekode: " . $row["emnekode"]. " Emnenavn: " . $row["emnenavn"]. 
-                        " Pin-kode: " . $row["pinkode"]. "Melding id:" . $row["melding_id"]. " <br>";
+                        echo "<br> Emnekode: " . $row["emnekode"]. "<br>Emnenavn: " . $row["emnenavn"]. 
+                        "<br>Pin-kode: " . $row["pinkode"]. " <br>";
                     }
                 } 
                 // echo "</table>";
                 else {
                     echo "Ingen resultat";
                 }
+                
                 
                 $conn->close();
             ?>
