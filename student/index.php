@@ -19,7 +19,7 @@
                         <option disabled selected value>Vennligst velg et emne!</option>
                         <!--TODO: Få session for den innologgende studenten. Hente tidligere sendte meldinginger med student sessionen hvor man har svar-->
                         <?php
-                        require './Database.php';
+                        require '.././config/Database.php';
 
                         $database = new Database();
                         $db = $database->connect();
