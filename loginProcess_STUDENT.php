@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once '../../config/Database.php';
+include_once 'config/Database.php';
 
 $database = new Database();
 $db = $database->connect();
