@@ -1,4 +1,6 @@
 <?php 
+// Start the session
+session_start();
 require '.././config/Database.php';
 
 $database = new Database();
@@ -7,6 +9,7 @@ $db = $database->connect();
 
 //se hva som har blitt sendt dra skjemaet: var_dump($_POST);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $currentStudentId = $_SESSION["student_id"];
 
     $subject= $_POST['subject'];
     $question = $_POST['subjectQuestion'];
@@ -14,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date = date('Y-m-d');
 
     $sql = "INSERT INTO melding(spørsmål, emne_id, student_id, dato, tid, foreleser_id) 
-    VALUES ('$question', '$subject', 1, '$date', (NOW()), (SELECT foreleser_id FROM foreleser_emne WHERE emne_id = $subject))";
+    VALUES ('$question', '$subject', '$currentStudentId', '$date', (NOW()), (SELECT foreleser_id FROM foreleser_emne WHERE emne_id = $subject))";
     
     $result = $db->query($sql);
 
