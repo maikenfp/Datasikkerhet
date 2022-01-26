@@ -1,4 +1,4 @@
-<?php include("server.php") ?>
+<?php include("config/Database.php") ?>
 <!DOCTYPE html>
 <html>
     <head>
