@@ -56,7 +56,7 @@ session_start();
                 <div class="question">
                     <?php
                     //Midlertidig løsning for å hente spørsmål
-                        $query = "SELECT * from kommentar k inner join melding m on m.melding_id = k.melding_id WHERE student_id = $currentStudentId";
+                        $query = "SELECT * from melding WHERE student_id = $currentStudentId";
 
                         $stmt = $db->query($query);
 
@@ -65,9 +65,8 @@ session_start();
                             foreach ($row as $row) {
                                 echo "<article>
                                 <h1 value=". $row['melding_id'] .">". $row['spørsmål']. "</h1><p>". $row['dato'] . " <br> " . $row['tid'] ."</p>
-                                <h1>Svar fra foreleser</h1><p>" . $row['svar'] . "</p>
-                                </h1><h1>Kommentarer fra andre studenter:</h1><p>". $row['kommentar'] ."</p>
-                                </article>";
+                                <h1>Svar fra foreleser</h1><p>" . $row['svar'] . "</p></article>";
+                                //</h1><h1>Kommentarer fra andre studenter:</h1><p>". $row['kommentar'] ."</p></article>";
                             }
                         }
                     ?>
