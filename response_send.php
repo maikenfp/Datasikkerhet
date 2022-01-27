@@ -1,28 +1,24 @@
 <?php
-    include_once 'db_connection.php';
+  require 'config/Database.php';
 
-if(!$conn) {
-    echo 'Not connected to server!';
-}
+$database = new Database();
+$db = $database->connect();
 
-if(!mysqli_select_db($conn,'exampleds')) {
-    echo 'Database not selected!';
-}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $responseID= $_POST['responseID'];
+  $reply= $_POST['reply'];
 
+  $sql = "UPDATE melding SET svar='$reply' WHERE melding_id='$responseID'";
+  $result = $db->query($sql);
 
-$reply = $_POST['reply'];
-
-$sql = "UPDATE emne SET reply='$reply' WHERE emne_id=88";
-
-
-
-if ($conn->query($sql) === TRUE) {
-    echo "Message: &#34;$reply&#34; added to database";
-  } else {
-    echo "Error updating record: " . $conn->error;
+  if($result) {
+    echo "<script>";
+    echo "alert('Svar sendt');";
+    echo "</script>";
+    echo "<meta http-equiv='refresh' content='0;url=teacher.php'>";
   }
-  
-  $conn->close();
+
+}
 
 
 ?>
