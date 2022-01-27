@@ -1,11 +1,14 @@
 <?php
-    include_once 'db_connection.php';
+    require 'config/Database.php';
 
-    $sql = "SELECT * from emne WHERE emne_id=88;";
-    $result = mysqli_query($conn, $sql);
-    $resultCheck = mysqli_num_rows($result);
-    $row = mysqli_fetch_assoc($result);
-    $reply = $row['reply'];
+    $database = new Database();
+    $db = $database->connect();
+
+    $query = "SELECT * from emne";
+    $stmt = $db->query($query);
+    //$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
 
 ?>
 
@@ -15,37 +18,28 @@
     <body> 
     <h1>Foreleser</h1>
 
-    <div>
-        <h2><?php
-        echo $row['emne_navn'];
-        ?></h2>
-    <?php
-        echo "Message: ";
-        echo $row['message'];
-    ?>
-    <form action="response_send.php" method="post">
-        <?php 
-        //echo "<select name=emner value=''>EMNENAVN</option>";
-        //foreach ($dbo->query($sql) as $rw)
-        //echo "<option value=$row[emne_navn]></option>"; 
+    <form action="teachersubject.php" method="post">
+        <label for="subject">Emne:<span class="required"></span></label>
+        <select name="subject" required>
+            <option disabled selected value>Velg emne</option>
 
-        //echo "</select>"
-        ?>
+            <?php
 
-        <input type="text" name="reply" placeholder="reply">
-        <button type="submit" name="submit">Respond</button>
+            $database = new Database();
+            $db = $database->connect();
+
+            
+            $query = "SELECT * FROM emne";
+            $stmt = $db->query($query);
+            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($row) {
+                foreach ($row as $row) {
+                    echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";    
+                }
+            }
+            ?>
+        </select>
+            <button type="submit" name="submit">Go</button>
     </form>
-    </div>
-
-
-
-
-
-
-
-    <?php
-    echo "Your response is: ";
-    echo "&#34;$reply&#34;";
-    ?>
     </body>
 </html>
