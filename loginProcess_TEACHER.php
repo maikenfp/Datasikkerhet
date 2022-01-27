@@ -33,7 +33,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         $result->execute();
         $row_count = $result->fetchColumn();
 
-        if ($row_count === 1) {
+        if ($row_count > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($row['epost'] === $brukerEpost && $row['passord'] === $brukerPassord) {
