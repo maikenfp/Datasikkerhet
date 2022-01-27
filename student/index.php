@@ -29,15 +29,15 @@ session_start();
                         $database = new Database();
                         $db = $database->connect();
 
-                        
+
                         $query = "SELECT * FROM emne";
-                        
+
                         $stmt = $db->query($query);
 
                         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         if ($row) {
                             foreach ($row as $row) {
-                                echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";      
+                                echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";
                             }
                         }
                     ?>
@@ -48,6 +48,7 @@ session_start();
                         <textarea name="subjectQuestion" id="subject_feedback" cols="74" rows="8" required></textarea>
                     </div>
                     <button type="submit" id="studentSubmit">Send inn</button>
+                    <a href="../logout.php">Logg ut</a>
                 </form>
             </section>
                 <h1>Dine tidligere spørsmål:</h1>
@@ -56,7 +57,7 @@ session_start();
                     <?php
                     //Midlertidig løsning for å hente spørsmål
                         $query = "SELECT * from kommentar k inner join melding m on m.melding_id = k.melding_id WHERE student_id = $currentStudentId";
-                        
+
                         $stmt = $db->query($query);
 
                         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -66,7 +67,7 @@ session_start();
                                 <h1 value=". $row['melding_id'] .">". $row['spørsmål']. "</h1><p>". $row['dato'] . " <br> " . $row['tid'] ."</p>
                                 <h1>Svar fra foreleser</h1><p>" . $row['svar'] . "</p>
                                 </h1><h1>Kommentarer fra andre studenter:</h1><p>". $row['kommentar'] ."</p>
-                                </article>";    
+                                </article>";
                             }
                         }
                     ?>
