@@ -17,16 +17,18 @@
                 <button type="submit" name="PinButton">Søk</button>    
             </form>
             <?php
+                include_once "config/database.php";
+
                 if (isset($_POST["PinButton"])){
                    getEmneInfo($_POST["pinkode"]);
                    getMessage($_POST["pinkode"]);
                 }
             
-             
                 if (isset($_POST["button"])){
                     commentMessage($_POST["kommenter"], $_POST["meldingID"]);
-                    // commentMessage($_POST["kommenter"], "$row[melding_id]");
                 }
+
+                
             ?>
 
             <form method="POST">
@@ -49,7 +51,6 @@
 <?php
 
 function getEmneInfo($pin){
-    include_once "config/Database.php";
     $database = new Database();
     $db = $database->connect();
 
@@ -69,7 +70,6 @@ function getEmneInfo($pin){
 
 
 function getMessage($pin){
-    include_once "config/Database.php";
     $database = new Database();
     $db = $database->connect();
 
@@ -80,14 +80,27 @@ function getMessage($pin){
 
     
     $stmt = $db->query($sql);
-    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);    
+    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    
 
     if($row){
         foreach ($row as $row) {
-            // echo "<br>Emnekode:". $row["emnekode"]. "<br>Emnenavn: " . $row["emnenavn"]. "<br>Pin-kode: " . $row["pinkode"];
             echo "<br><br> Melding_id: ". $row["melding_id"]."<br> Spørsmål: ". $row["spørsmål"]. "<br> Svar: ". $row["svar"]. "<br>";
+            $id = $row["melding_id"];
+            if (isset($_POST["report"])){
+                echo "Reported";
+                reportMessage($id);
+            }
+            ?>
+            <form method="POST">
+                <button type="submit" name="report" value="Rapporter"> Rapporter</button>
+            </form>
+
+            <?php
         }
     }
+    
     else {
         echo "Ingen resultat";
     }
@@ -95,9 +108,6 @@ function getMessage($pin){
 }
 
 function commentMessage($kommentar, $melding_id){
-    include_once "config/Database.php";
-    echo "comment";
-
     $database = new Database();
     $db = $database->connect();
 
@@ -107,4 +117,10 @@ function commentMessage($kommentar, $melding_id){
 }
 
 
+function reportMessage($id){
+    $database = new Database();
+    $db = $database->connect();
+    $sql = "UPDATE melding SET upassende_melding = COALESCE(upassende_melding)+1 WHERE melding_id = $id";
+    $stmt = $db->query($sql);
+}
 ?>
