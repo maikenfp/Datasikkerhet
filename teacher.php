@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require 'config/Database.php';
 
     $database = new Database();
@@ -15,7 +16,7 @@
 
 <!DOCTYPE html>
 <html>
-    <body> 
+    <body>
     <h1>Foreleser</h1>
 
     <form action="teachersubject.php" method="post">
@@ -28,13 +29,13 @@
             $database = new Database();
             $db = $database->connect();
 
-            
+
             $query = "SELECT * FROM emne";
             $stmt = $db->query($query);
             $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($row) {
                 foreach ($row as $row) {
-                    echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";    
+                    echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";
                 }
             }
             ?>
