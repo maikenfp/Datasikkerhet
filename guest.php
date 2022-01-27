@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title>Emne tilbakemelding | Gjestebruker</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- dimensions and scaling for the browser -->
-        <!-- <link rel="stylesheet" href="style.css"> -->
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <header>
@@ -18,6 +18,7 @@
             </form>
             <?php
                 if (isset($_POST["PinButton"])){
+                   getEmneInfo($_POST["pinkode"]);
                    getMessage($_POST["pinkode"]);
                 }
             
@@ -47,6 +48,26 @@
 
 <?php
 
+function getEmneInfo($pin){
+    include_once "config/Database.php";
+    $database = new Database();
+    $db = $database->connect();
+
+    $sql ="SELECT emne.emnekode, emne.emnenavn, emne.pinkode 
+        FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id WHERE pinkode='$pin' limit 1";
+    
+    $stmt = $db->query($sql);
+    $row = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+
+    if($row){
+        
+        foreach ($row as $row) {
+            echo "<br>Emnekode:". $row["emnekode"]. "<br>Emnenavn: " . $row["emnenavn"]. "<br>Pin-kode: " . $row["pinkode"];
+        }
+    }
+}
+
+
 function getMessage($pin){
     include_once "config/Database.php";
     $database = new Database();
@@ -59,14 +80,12 @@ function getMessage($pin){
 
     
     $stmt = $db->query($sql);
-    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);    
 
     if($row){
-        
         foreach ($row as $row) {
-            echo "<br>Emnekode:". $row["emnekode"]. "<br>Emnenavn: " . $row["emnenavn"]. "<br>Pin-kode: " . $row["pinkode"];
-            echo "<br><br> Melding_id:". $row["melding_id"]."<br> Spørsmål: ". $row["spørsmål"]. "<br> Svar: ". $row["svar"]. "<br>";
+            // echo "<br>Emnekode:". $row["emnekode"]. "<br>Emnenavn: " . $row["emnenavn"]. "<br>Pin-kode: " . $row["pinkode"];
+            echo "<br><br> Melding_id: ". $row["melding_id"]."<br> Spørsmål: ". $row["spørsmål"]. "<br> Svar: ". $row["svar"]. "<br>";
         }
     }
     else {
@@ -89,6 +108,3 @@ function commentMessage($kommentar, $melding_id){
 
 
 ?>
-
-
-
