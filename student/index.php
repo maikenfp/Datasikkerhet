@@ -14,6 +14,9 @@ session_start();
 
 <body>
         <main>
+            <?php
+                echo $_SESSION['student_id'];
+            ?>
             <h1>STUDENT MELDING</h1>
             <!--Sender skjemaet til formsubmit.php-->
             <section class="mainForm">

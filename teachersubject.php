@@ -1,7 +1,10 @@
 <html>
 
 <?php
+    session_start();
     require 'config/Database.php';
+
+    $fid = $_SESSION['foreleser_id'];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $emneID = $_POST['subject'];
@@ -37,7 +40,7 @@
             $database = new Database();
             $db = $database->connect();
 
-            $query = "SELECT * from melding WHERE emne_id=$emneID AND svar IS NULL";
+            $query = "SELECT * from melding WHERE emne_id=$emneID AND foreleser_id=$fid";
             $stmt = $db->query($query);
             $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($row) {
