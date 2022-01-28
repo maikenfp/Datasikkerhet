@@ -51,7 +51,7 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
 }
 
 if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til registering av studenter på index.php
-    $username = strip_tags($_POST["navn"]); // Tar infoen som står i boksene med tags som er i ["tag"]. 
+    $username = strip_tags($_POST["navn"]); 
     $email = strip_tags($_POST["epost"]);
     $password = strip_tags($_POST["passord"]);
 
@@ -84,40 +84,20 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                             // $registerMsg="Register Successfull";
                 }
 
-                // $insert_fore_emne=$db->prepare("INSERT INTO foreleser_emne (emne_id)
-                //     SELECT emne_id FROM emne WHERE emne.emne_id = :uemne");
-                // if($insert_fore_emne->execute(array(
-                //         ":uemne" => $int_course))) {
-                //             // $registerMsg="Register Successfull";
-                //             echo "4-4";
-                //         }
-
-                // $insert_fore_id = $db->prepare("INSERT INTO foreleser_emne (foreleser_id)
-                //     SELECT foreleser_id FROM foreleser");
-                // $insert_foreId->execute();
-
-                $sql ="
-                    INSERT INTO foreleser_emne (emne_id) 
-                        SELECT emne_id FROM emne 
-                            WHERE emne.emne_id = $course;
-
-                    INSERT INTO foreleser_emne (foreleser_id) 
-                        SELECT foreleser_id FROM foreleser;
-                    ";
+                $sql = "
+                    INSERT INTO foreleser_emne (foreleser_id, emne_id)
+                        VALUES 
+                        ((SELECT MAX(foreleser_id) FROM foreleser),
+                                (SELECT emne_id FROM emne 
+                                    WHERE emne.emne_id = $course));    
+                ";
 
                 $insert_stmt = $db->prepare($sql);
-                $insert_stmt->execute();
-
-                // $sql ="
-                //     INSERT INTO foreleser_emne (emne_id) 
-                //         SELECT emne_id FROM emne 
-                //             WHERE emne.emne_id = $course;
-                //     ";
-
-                // $db->exec($sql);
+                $insert_stmt->execute(array( 
+                    ":uname" => $username ));
 
             } else {
-                var_dump($errorMsg);
+                echo($errorMsg);
             }         
         }
         catch(PDOException $e) {
