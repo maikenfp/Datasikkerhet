@@ -92,7 +92,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                 //     WHERE (emne.emne_id = :uemne)");
 
                 $insert_from_emne = $db->prepare("INSERT INTO foreleser_emne (emne_id)
-                    SELECT emne_id FROM emne WHERE emne.emne_id = :uemne") ();
+                    SELECT emne_id FROM emne WHERE emne.emne_id = :uemne");
                 if($insert_from_emne->execute(array(
                         ":uemne" => $int_course))) {
                             // $registerMsg="Register Successfull";
