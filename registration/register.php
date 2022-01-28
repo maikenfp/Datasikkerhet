@@ -31,7 +31,7 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
         try {
             if(!isset($errorMsg)) {
                 $insert_stmt=$db->prepare("INSERT INTO student (navn,epost,passord,studiekull,studieretning) 
-                    VALUES (:uname,:uemail,:upassord,:ustudiekull,:usint_coursetudieretning)");
+                    VALUES (:uname,:uemail,:upassord,:ustudiekull,:ustudieretning)");
                 if($insert_stmt->execute(array( 
                         ":uname" => $username,
                         ":uemail" => $email,
@@ -83,24 +83,39 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                         ":upassord" => $password))) {
                             // $registerMsg="Register Successfull";
                 }
-                // $insert_course_stmt=$db->prepare("INSERT INTO foreleser_emne (emne_id)
-                //     VALUES (:uemne)");
-                // $insert_from_emne = $db->prepare("SELECT (emne_id) FROM emne 
-                //     WHERE (emne.emne_id = :uemne)");
 
-                // $insert_from_emne = $db->prepare("INSERT INTO foreleser_emne FROM emne
-                //     WHERE (emne.emne_id = :uemne)");
+                // $insert_fore_emne=$db->prepare("INSERT INTO foreleser_emne (emne_id)
+                //     SELECT emne_id FROM emne WHERE emne.emne_id = :uemne");
+                // if($insert_fore_emne->execute(array(
+                //         ":uemne" => $int_course))) {
+                //             // $registerMsg="Register Successfull";
+                //             echo "4-4";
+                //         }
 
-                $insert_from_emne = $db->prepare("INSERT INTO foreleser_emne (emne_id)
-                    SELECT emne_id FROM emne WHERE emne.emne_id = :uemne");
-                if($insert_from_emne->execute(array(
-                        ":uemne" => $int_course))) {
-                            // $registerMsg="Register Successfull";
-                            echo "4-4";
-                        }
-                $insert_foreId = $db->prepare("INSERT INTO foreleser_emne (foreleser_id)
-                    SELECT foreleser_id FROM foreleser");
-                $insert_foreId->execute();
+                // $insert_fore_id = $db->prepare("INSERT INTO foreleser_emne (foreleser_id)
+                //     SELECT foreleser_id FROM foreleser");
+                // $insert_foreId->execute();
+
+                $sql ="
+                    INSERT INTO foreleser_emne (emne_id) 
+                        SELECT emne_id FROM emne 
+                            WHERE emne.emne_id = $course;
+
+                    INSERT INTO foreleser_emne (foreleser_id) 
+                        SELECT foreleser_id FROM foreleser;
+                    ";
+
+                $insert_stmt = $db->prepare($sql);
+                $insert_stmt->execute();
+
+                // $sql ="
+                //     INSERT INTO foreleser_emne (emne_id) 
+                //         SELECT emne_id FROM emne 
+                //             WHERE emne.emne_id = $course;
+                //     ";
+
+                // $db->exec($sql);
+
             } else {
                 var_dump($errorMsg);
             }         
