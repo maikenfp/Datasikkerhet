@@ -13,13 +13,17 @@
 
     $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    $arr=array();
     if($row){
-
         foreach ($row as $row) {
-            $eid = $row['emne_id'];
-            echo $eid;
+            $n = $row['emne_id'];
+            //$n = "$n"
+             array_push($arr, "$n");
     }
+
 } 
+
+    $in = '(' . implode(',', $arr) .')';
 
 ?>
 
@@ -39,7 +43,7 @@
             $database = new Database();
             $db = $database->connect();
             
-            $query = "SELECT * FROM emne WHERE emne_id=$eid";
+            $query = "SELECT * FROM emne WHERE emne_id IN $in";
             $stmt = $db->query($query);
             $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($row) {
@@ -47,12 +51,16 @@
                     echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";    
                 }
             }
+            
+
             ?>
         </select>
+        
             <button type="submit" name="submit">Go</button>
     </form>
     <?php
-        echo $_SESSION['foreleser_id'];
     ?>
+
+        <a href="logout.php">Logout</a>
     </body>
 </html>
