@@ -21,7 +21,7 @@
 
                 if (isset($_POST["PinButton"])){
                    getEmneInfo($_POST["pinkode"]);
-                   getMessage($_POST["pinkode"]);
+                   showMessage($_POST["pinkode"]);
                 }
             
                 if (isset($_POST["button"])){
@@ -51,7 +51,7 @@
             
             
             <form  method='POST'>
-                <label>Rapporter melding</label>
+                <label>Rapporter melding nr.:</label>
                 <input type="number" name='report' min="0" max="9999" >
                 <button type="submit" name="rapporter"> Rapporter</button> 
             </form>
@@ -72,9 +72,9 @@ function getEmneInfo($pin){
     
     $stmt = $db->query($sql);
     $row = $stmt->fetchAll(PDO::FETCH_ASSOC); 
-
+    
     if($row){
-        
+       echo "Emne info:"; 
         foreach ($row as $row) {
             echo "<br>Emnekode:". $row["emnekode"]. "<br>Emnenavn: " . $row["emnenavn"]. "<br>Pin-kode: " . $row["pinkode"];
         }
@@ -85,21 +85,42 @@ function getEmneInfo($pin){
 function getMessage($pin){
     $database = new Database();
     $db = $database->connect();
-
     
     $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode, 
-        melding.svar, melding.spørsmål, melding.melding_id
-        FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id WHERE pinkode='$pin'";
+         melding.svar, melding.spørsmål, melding.melding_id
+         FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id WHERE pinkode='$pin'";
 
-    
     $stmt = $db->query($sql);
     $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    
+   
+    return $row;
+}
 
+function getComment($meldingId){
+    $database = new Database();
+    $db = $database->connect();
+
+    $sql = "SELECT kommentar.kommentar_id, kommentar.melding_id FROM kommentar WHERE melding_id='meldingId'";
+
+    $stmt = $db->query($sql);
+    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $row;
+}
+
+
+function showMessage($pin){
+    $row = getMessage($pin);
+    
     if($row){
         foreach ($row as $row) {
-            echo "<br><br> Melding_id: ". $row["melding_id"]."<br> Spørsmål: ". $row["spørsmål"]. "<br> Svar: ". $row["svar"]. "<br>";
+            echo "<br><br> Melding_id: ". $row["melding_id"]."<br> Spørsmål: ". $row["spørsmål"]; 
+                if (!empty($row["svar"])){ 
+                    echo "<br> Svar: ". $row["svar"]. "<br>";
+                }
+            $comment = getComment($row["melding_id"]);
+            echo $comment;
+
             
             // $id = $row["melding_id"];
             // if(isset($_POST['rapporter'])){
@@ -113,11 +134,6 @@ function getMessage($pin){
             
         }
     }
-    
-    else {
-        echo "Ingen resultat";
-    }
-    
 }
 
 function commentMessage($kommentar, $melding_id){
@@ -128,7 +144,6 @@ function commentMessage($kommentar, $melding_id){
             VALUES ('$kommentar', '$melding_id')";
     $stmt = $db->query($sql);
 }
-
 
 function reportMessage($id){
     $database = new Database();
