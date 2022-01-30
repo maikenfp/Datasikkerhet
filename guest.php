@@ -29,6 +29,11 @@
                 }
 
                 
+                if(isset($_POST['rapporter'])){
+                    $id = "[report]";
+                    reportMessage($_POST["report"]);
+                }
+            
             ?>
 
             <form method="POST">
@@ -43,6 +48,14 @@
                     <input type="number" name="meldingID">
                     <button type="submit" name="button"> kommenter</button>
             </form>
+            
+            
+            <form  method='POST'>
+                <label>Rapporter melding</label>
+                <input type="number" name='report' min="0" max="9999" >
+                <button type="submit" name="rapporter"> Rapporter</button> 
+            </form>
+            
 
         </main>
     </body>
@@ -87,17 +100,17 @@ function getMessage($pin){
     if($row){
         foreach ($row as $row) {
             echo "<br><br> Melding_id: ". $row["melding_id"]."<br> Spørsmål: ". $row["spørsmål"]. "<br> Svar: ". $row["svar"]. "<br>";
-            $id = $row["melding_id"];
-            if (isset($_POST["report"])){
-                echo "Reported";
-                reportMessage($id);
-            }
+            
+            // $id = $row["melding_id"];
+            // if(isset($_POST['rapporter'])){
+            //     reportMessage($_POST[$id]);
+            // }
             ?>
-            <form method="POST">
-                <button type="submit" name="report" value="Rapporter"> Rapporter</button>
-            </form>
-
+            <!-- <form  method='POST'> 
+                <button type="submit" name="rapporter"> Rapporter</button> 
+            </form> -->
             <?php
+            
         }
     }
     
