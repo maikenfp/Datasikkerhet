@@ -29,7 +29,9 @@ session_start();
                         $database = new Database();
                         $db = $database->connect();
 
-
+                        if(empty($currentStudentId)){
+                            header('Location: ../index.php');
+                        } else {
                         $query = "SELECT * FROM emne";
 
                         $stmt = $db->query($query);
@@ -40,6 +42,7 @@ session_start();
                                 echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";
                             }
                         }
+                    }
                     ?>
                     </select>
                     <div class="form-group">

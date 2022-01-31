@@ -4,43 +4,72 @@
 
     $database = new Database();
     $db = $database->connect();
-
-    $query = "SELECT * from emne";
-    $stmt = $db->query($query);
-    //$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $fid = $_SESSION['foreleser_id'];
 
 
+    if(empty($fid)){
+        header('Location: index.php');
+    } else {
+    $sql = "SELECT emne_id from foreleser_emne WHERE foreleser_id='$fid'";
+    $stmt = $db->query($sql);
+    $result = $db->query($sql);
+    $row_count = $result->fetchColumn();
+
+    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $arr=array();
+    if($row){
+        foreach ($row as $row) {
+            $n = $row['emne_id'];
+            //$n = "$n"
+             array_push($arr, "$n");
+    }
+
+} 
+
+    $in = '(' . implode(',', $arr) .')';
+}
 ?>
 
 
 <!DOCTYPE html>
+<html lang="nb">
 <html>
-    <body>
-    <h1>Foreleser</h1>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8" />
+        <title>Foreleser</title>
+        <!--force php to load css-->
+        <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
 
-    <form action="teachersubject.php" method="post">
-        <label for="subject">Emne:<span class="required"></span></label>
-        <select name="subject" required>
-            <option disabled selected value>Velg emne</option>
+    </head>
+    <body> 
+        <main>
+            <h1>Foreleser</h1>
+            <form action="teachersubject.php" method="post" class="form">
+                <label for="subject">Emne:<span class="required"></span></label>
+                <select name="subject" required>
+                    <option disabled selected value>Velg emne</option>
 
-            <?php
+                    <?php
+                    $database = new Database();
+                    $db = $database->connect();
+                    
+                    $query = "SELECT * FROM emne WHERE emne_id IN $in";
+                    $stmt = $db->query($query);
+                    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    if ($row) {
+                        foreach ($row as $row) {
+                            echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";    
+                        }
+                    }
+                    ?>
+                </select>
+                    <button type="submit" name="submit">Go</button>
+            </form>
+        </main>
 
-            $database = new Database();
-            $db = $database->connect();
 
-
-            $query = "SELECT * FROM emne";
-            $stmt = $db->query($query);
-            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if ($row) {
-                foreach ($row as $row) {
-                    echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";
-                }
-            }
-            ?>
-        </select>
-            <button type="submit" name="submit">Go</button>
-    </form>
+        <a href="logout.php">Logout</a>
     </body>
 </html>

@@ -6,7 +6,6 @@ require '.././config/Database.php';
 $database = new Database();
 $db = $database->connect();
 
-
 //se hva som har blitt sendt dra skjemaet: var_dump($_POST);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $currentStudentId = $_SESSION["student_id"];

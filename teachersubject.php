@@ -1,58 +1,84 @@
-<html>
-
 <?php
-    require 'config/Database.php';
+        session_start();
+        require 'config/Database.php';
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $emneID = $_POST['subject'];
+        $fid = $_SESSION['foreleser_id'];
 
-    }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $_SESSION['emneID'] = $_POST['subject'];
+        }
+        $emneID = $_SESSION['emneID'];
 
 
-    $database = new Database();
-    $db = $database->connect();
+        $database = new Database();
+        $db = $database->connect();
 
-    $query = "SELECT * from emne WHERE emne_id=$emneID";
-    $stmt = $db->query($query);
-    //$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(empty($fid)){
+            header('Location: index.php');
+        } else {
+        $query = "SELECT * from emne WHERE emne_id=$emneID";
+        $stmt = $db->query($query);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $emnenavn = $row['emnenavn'];
+        $emnenavn = $row['emnenavn'];
+        }
 ?>
+<!doctype html>
+<html lang="nb">
+<html>
+        <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8" />
+        <title>Foreleser</title>
+        <!--force php to load css-->
+        <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
+        </head>
 
-<h1>
+    <body>
+        <main>
+    <h1>
     Emne: 
     <?php  
         echo $emnenavn;
     ?>
-</h1>
-
-<form action="response_send.php" method="post">
-        <label for="responseID">Meldinger:<span class="required"></span></label><br>
-        <select name="responseID" required>
-        <option disabled selected value>Velg melding</option>
-
-        <?php 
-
-            $database = new Database();
-            $db = $database->connect();
-
-            $query = "SELECT * from melding WHERE emne_id=$emneID AND svar IS NULL";
-            $stmt = $db->query($query);
-            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if ($row) {
-                foreach ($row as $row) {
-                    echo "<option value=". $row['melding_id'] .">". $row['spørsmål']. "</option>";    
-                }
-            }
-
-        ?>
-    </select>
-
-    <input type="text" name="reply" placeholder="Svar">
-    <?php 
+    </h1>
+    <?php
+        $database = new Database();
+        $db = $database->connect();
         
+        
+        $sql = "SELECT * from melding WHERE emne_id=$emneID AND foreleser_id=$fid";
+
+        $stmt = $db->query($sql);
+        $result = $db->query($sql);
+        $row_count = $result->fetchColumn();
+
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if($row){
+
+            foreach ($row as $row) {
+                echo "<div class='respond-form'>";
+                echo "<br>Dato:". $row["dato"]. "<br>Spørsmål: " . $row["spørsmål"]. "<br>Svar: " . $row["svar"];
+                $meldingID = $row['melding_id'];
+                ?>
+
+                <form action="response_send.php" method="post" class="teacher-form">
+                    <textarea name="reply" rows="4" cols="28" required></textarea>
+                    <input type="hidden" name="responseID" value="<?php echo $meldingID; ?>"/>
+                    <input type="hidden" name="emneID" value="$emneID" />
+                    <button type="submit">Svar</button>
+                </form>
+                </div>
+                <?php
+                
+            }
+        } 
+        
+
     ?>
-    <button type="submit" name="submit">Svar</button>
-    </form>
+
+        <a href="logout.php">Logout</a>
+    </main>
+    </body>
 </html>
