@@ -6,6 +6,10 @@
     $db = $database->connect();
     $fid = $_SESSION['foreleser_id'];
 
+
+    if(empty($fid)){
+        header('Location: index.php');
+    } else {
     $sql = "SELECT emne_id from foreleser_emne WHERE foreleser_id='$fid'";
     $stmt = $db->query($sql);
     $result = $db->query($sql);
@@ -24,7 +28,7 @@
 } 
 
     $in = '(' . implode(',', $arr) .')';
-
+}
 ?>
 
 

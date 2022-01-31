@@ -13,11 +13,15 @@
         $database = new Database();
         $db = $database->connect();
 
+        if(empty($fid)){
+            header('Location: index.php');
+        } else {
         $query = "SELECT * from emne WHERE emne_id=$emneID";
         $stmt = $db->query($query);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $emnenavn = $row['emnenavn'];
+        }
 ?>
 <!doctype html>
 <html lang="nb">

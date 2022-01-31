@@ -42,11 +42,11 @@
                     <br>
                     <textarea name="kommenter" >
                     </textarea>
-                    <br>
+                 
                     <label>Melding_id:</label>
-                    <br>
+               
                     <input type="number" name="meldingID">
-                    <button type="submit" name="button"> kommenter</button>
+                    <input type="submit" name="button">
             </form>
             
             
