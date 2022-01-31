@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
-	<head>
-	    <title>REGISTRERING</title>
-	    <link rel="stylesheet" type="text/css" href="../style.css">
-	</head>
-	
-	<body>
-    <h1>REGISTRER SOM:</h1>
-    <form action="student.php" method="POST">
-      <input type="submit" value="STUDENT"\>
-    </form>
-    <form action="foreleser.php" method="POST">
-      <input type="submit" value="FORELESER"\>
-    </form>
-	</body>
+    <head>
+    <title>Registering av brukere</title>
+    <link rel="stylesheet" href="../style.css">
+    </head>
+    <body>
+        <div class="header">
+            <h2>Hva slags bruker vil du registere?</h2>
+        </div>
+ <form action="student.php" method="get">
+    <div>
+        <input type="submit" value="STUDENT">
+    </div>
+</form>
+<form action="foreleser.php" method="get">
+    <div>
+        <input type="submit" value="FORELESER">
+    </div>
+</form>
+    </body>
 </html>
-
-
-

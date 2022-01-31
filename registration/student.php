@@ -6,9 +6,9 @@
     </head>
     <body>
         <div class="header">
-            <h2>Registering</h2>
+            <h2>Student registering</h2>
         </div>
-<form action="register.php" method="post">
+<form action="registration_student.php" method="post">
         <h3>Student</h3>
         <?php if (isset($_GET['error'])) { ?>
 	            <p class="error"><?php echo $_GET['error']; ?></p>
