@@ -28,25 +28,42 @@ if(isset($_POST['epost']) && isset($_POST['passord'])){
     else if(empty($nyttpassord)){
         header("Location: change.php?error=Du må skrive inn nytt passord!");
         exit();
-    }  else{
+    }  else {
 
-$sql = "SELECT passord FROM student WHERE epost='$epost' AND passord='$passord'";
-$stmt= $db->prepare($sql);
-$stmt->execute();
-$results = $stmt -> fetchAll(PDO::FETCH_OBJ);
+            $sql = "SELECT passord FROM student WHERE epost='$epost' AND passord='$passord'";
+            $stmt= $db->prepare($sql);
+            $stmt->execute();
+            $results = $stmt -> fetchAll(PDO::FETCH_OBJ);
 
-if($stmt -> rowCount() > 0){
-    $query = "UPDATE student SET passord='$nyttpassord' WHERE epost='$epost'";
-    $change = $db->prepare($query);
-    $change->execute();
-    echo "<script>";
-        echo "alert('Passordet er endret!');";
-        echo "</script>";
-        echo "<meta http-equiv='refresh' content='0;url=student/index.php'>";
+            if($stmt -> rowCount() > 0){
 
-}
-else {
-    $error="Your current password is not valid.";	
+                if($results['epost'] === $epost && $results['passord'] === $passord){
+                    $query = "UPDATE student SET passord='$nyttpassord' WHERE epost='$epost'";
+                    $change = $db->prepare($query);
+                    $change->execute();
+                    echo "<script>";
+                    echo "alert('Passordet er endret!');";
+                    echo "</script>";
+                    echo "<meta http-equiv='refresh' content='0;url=student/index.php'>";
+                    exit();
+                }
+                else{
+                    header("Location: change.php?error=Feil brukernavn eller passord");
+                    exit();
+                }
+            }
+            else{
+                header("Location: change.php?error=Feil brukernavn eller passord");
+                exit();
+            }
+        }
     }
-}
+        else {
+            header("Location: student/index.php");
+            echo "<script>";
+            echo "alert('Noe gikk galt');";
+            echo "</script>";
+            echo "<meta http-equiv='refresh' content='0;url=student/index.php'>";	
+            exit();
+        
 }
