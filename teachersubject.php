@@ -1,4 +1,3 @@
-<html>
 
     <?php
         session_start();
@@ -21,43 +20,25 @@
 
         $emnenavn = $row['emnenavn'];
     ?>
+    <!doctype html>
+    <html lang="nb">
+    <html>
+        <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8" />
+        <title>Teacher</title>
+        <!--force php to load css-->
+        <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
+        </head>
 
+    <body>
+        <main>
     <h1>
     Emne: 
     <?php  
         echo $emnenavn;
     ?>
     </h1>
-
-    <form action="response_send.php" method="post">
-            <label for="responseID">Meldinger:<span class="required"></span></label><br>
-            <select name="responseID" required>
-            <option disabled selected value>Velg melding</option>
-
-            <?php 
-
-                $database = new Database();
-                $db = $database->connect();
-
-                $query = "SELECT * from melding WHERE emne_id=$emneID AND foreleser_id=$fid";
-                $stmt = $db->query($query);
-                $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                if ($row) {
-                    foreach ($row as $row) {
-                        echo "<option value=". $row['melding_id'] .">". $row['spørsmål']. "</option>";    
-                    }
-                }
-
-            ?>
-        </select>
-        <input type="hidden" name="emneID" value="$emneID" />
-
-        <input type="text" name="reply" placeholder="Svar">
-        <button type="submit" name="submit">Svar</button>
-        </form>
-
-
-
     <?php
         $database = new Database();
         $db = $database->connect();
@@ -70,25 +51,31 @@
         $row_count = $result->fetchColumn();
 
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if($row){
+
+            if($row){
 
             foreach ($row as $row) {
+                echo "<div class='respond-form'>";
                 echo "<br>Dato:". $row["dato"]. "<br>Spørsmål: " . $row["spørsmål"]. "<br>Svar: " . $row["svar"];
                 $meldingID = $row['melding_id'];
                 ?>
 
-                <form action="response_send.php" method="post">
+                <form action="response_send.php" method="post" class="teacher-form">
                     <textarea name="reply" rows="4" cols="28" required></textarea>
                     <input type="hidden" name="responseID" value="<?php echo $meldingID; ?>"/>
                     <input type="hidden" name="emneID" value="$emneID" />
                     <button type="submit">Svar</button>
                 </form>
+                </div>
                 <?php
                 
             }
         } 
+        
+
     ?>
 
-
         <a href="logout.php">Logout</a>
+    </main>
+    </body>
 </html>

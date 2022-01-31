@@ -29,37 +29,42 @@
 
 
 <!DOCTYPE html>
+<html lang="nb">
 <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8" />
+        <title>Teacher</title>
+        <!--force php to load css-->
+        <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
+
+    </head>
     <body> 
-    <h1>Foreleser</h1>
+        <main>
+            <h1>Foreleser</h1>
+            <form action="teachersubject.php" method="post" class="form">
+                <label for="subject">Emne:<span class="required"></span></label>
+                <select name="subject" required>
+                    <option disabled selected value>Velg emne</option>
 
-    <form action="teachersubject.php" method="post">
-        <label for="subject">Emne:<span class="required"></span></label>
-        <select name="subject" required>
-            <option disabled selected value>Velg emne</option>
+                    <?php
+                    $database = new Database();
+                    $db = $database->connect();
+                    
+                    $query = "SELECT * FROM emne WHERE emne_id IN $in";
+                    $stmt = $db->query($query);
+                    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    if ($row) {
+                        foreach ($row as $row) {
+                            echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";    
+                        }
+                    }
+                    ?>
+                </select>
+                    <button type="submit" name="submit">Go</button>
+            </form>
+        </main>
 
-            <?php
-
-            $database = new Database();
-            $db = $database->connect();
-            
-            $query = "SELECT * FROM emne WHERE emne_id IN $in";
-            $stmt = $db->query($query);
-            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if ($row) {
-                foreach ($row as $row) {
-                    echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";    
-                }
-            }
-            
-
-            ?>
-        </select>
-        
-            <button type="submit" name="submit">Go</button>
-    </form>
-    <?php
-    ?>
 
         <a href="logout.php">Logout</a>
     </body>

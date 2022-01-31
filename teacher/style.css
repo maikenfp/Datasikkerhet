@@ -2,29 +2,29 @@ body {
     background: #5865F2;
     display: flex;
     justify-content: center;
-    align-items: center;
     height: 100vh;
-    flex-direction: column;
 }
 
 *{
     box-sizing: padding-box;
 }
 
-.form {
+form {
     width: 1000px;
     border: 3px solid rgb(177, 142, 142);
     padding: 20px;
+    padding-bottom: 50px;
     background: rgb(64, 64, 64);
     border-radius: 20px;
 }
 
-.respond-form {
-        width: 1000px;
-        border: 3px solid rgb(177, 142, 142);
-        padding: 20px;
-        background: rgb(64, 64, 64);
-        border-radius: 20px;
+.mainForm {
+    height: 400px;
+}
+
+.studentForm {
+    position: inherit;
+    padding-bottom: 50px;
 }
 
 
@@ -34,7 +34,7 @@ h2 {
 	color: white;
 }
 
-.input {
+input {
     display: block;
     border: 2px solid #ccc;
     width: 95%;
@@ -49,7 +49,7 @@ label {
     padding: 10px;
 }
 
-.button {
+button {
     float: right;
     background: rgb(35, 174, 202);
     padding: 10px 15px;
@@ -59,8 +59,12 @@ label {
     border: none;
 }
 
+
+
+
 button:hover{
     opacity: .8;
+    cursor: pointer;
 }
 
 .error {
@@ -91,4 +95,35 @@ a {
 
 a:hover{
     opacity: .7;
+}
+
+textarea {
+    display: block;
+    border: 2px solid #ccc;
+    width: 95%;
+    padding: 10px;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+select {
+    display: block;
+    border: 2px solid #ccc;
+    width: 95%;
+    padding: 10px;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+article {
+    width: 1000px;
+    border: 3px solid rgb(177, 142, 142);
+    padding: 20px;
+    margin-bottom: 20px;
+    background: rgb(64, 64, 64);
+    border-radius: 20px;
+}
+
+article p {
+    color: white
 }
