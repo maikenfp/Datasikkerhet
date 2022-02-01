@@ -51,7 +51,7 @@ session_start();
                 </div>
                 <button type="submit" id="studentSubmit">Send inn</button>
                 <a href="../logout.php">Logg ut</a>
-                <a href="../change.php">Bytt passord</a>
+                <a href="../bytt_passord/change_student.php">Bytt passord</a>
             </form>
         </section>
         <h1>Dine tidligere spørsmål:</h1>

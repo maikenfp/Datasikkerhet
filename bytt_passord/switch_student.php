@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include 'config/Database.php';
+include '../config/Database.php';
 
 $database = new Database();
 $db = $database->connect();
@@ -10,7 +10,7 @@ $sid = $_SESSION['student_id'];
 
 
 if(empty($sid)){
-    header('Location: index.php');
+    header('Location: ../index.php');
 } else {
         
     if(isset($_POST['passord']) && isset($_POST['nyttpassord'])){
@@ -27,11 +27,11 @@ if(empty($sid)){
 
 
     if (empty($passord)) {
-        header("Location: change.php?error=Du må skrive inn passord!");
+        header("Location: change_student.php?error=Du må skrive inn passord!");
         exit();
     }  
     else if(empty($nyttpassord)){
-        header("Location: change.php?error=Du må skrive inn nytt passord!");
+        header("Location: change_student.php?error=Du må skrive inn nytt passord!");
         exit();
     }  else {
 
@@ -50,26 +50,26 @@ if(empty($sid)){
                     echo "<script>";
                     echo "alert('Passordet er endret!');";
                     echo "</script>";
-                    echo "<meta http-equiv='refresh' content='0;url=student/index.php'>";
+                    echo "<meta http-equiv='refresh' content='0;url=../student/index.php'>";
                     exit();
                 }
                 else{
-                    header("Location: change.php?error=Feil brukernavn eller passord");
+                    header("Location: change_student.php?error=Feil passord");
                     exit();
                 }
             }
             else{
-                header("Location: change.php?error=Feil brukernavn eller passord");
+                header("Location: change_student.php?error=Feil passord");
                 exit();
             }
         }
     }
         else {
-            header("Location: student/index.php");
+            header("Location: ../student/index.php");
             echo "<script>";
             echo "alert('Noe gikk galt');";
             echo "</script>";
-            echo "<meta http-equiv='refresh' content='0;url=student/index.php'>";	
+            echo "<meta http-equiv='refresh' content='0;url=../student/index.php'>";	
             exit();
         
 }

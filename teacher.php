@@ -71,5 +71,6 @@
 
 
         <a href="logout.php">Logout</a>
+        <a href="bytt_passord/change_foreleser.php">Bytt passord</a>
     </body>
 </html>
