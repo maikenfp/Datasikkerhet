@@ -32,7 +32,7 @@ session_start();
                     if (empty($currentStudentId)) {
                         header('Location: ../index.php');
                     } else {
-                        $query = "SELECT e.emnenavn, e.emne_id, e.emnekode from student inner JOIN student_emne se on se.student_id = student.student_id inner join emne e on se.emne_id = e.emne_id WHERE se.student_id = 1 ";
+                        $query = "SELECT e.emnenavn, e.emne_id, e.emnekode from student inner JOIN student_emne se on se.student_id = student.student_id inner join emne e on se.emne_id = e.emne_id WHERE se.student_id = $currentStudentId ";
 
                         $stmt = $db->query($query);
 
