@@ -12,13 +12,11 @@
 	            <p class="error"><?php echo $_GET['error']; ?></p>
 	    <?php } ?>
 
-        <label>E-post</label>
-            <input type='text' name="epost">
         <label>Passord</label>
             <input type='text' name="passord">
         <label>Nytt passord</label>
             <input type='text' name="nyttpassord">
-            <input type="submit" name="submit_email">
+            <input type="submit" name="submit">
         </form>
     </body>
 </html>

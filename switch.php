@@ -1,46 +1,52 @@
 <?php
-include_once 'config/Database.php';
+
+session_start();
+include 'config/Database.php';
 
 $database = new Database();
 $db = $database->connect();
 
-if(isset($_POST['epost']) && isset($_POST['passord'])){
+$sid = $_SESSION['student_id'];
 
-    function validate($data){
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
+
+if(empty($sid)){
+    header('Location: index.php');
+} else {
+        
+    if(isset($_POST['passord']) && isset($_POST['nyttpassord'])){
+
+            function validate($data){
+                $data = trim($data);
+                $data = stripslashes($data);
+                $data = htmlspecialchars($data);
+            return $data;
      }
 
     $passord = validate($_POST['passord']);
     $nyttpassord = validate($_POST['nyttpassord']);
-    $epost = validate($_POST['epost']);
 
 
     if (empty($passord)) {
-        header("Location: change.php?error=Du må skrive inn e-post!");
-        exit();
-    } else if(empty($epost)){
         header("Location: change.php?error=Du må skrive inn passord!");
         exit();
-    } 
+    }  
     else if(empty($nyttpassord)){
         header("Location: change.php?error=Du må skrive inn nytt passord!");
         exit();
     }  else {
 
-            $sql = "SELECT passord FROM student WHERE epost='$epost' AND passord='$passord'";
-            $stmt= $db->prepare($sql);
-            $stmt->execute();
-            $results = $stmt -> fetchAll(PDO::FETCH_OBJ);
+        
+            $sql = "SELECT passord, student_id FROM student WHERE student_id='$sid'";
+            $stmt= $db->query($sql);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if($stmt -> rowCount() > 0){
-
-                if($results['epost'] === $epost && $results['passord'] === $passord){
-                    $query = "UPDATE student SET passord='$nyttpassord' WHERE epost='$epost'";
-                    $change = $db->prepare($query);
-                    $change->execute();
+            if($row){
+    
+                if(intval($row['student_id']) == $sid && $row['passord'] == $passord){
+        
+                    $query = "UPDATE student SET passord='$nyttpassord' WHERE student_id='$sid'";
+                    $change = $db->query($query);
+            
                     echo "<script>";
                     echo "alert('Passordet er endret!');";
                     echo "</script>";
@@ -66,4 +72,5 @@ if(isset($_POST['epost']) && isset($_POST['passord'])){
             echo "<meta http-equiv='refresh' content='0;url=student/index.php'>";	
             exit();
         
+}
 }

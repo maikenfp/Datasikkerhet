@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $sql = "INSERT INTO melding(spørsmål, emne_id, student_id, dato, tid) 
     VALUES ('$question', '$subject', '$currentStudentId', '$date', (NOW()))";
-
     $result = $db->query($sql);
 
     if ($result) {
