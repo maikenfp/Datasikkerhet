@@ -9,7 +9,7 @@
             <h2>Foreleser registering</h2>
         </div>
 
-<form action="registration_foreleser.php" method="post">
+<form action="registration_foreleser.php" method="post" enctype="multipart/form-data">
             <h3>Foreleser</h3>
             <?php if (isset($_GET['error'])) { ?>
 	            <p class="error"><?php echo $_GET['error']; ?></p>
