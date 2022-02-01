@@ -21,7 +21,7 @@ session_start();
                 <label for="subject">Emne:<span class="required">*</span></label><br>
                 <select name="subject" required>
                     <option disabled selected value>Vennligst velg et emne!</option>
-                    <!--TODO: Få session for den innologgende studenten. Hente tidligere sendte meldinginger med student sessionen hvor man har svar-->
+
                     <?php
                     $currentStudentId = $_SESSION["student_id"];
                     require '.././config/Database.php';
@@ -32,14 +32,14 @@ session_start();
                     if (empty($currentStudentId)) {
                         header('Location: ../index.php');
                     } else {
-                        $query = "SELECT e.emnenavn, e.emne_id, e.emnekode from student inner JOIN student_emne se on se.student_id = student.student_id inner join emne e on se.emne_id = e.emne_id WHERE se.student_id = $currentStudentId ";
-
+                        $query = "SELECT * from student JOIN student_emne se on se.student_id = student.student_id JOIN emne e on se.emne_id = e.emne_id WHERE se.student_id = $currentStudentId";
                         $stmt = $db->query($query);
 
                         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         if ($row) {
                             foreach ($row as $row) {
-                                echo "<option value=" . $row['e.emne_id'] . ">" . $row['e.emnekode'] . ' ' . $row['e.emnenavn'] . "</option>";
+                                echo "<p>" . $row['emne_id'] . "</p>";
+                                echo "<option value=" . $row['emne_id'] . ">" . $row['emnekode'] . ' ' . $row['emnenavn'] . "</option>";
                             }
                         }
                     }

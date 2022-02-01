@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Start the session
 session_start();
 require '.././config/Database.php';
@@ -10,26 +10,25 @@ $db = $database->connect();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $currentStudentId = $_SESSION["student_id"];
 
-    $subject= $_POST['subject'];
+    $subject = $_POST['subject'];
     $question = $_POST['subjectQuestion'];
 
     $date = date('Y-m-d');
 
-    $sql = "INSERT INTO melding(spørsmål, emne_id, student_id, dato, tid, foreleser_id) 
-    VALUES ('$question', '$subject', '$currentStudentId', '$date', (NOW()), (SELECT foreleser_id FROM foreleser_emne WHERE emne_id = $subject))";
-    
+    $sql = "INSERT INTO melding(spørsmål, emne_id, student_id, dato, tid) 
+    VALUES ('$question', '$subject', '$currentStudentId', '$date', (NOW()))";
+
     $result = $db->query($sql);
 
-    if($result) {
+    if ($result) {
         echo "<script>";
         echo "alert('Tilbakemeldingen din er mottatt!');";
         echo "</script>";
         echo "<meta http-equiv='refresh' content='0;url=index.php'>";
     }
-
 }
 ?>
- <!-- INSERT INTO melding(spørsmål, emne_id, student_id, foreleser_id)
+<!-- INSERT INTO melding(spørsmål, emne_id, student_id, foreleser_id)
 	VALUES('question', 1, 1,
            (SELECT melding.foreleser_id
     		FROM foreleser_emne AS FE
