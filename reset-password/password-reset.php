@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require 'config/Database.php';
+    require '../config/Database.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $epost = $_POST['epost'];
@@ -20,7 +20,7 @@
         $_SESSION['epost'] = $epost;
 
     }else{
-        header("Location: email-resetpassword.php?error=Email ikke registrert!");
+        header("Location: index.php?error=Email ikke registrert!");
     }
 
 ?>

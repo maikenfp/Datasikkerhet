@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require 'config/Database.php';
+    require '../config/Database.php';
 
     $pw1 = $_POST['pw1'];
     $pw2 = $_POST['pw2'];
@@ -17,8 +17,7 @@
 
 
         echo '<script>alert("Passordet er tilbakestilt!")</script>';
-        echo '<script>window.location.href = "index.php"</script>';
-        //header("Location: index.php");
+        echo '<script>window.location.href = "../index.php"</script>';
     } else {
         header("Location: new-password.php?error=Passordene er ikke like!");
     }
