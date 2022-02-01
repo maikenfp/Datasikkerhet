@@ -6,11 +6,10 @@
     </head>
     <body>
         <div class="header">
-            <h2>Registering</h2>
+            <h2>Foreleser registering</h2>
         </div>
-<?php include("../config/Database.php")?>
 
-<form action="register.php" method="post">
+<form action="registration_foreleser.php" method="post">
             <h3>Foreleser</h3>
             <?php if (isset($_GET['error'])) { ?>
 	            <p class="error"><?php echo $_GET['error']; ?></p>
@@ -29,11 +28,23 @@
         </div>
         <div>
         <h4>Emne</h4>
-            <select name="emne_id" id="emne_id">
-                <option value="1">Informatikk</option>
-                <option value="2">Design</option>
-                <option value="3">Litteratur</option>
-            </select>
+        <select name="studieretning" required>
+            <option disabled selected value>Vennligst velg et emne!</option>
+                <?php
+                    require '../config/Database.php';
+                        $database = new Database();
+                        $db = $database->connect();
+                        $query = "SELECT * FROM emne";
+
+                        $stmt = $db->query($query);
+                        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if ($row) {
+                            foreach ($row as $row) {
+                                echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";
+                            }
+                        }
+                    ?>
+        </select>
         </div>
         <div>
             <h4>Velg bilde</h4>
