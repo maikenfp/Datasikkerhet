@@ -40,11 +40,17 @@ session_start();
                             foreach ($row as $row) {
                                 echo "<p>" . $row['emne_id'] . "</p>";
                                 echo "<option value=" . $row['emne_id'] . ">" . $row['emnekode'] . ' ' . $row['emnenavn'] . "</option>";
+                                $course_id = $row['emne_id'];
+                                $idQuery = "SELECT bilde_navn FROM foreleser f JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$course_id'";
                             }
+
+                            $stmt2 = $db->query($idQuery);
+                            $idRow = $stmt2->fetch(PDO::FETCH_ASSOC);
                         }
                     }
                     ?>
                 </select>
+                <img src='../photos/<?php echo implode($idRow)?>'>
                 <div class="form-group">
                     <label for="subject_feedback">Tilbakemelding/Spørsmål: <span class="required">*</span></label><br>
                     <textarea name="subjectQuestion" id="subject_feedback" cols="74" rows="8" required></textarea>

@@ -5,16 +5,17 @@
 
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $sp1 = $_POST['svar1'];
-        $sp2 = $_POST['svar2'];
-        $_SESSION['sp1'] = $sp1;
-        $_SESSION['sp2'] = $sp2;
+        $sv1 = $_POST['svar1'];
+        $sv2 = $_POST['svar2'];
+        $_SESSION['sv1'] = $sv1;
+        $_SESSION['sv2'] = $sv2;
     }
 
-    $sp1 = $_SESSION['sp1'];
-    $sp2 = $_SESSION['sp2'];
+    $sv1 = $_SESSION['sv1'];
+    $sv2 = $_SESSION['sv2'];
 
     $epost = $_SESSION['epost'];
+
 
     
 
@@ -25,8 +26,7 @@
     $stmt = $db->query($query);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
-    if($row['sp1'] === $sp1 AND $row['sp1'] === $sp2){
+    if($row['glemt_svar_1'] === $sv1 AND $row['glemt_svar_2'] === $sv2){
         
     } else {
         header("Location: password-reset.php?error=Feil svar!");
