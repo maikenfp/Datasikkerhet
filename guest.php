@@ -1,3 +1,7 @@
+<?php
+// Start the session
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="NB-NO">
     <head>
@@ -16,7 +20,19 @@
                 <input type="number" name='pinkode' min="0" max="9999" >
                 <button type="submit" name="PinButton">Søk</button>    
             </form>
+            <a href="/logout.php">Logg ut</a>
             <?php
+                // When guest user comment on message, sudent_id = NULL
+                $currentStudentId = 0; 
+                if(session_id() != ''){
+                    //session has started
+                    if(isset($_SESSION["student_id"])){
+                        $currentStudentId = $_SESSION["student_id"];
+                    }
+                }
+
+                echo "<br>";
+
                 include_once "config/database.php";
 
                 // Forms actions:
@@ -27,15 +43,25 @@
             
                 if (isset($_POST["button"])){
                     $pin = "[pin]";
-                    commentMessage($_POST["kommenter"], $_POST["meldingID"]);
+                    getEmneInfo($_POST["pin"]);
+                    if ($currentStudentId >1){
+                        //IF Student:
+                        commentMessage($_POST["kommenter"], $_POST["meldingID"], $_POST["studentID"]);
+                    }
+                    else{
+                        //IF guest:
+                        commentMessage($_POST["kommenter"], $_POST["meldingID"], 0);
+                    }
                     showMessage($_POST["pin"]);
                 }
                 
                 if(isset($_POST['rapporter'])){
                     $id = "[report]";
                     $pin = "[pin]";
+                    getEmneInfo($_POST["pin"]);
                     reportMessage($_POST["report"]);
                     showMessage($_POST["pin"]);
+                    
                 }
             ?>
 
@@ -64,7 +90,7 @@ function getEmneInfo($pin){
     $row = sqlQuery($sql);
 
     if($row){
-       echo "Emne info:"; 
+       echo "<h2> Emne info: </h2>"; 
         foreach ($row as $row) {
             echo "<br>Emnekode:". $row["emnekode"]. "<br>Emnenavn: " . $row["emnenavn"]. "<br>Pin-kode: " . $row["pinkode"];
         }
@@ -87,6 +113,7 @@ function getComment($meldingId){
 
 function showMessage($pin){
     $row = getMessage($pin);
+    global $currentStudentId;
     if($row){
         //Spørsmål and svar:
         foreach ($row as $row) {
@@ -106,6 +133,7 @@ function showMessage($pin){
             ?>
             <!-- Send kommentar -->
             <form method="POST">
+                <input type="hidden" name="studentID" value="<?php echo $currentStudentId;?>">    
                 <input type="hidden"  name='meldingID' value="<?php echo $row['melding_id']?>">
                 <input type="hidden" name="pin" value="<?php echo $pin?>">
                 <label>Kommentar:</label>
@@ -115,9 +143,10 @@ function showMessage($pin){
 
             <!-- Rapporter melding -->
             <form method="POST">
+                
                 <input type="hidden" name='report' value="<?php echo $row['melding_id']?>">
                 <input type="hidden" name="pin" value="<?php echo $pin?>">
-                <input type="submit" name="rapporter" value="Rapporter">
+                <input id="report" type="submit" name="rapporter" value="Rapporter">
             </form>
             <?php
               
@@ -125,10 +154,19 @@ function showMessage($pin){
     }
 }
 
-function commentMessage($kommentar, $melding_id){
-    $sql = "INSERT INTO kommentar (kommentar, melding_id) 
-            VALUES ('$kommentar', '$melding_id')";
-    sqlQuery($sql);
+function commentMessage($kommentar, $melding_id, $currentStudentId){
+    if ($currentStudentId > 1){
+        // IF students:
+        $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
+                VALUES ('$kommentar', '$melding_id', '$currentStudentId')";
+        sqlQuery($sql);
+    }
+    else{
+        // If guest users:
+        $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
+                VALUES ('$kommentar', '$melding_id', NULL)";
+        sqlQuery($sql);
+    } 
 }
 
 function reportMessage($id){
