@@ -41,7 +41,7 @@
     }
 
     public function create() {
-          $query = 'INSERT INTO ' . $this->table . ' SET navn = :navn, epost = :epost, studieretning = :studieretning, studiekull = :studiekull, passord = :passord ';
+          $query = 'INSERT INTO ' . $this->table . ' SET navn = :navn, epost = :epost, studieretning = (SELECT emne_id FROM emne WHERE emnenavn = :studieretning), studiekull = :studiekull, passord = :passord ';
           $stmt = $this->conn->prepare($query);
 
           $this->navn = htmlspecialchars(strip_tags($this->navn));
@@ -65,7 +65,7 @@
 
     public function update() {
           $query = 'UPDATE ' . $this->table . '
-                                SET epost = :epost, studieretning = :studieretning, studiekull = :studiekull WHERE navn = :navn';
+                                SET epost = :epost, studieretning = (SELECT emne_id FROM emne WHERE emnenavn = :studieretning), studiekull = :studiekull WHERE navn = :navn';
 
           $stmt = $this->conn->prepare($query);
 

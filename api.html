@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+	    <link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+
+	<body>
+	    <h1>Dokumentasjon for API</h1>
+        <p>Det anbefales å bruke Postman til testing av API-et. Det er laget CRUD metoder for foreleser, student og emne.
+             Alle fungerer på samme måte, så jeg bruker student som eksempel.</p>
+
+        <h3>Hent alle</h3>
+        <p>For å hente alle studenter vil url-en være http://158.39.188.205/api/student/read.php</p>
+
+        <h3>Hent spesifikk</h3>
+        <p>For å hente en spesifikk student vil url-en være http://158.39.188.205/api/student/read_single.php?navn=*Navnet til studentet*</p>
+
+        <h3>Lag en student</h3>
+        <p>For å lage en student vil url-en være http://158.39.188.205/api/student/create.php hvor du da må sende med navn, epost, passord, studieretning og studiekull. 
+            Studieretning skrives med ord, eks: "Informatikk", dersom emne ikke finnes, vil ikke studenten bli laget. 
+        </p>
+
+        <h3>Oppdater en student</h3>
+        <p>For å oppdatere en student vil url-en være http://158.39.188.205/api/student/update.php  Her har jeg gjort det slik at du ikke kan endre passord, 
+            men kan endre navn, epost, studieretning og studiekull - dette sendes da inn som data </p>
+
+        <h3>Slette en student</h3>
+        <p>For å slette en student vil url-en være http://158.39.188.205/api/student/delete.php hvor du da sender inn navnet til studenten som skal slettes.</p>
+
+        <p>I disse url-ene trenger du da bare bytte ut student med foreleser eller emne for å gjøre det samme der.</p>
+        
+	</body>
+</html>
