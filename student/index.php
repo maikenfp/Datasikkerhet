@@ -32,7 +32,7 @@ session_start();
                     if (empty($currentStudentId)) {
                         header('Location: ../index.php');
                     } else {
-                        $query = "SELECT * from student JOIN student_emne se on se.student_id = student.student_id JOIN emne e on se.emne_id = e.emne_id WHERE se.student_id = $currentStudentId";
+                        $query = "SELECT * from student JOIN retning_emne re on re.retning_id = student.retning_id JOIN emne e on re.emne_id = e.emne_id WHERE student.student_id = $currentStudentId";
                         $stmt = $db->query($query);
 
                         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);

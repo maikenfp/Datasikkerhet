@@ -28,19 +28,19 @@
         <div>
         <h4>Studieretning</h4>
         <select name="studieretning" required>
-            <option disabled selected value>Vennligst velg et emne!</option>
+            <option disabled selected value>Vennligst velg en studieretning!</option>
                 <?php
                     require '../config/Database.php';
                         $database = new Database();
                         $db = $database->connect();
-                        $query = "SELECT * FROM emne";
+                        $query = "SELECT * FROM studieretning";
 
                         $stmt = $db->query($query);
 
                         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         if ($row) {
                             foreach ($row as $row) {
-                                echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";
+                                echo "<option value=". $row['retning_id'] .">". $row['studieretning']."</option>";
                             }
                         }
                     ?>
