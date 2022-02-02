@@ -35,6 +35,10 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
     $email = strip_tags($_POST["epost"]);
     $password = strip_tags($_POST["passord"]);
     $course = strip_tags($_POST["studieretning"]);
+    $sv1 = strip_tags($_POST["sv1"]);
+    $sv2 = strip_tags($_POST["sv2"]);
+    $sp1 = strip_tags($_POST["sp1"]);
+    $sp2 = strip_tags($_POST["sp2"]);
     
 
     if(empty($username)) {
@@ -57,18 +61,26 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
     else {
         try {
-            $sql= "INSERT INTO foreleser (navn,epost,passord)
-                VALUES (:uname,:uemail,:upassord)";
+            $sql= "INSERT INTO foreleser (navn,epost,passord,glemt_spørsmål_1,glemt_spørsmål_2,glemt_svar_1,glemt_svar_2)
+                VALUES (:uname,:uemail,:upassord,:sv1,:sv2,:sp1,:sp2)";
 
             $insert_stmt = $db->prepare($sql);
             $insert_stmt->bindParam(":uname", $username);
             $insert_stmt->bindParam(":uemail", $email);
             $insert_stmt->bindParam(":upassord", $password);
+            $insert_stmt->bindParam(":sv1", $sv1);
+            $insert_stmt->bindParam(":sv2", $sv2);
+            $insert_stmt->bindParam(":sp1", $sp1);
+            $insert_stmt->bindParam(":sp2", $sp2);
 
             $insert_stmt->execute(array(
                     ":uname" => $username,
                     ":uemail" => $email,
-                    ":upassord" => $password));
+                    ":upassord" => $password,
+                    ":sv1" => $sv1,
+                    ":sv2" => $sv2,
+                    ":sp1" => $sp1,
+                    ":sp2" => $sp2));
 
 
             $_SESSION['foreleser_id'] = $db->lastInsertId();

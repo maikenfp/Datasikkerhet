@@ -24,12 +24,12 @@
         </div>
         <div>
         <h4>Passord</h4>
-            <input type="text" name="passord" id="passord" placeholder="Skriv inn ønsket passord">
+            <input type="password" name="passord" id="passord" placeholder="Skriv inn ønsket passord">
         </div>
-
+        <h4>Sikkerhetsspørsmål1</h4>
         <div>
-            <select>
-                <option><option disabled selected value>Vennligst velg et sikkerhetsspørsmål</option>
+            <select name='sp1'>
+                <option disabled selected value>Vennligst velg et sikkerhetsspørsmål</option>
             <?php
                     require '../config/Database.php';
                         $database = new Database();
@@ -40,7 +40,7 @@
                         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         if ($row) {
                             foreach ($row as $row) {
-                                echo "<option value=". $row['question'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";
+                                echo "<option value=". $row['question'] .">". $row['question']."</option>";
                             }
                         }
                     ?>
@@ -48,11 +48,36 @@
             </select>
         </div>
         <div>
+            <input type="text" name="sv1" id="sv1" placeholder="svar">
+        </div>
+        <h4>Sikkerhetsspørsmål2</h4>
+        <div>
+            <select name='sp2'>
+                <option disabled selected value>Vennligst velg et sikkerhetsspørsmål</option>
+            <?php
+                        $database = new Database();
+                        $db = $database->connect();
+                        $query = "SELECT * FROM question";
+
+                        $stmt = $db->query($query);
+                        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if ($row) {
+                            foreach ($row as $row) {
+                                echo "<option value=". $row['question'] .">". $row['question']."</option>";
+                            }
+                        }
+                    ?>
+                
+            </select>
+        </div>
+        <div>
+            <input type="text" name="sv2" id="sv2" placeholder="svar">
+        </div>
         <h4>Emne</h4>
         <select name="studieretning" required>
             <option disabled selected value>Vennligst velg et emne!</option>
                 <?php
-                    require '../config/Database.php';
+
                         $database = new Database();
                         $db = $database->connect();
                         $query = "SELECT * FROM emne";
