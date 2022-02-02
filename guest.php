@@ -38,8 +38,10 @@ session_start();
         include_once "config/database.php";
 
         // Forms actions:
+        // Pin-kode form:
         if (isset($_POST["PinButton"])) {
             getEmneInfo($_POST["pinkode"]);
+            getForeleserBilde($_POST["pinkode"]);
             showMessage($_POST["pinkode"]);
         }
 
@@ -72,6 +74,23 @@ session_start();
 
 <?php
 
+function getForeleserBilde($pin){
+    $emneID = getEmnekode($pin);
+
+    $sql = "SELECT bilde_navn, navn FROM foreleser f 
+    JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$emneID'";
+
+    $row = fetchArray($sql);
+    if ($row){
+        foreach ($row as $row){
+            $bilde_navn = $row["bilde_navn"];
+            ?>
+            <img src='photos/<?php echo $bilde_navn?>' width="250" height="250">
+            <?php
+        }
+    }
+}
+
 function sqlQuery($sql)
 {
     $database = new Database();
@@ -101,6 +120,18 @@ function getEmneInfo($pin)
     }
 }
 
+
+function getEmnekode($pin){
+    $sql = "SELECT emne.emne_id 
+        FROM emne WHERE pinkode='$pin' limit 1";
+    $row = sqlQuery($sql);
+    if ($row){
+        foreach ($row as $row){
+            return $row["emne_id"];
+        }
+    }
+}
+
 function getMessage($pin)
 {
     $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode, 
@@ -109,6 +140,7 @@ function getMessage($pin)
     $row = sqlQuery($sql);
     return $row;
 }
+
 
 function getComment($meldingId)
 {

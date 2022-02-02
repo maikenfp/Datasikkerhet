@@ -35,7 +35,7 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
 
     else {
         try {
-                $sql = "INSERT INTO student (navn, epost, passord, studieretning, studiekull)
+                $sql = "INSERT INTO student (navn, epost, passord, retning_id, studiekull)
                 VALUES (:uname, :uemail, :upassord, :ustudieretning, :ustudiekull)";
 
                 $insert_stmt = $db->prepare($sql);
