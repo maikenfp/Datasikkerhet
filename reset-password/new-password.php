@@ -11,8 +11,8 @@
         $_SESSION['sp2'] = $sp2;
     }
 
-    $sp1 = $_SESSION['sp1'];
-    $sp2 = $_SESSION['sp2'];
+    $sp1 = $_SESSION['glemt_svar_1'];
+    $sp2 = $_SESSION['glemt_svar_2'];
 
     $epost = $_SESSION['epost'];
 
@@ -26,7 +26,7 @@
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-    if($row['sp1'] === $sp1 AND $row['sp1'] === $sp2){
+    if($row['glemt_svar_1'] === $sp1 AND $row['glemt_svar_2'] === $sp2){
         
     } else {
         header("Location: password-reset.php?error=Feil svar!");

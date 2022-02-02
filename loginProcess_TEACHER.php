@@ -27,7 +27,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         $sql = "SELECT * FROM foreleser WHERE epost='$brukerEpost' AND passord='$brukerPassord'";
 
         $stmt = $db->query($sql);
-        $result = $db->prepare("SELECT SQL_CALC_FOUND_ROWS foreleser_id, navn, passord, epost FROM foreleser");
+        $result = $db->prepare("SELECT SQL_CALC_FOUND_ROWS foreleser_id, navn, passord, epost, bilde_navn FROM foreleser");
         $result->execute();
         $result = $db->prepare("SELECT FOUND_ROWS()");
         $result->execute();
@@ -43,6 +43,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 $_SESSION['foreleser_id'] = $row['foreleser_id'];
                 $_SESSION['navn'] = $row['navn'];
                 $_SESSION['epost'] = $row['epost'];
+                $_SESSION['bilde_navn'] = $row['bilde_navn'];
 
                 header("Location: teacher.php");
                 exit();
