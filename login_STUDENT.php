@@ -21,5 +21,7 @@
 
 	        <button type="submit">Logg inn</button>
 	     </form>
+
+			 <a href="index.php">Tilbake</a>
 	</body>
 </html>

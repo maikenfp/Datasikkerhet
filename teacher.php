@@ -25,7 +25,7 @@
              array_push($arr, "$n");
     }
 
-} 
+}
 
     $in = '(' . implode(',', $arr) .')';
 }
@@ -43,8 +43,9 @@
         <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
 
     </head>
-    <body> 
+    <body>
         <main>
+            <img src='photos/<?php echo $_SESSION['bilde_navn']?>'>
             <h1>Foreleser</h1>
             <form action="teachersubject.php" method="post" class="form">
                 <label for="subject">Emne:<span class="required"></span></label>
@@ -54,13 +55,13 @@
                     <?php
                     $database = new Database();
                     $db = $database->connect();
-                    
+
                     $query = "SELECT * FROM emne WHERE emne_id IN $in";
                     $stmt = $db->query($query);
                     $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     if ($row) {
                         foreach ($row as $row) {
-                            echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";    
+                            echo "<option value=". $row['emne_id'] .">". $row['emnekode']. ' ' .$row['emnenavn']."</option>";
                         }
                     }
                     ?>

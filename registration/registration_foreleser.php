@@ -12,12 +12,12 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
     if(!empty($imgFile)){
 
         $upload_dir = '../photos/';
-    
-        $imgExt = strtolower(pathinfo($imgFile,PATHINFO_EXTENSION)); 
-    
-        $valid_extensions = array('jpeg', 'jpg', 'png', 'gif'); 
+
+        $imgExt = strtolower(pathinfo($imgFile,PATHINFO_EXTENSION));
+
+        $valid_extensions = array('jpeg', 'jpg', 'png', 'gif');
         $coverpic = rand(1000,1000000).".".$imgExt;
-    
+
         if(in_array($imgExt, $valid_extensions)){
             if($imgSize < 5000000){
                 move_uploaded_file($tmp_dir,$upload_dir.$coverpic);
@@ -35,7 +35,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
     $email = strip_tags($_POST["epost"]);
     $password = strip_tags($_POST["passord"]);
     $course = strip_tags($_POST["studieretning"]);
-    
+    $pic = $coverpic;
 
     if(empty($username)) {
         header("Location: index.php?error=Du må skrive inn navn!");
@@ -57,23 +57,26 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
     else {
         try {
-            $sql= "INSERT INTO foreleser (navn,epost,passord)
-                VALUES (:uname,:uemail,:upassord)";
+            $sql= "INSERT INTO foreleser (navn,epost,passord,bilde_navn)
+                VALUES (:uname,:uemail,:upassord,:bilde_navn)";
 
             $insert_stmt = $db->prepare($sql);
             $insert_stmt->bindParam(":uname", $username);
             $insert_stmt->bindParam(":uemail", $email);
             $insert_stmt->bindParam(":upassord", $password);
+            $insert_stmt->bindParam(":bilde_navn", $pic);
 
             $insert_stmt->execute(array(
                     ":uname" => $username,
                     ":uemail" => $email,
-                    ":upassord" => $password));
+                    ":upassord" => $password,
+                    ":bilde_navn" => $pic));
 
 
             $_SESSION['foreleser_id'] = $db->lastInsertId();
             $_SESSION['epost'] = $email;
             $_SESSION['navn'] = $username;
+            $_SESSION['bilde_navn'] = $pic;
 
             $id = $db->lastInsertId();
 
