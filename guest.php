@@ -43,6 +43,7 @@ session_start();
             
                 if (isset($_POST["button"])){
                     $pin = "[pin]";
+                    getEmneInfo($_POST["pin"]);
                     if ($currentStudentId >1){
                         //IF Student:
                         commentMessage($_POST["kommenter"], $_POST["meldingID"], $_POST["studentID"]);
@@ -156,7 +157,6 @@ function showMessage($pin){
 function commentMessage($kommentar, $melding_id, $currentStudentId){
     if ($currentStudentId > 1){
         // IF students:
-        echo "IS ID";
         $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
                 VALUES ('$kommentar', '$melding_id', '$currentStudentId')";
         sqlQuery($sql);
