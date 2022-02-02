@@ -18,10 +18,10 @@ session_start();
         <!--Sender skjemaet til formsubmit.php-->
         <section class="mainForm">
             <form action="formsubmit.php" method="post">
-                <label for="subject">Emne:<span class="required">*</span></label><br>
+                <label for="subject">Emne:<span class="required"></span></label><br>
                 <select name="subject" required>
                     <option disabled selected value>Vennligst velg et emne!</option>
-
+                    
                     <?php
                     $currentStudentId = $_SESSION["student_id"];
                     require '.././config/Database.php';
@@ -50,6 +50,7 @@ session_start();
                     }
                     ?>
                 </select>
+                <h3>Din foreleser: </h3>
                 <img src='../photos/<?php echo implode($idRow)?>'>
                 <div class="form-group">
                     <label for="subject_feedback">Tilbakemelding/Spørsmål: <span class="required">*</span></label><br>
@@ -60,8 +61,8 @@ session_start();
                 <a href="../bytt_passord/change_student.php">Bytt passord</a>
             </form>
         </section>
-        <h1>Dine tidligere spørsmål:</h1>
         <section class="sprsml">
+        <h1>Dine tidligere spørsmål:</h1>
             <div class="question">
                 <?php
                 //Midlertidig løsning for å hente spørsmål

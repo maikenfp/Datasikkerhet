@@ -82,7 +82,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                     ":sv1" => $sv1,
                     ":sv2" => $sv2,
                     ":sp1" => $sp1,
-                    ":sp2" => $sp2));
+                    ":sp2" => $sp2,
                     ":bilde_navn" => $pic));
 
 
