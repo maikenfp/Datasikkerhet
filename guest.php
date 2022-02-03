@@ -198,10 +198,10 @@ function showMessage($pin)
                 <br>
                 <textarea name="kommenter" rows="4" cols="48"></textarea>
                 <button type="submit" name="button">Svar</button>
-            </form>
+            <!-- </form> -->
 
             <!-- Rapporter melding -->
-            <form method="POST">
+            <!-- <form method="POST"> -->
                 <input type="hidden" name='report' value="<?php echo $row['melding_id'] ?>">
                 <input type="hidden" name="pin" value="<?php echo $pin ?>">
                 <button type="submit" name="rapporter">Report</button>
