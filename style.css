@@ -87,3 +87,7 @@ a:hover{
 .foreleser_bilde{
     float: right;
 }
+
+#report{
+    background: rgb(202, 68, 35);
+}

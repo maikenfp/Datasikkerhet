@@ -199,7 +199,7 @@ function showMessage($pin)
             <!-- <form method="POST"> -->
                 <input type="hidden" name='report' value="<?php echo $row['melding_id'] ?>">
                 <input type="hidden" name="pin" value="<?php echo $pin ?>">
-                <button type="submit" name="rapporter">Report</button>
+                <button id="report" type="submit" name="rapporter">Report</button>
             </form>
 <?php
 
