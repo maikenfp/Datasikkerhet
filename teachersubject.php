@@ -48,7 +48,7 @@ if (empty($fid)) {
         $db = $database->connect();
 
 
-        $sql = "SELECT * from melding WHERE emne_id=$emneID AND svar = NULL";
+        $sql = "SELECT * from melding WHERE emne_id=$emneID AND svar IS NULL";
 
         $stmt = $db->query($sql);
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -61,7 +61,7 @@ if (empty($fid)) {
                 $meldingID = $row['melding_id'];
         ?>
 
-            
+
                 <form action="response_send.php" method="post" class="teacher-form">
                     <textarea name="reply" rows="4" cols="28" required></textarea>
                     <input type="hidden" name="responseID" value="<?php echo $meldingID; ?>" />
