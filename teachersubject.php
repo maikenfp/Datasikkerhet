@@ -46,10 +46,7 @@ if (empty($fid)) {
         <?php
         $database = new Database();
         $db = $database->connect();
-
-
         $sql = "SELECT * from melding WHERE emne_id=$emneID AND svar IS NULL";
-
         $stmt = $db->query($sql);
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -72,11 +69,8 @@ if (empty($fid)) {
             }
         }
 
-        
         $database = new Database();
         $db = $database->connect();
-
-
         $sql = "SELECT * from melding WHERE emne_id=$emneID";
         $stmt = $db->query($sql);
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
