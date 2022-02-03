@@ -23,6 +23,7 @@ session_start();
             <button type="submit" name="PinButton">Søk</button>
         </form>
         <a href="./logout.php">Logg ut</a>
+        <section id="section_guest">
         <?php
         // When guest user comment on message, sudent_id = NULL
         $currentStudentId = 0;
@@ -69,7 +70,7 @@ session_start();
             showMessage($_POST["pin"]);
         }
         ?>
-
+        </section>
     </main>
 </body>
 
@@ -88,7 +89,7 @@ function getForeleserBilde($pin){
         foreach ($row as $row){
             $bilde_navn = $row["bilde_navn"];
             ?>
-            <img src='photos/<?php echo $bilde_navn?>' width="250" height="250">
+            <img class="foreleser_bilde" src='photos/<?php echo $bilde_navn?>' width="250" height="250">
             <?php
         }
     }
@@ -188,16 +189,16 @@ function showMessage($pin)
                 <input type="hidden" name='meldingID' value="<?php echo $row['melding_id'] ?>">
                 <input type="hidden" name="pin" value="<?php echo $pin ?>">
                 <label>Kommentar:</label>
-                <textarea name="kommenter"></textarea>
-                <input type="submit" name="button" value="Svar">
+                <br>
+                <textarea name="kommenter" rows="4" cols="48"></textarea>
+                <button type="submit" name="button">Svar</button>
             </form>
 
             <!-- Rapporter melding -->
             <form method="POST">
-
                 <input type="hidden" name='report' value="<?php echo $row['melding_id'] ?>">
                 <input type="hidden" name="pin" value="<?php echo $pin ?>">
-                <input id="report" type="submit" name="rapporter" value="Rapporter">
+                <button type="submit" name="rapporter">Report</button>
             </form>
 <?php
 

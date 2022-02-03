@@ -83,3 +83,7 @@ a {
 a:hover{
     opacity: .7;
 }
+
+.foreleser_bilde{
+    float: right;
+}
