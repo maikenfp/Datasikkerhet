@@ -75,7 +75,7 @@ if (empty($fid)) {
         $stmt = $db->query($sql);
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo "<h2>Tidligere besvarte meldinger: </h2>";
+        echo "<h2>Tidligere besvarte meldinger:</h2>";
         echo "<div>";
         if ($row) {
             foreach ($row as $row) {
