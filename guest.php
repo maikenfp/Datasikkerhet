@@ -23,6 +23,12 @@ session_start();
             <button type="submit" name="PinButton">Søk</button>
         </form>
         <a href="./logout.php">Logg ut</a>
+        <?php
+        if (isset($_SESSION["foreleser_id"])) {
+            ?>
+            <a href="./teacher.php">Velg emne</a><?php
+        }
+        ?>
         <section id="section_guest">
         <?php
         // When guest user comment on message, sudent_id = NULL
