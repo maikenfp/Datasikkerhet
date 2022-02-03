@@ -32,7 +32,7 @@ session_start();
                     if (empty($currentStudentId)) {
                         header('Location: ../index.php');
                     } else {
-                        $query = "SELECT * from student JOIN retning_emne re on re.retning_id = student.retning_id JOIN emne e on re.emne_id = e.emne_id WHERE student.student_id = $currentStudentId";
+                        $query = "SELECT * from student JOIN retning_emne re on re.retning_id = student.studieretning JOIN emne e on re.emne_id = e.emne_id WHERE student.student_id = $currentStudentId";
                         $stmt = $db->query($query);
 
                         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -51,7 +51,7 @@ session_start();
                     ?>
                 </select>
                 <h3>Din foreleser: </h3>
-                <img src='../photos/<?php echo implode($idRow)?>'>
+                
                 <div class="form-group">
                     <label for="subject_feedback">Tilbakemelding/Spørsmål: <span class="required">*</span></label><br>
                     <textarea name="subjectQuestion" id="subject_feedback" cols="74" rows="8" required></textarea>

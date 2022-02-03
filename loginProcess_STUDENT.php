@@ -27,7 +27,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         $sql = "SELECT * FROM student WHERE epost='$brukerEpost' AND passord='$brukerPassord'";
 
         $stmt = $db->query($sql);
-        $result = $db->prepare("SELECT SQL_CALC_FOUND_ROWS student_id, passord, retning_id, studiekull, epost, navn FROM student");
+        $result = $db->prepare("SELECT SQL_CALC_FOUND_ROWS student_id, passord, studieretning, studiekull, epost, navn FROM student");
         $result->execute();
         $result = $db->prepare("SELECT FOUND_ROWS()");
         $result->execute();
@@ -41,7 +41,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 echo "Du er logget inn!";
 
                 $_SESSION['student_id'] = $row['student_id'];
-                $_SESSION['studieretning'] = $row['retning_id'];
+                $_SESSION['studieretning'] = $row['studieretning'];
                 $_SESSION['studiekull'] = $row['studiekull'];
                 $_SESSION['epost'] = $row['epost'];
                 $_SESSION['navn'] = $row['navn'];

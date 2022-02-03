@@ -9,7 +9,8 @@
 	     <h1>Dokumentasjon</h1>
 
         <h3>Steg 1</h3>
-        <p> Vi har laget et tilbakemeldingssystem for studenter og forelesere ved hjelp av XXAMP som webserver programvare for testing,
+        <p> Vi har laget et tilbakemeldingssystem for studenter og forelesere. Vi har jobbet med prosjektet lokalt gjennom git hvor alle har jobbet på
+            hver sine brancher, så koblet vi alt sammen til slutt. Vi brukte XXAMP som webserver for å teste lokalt.
 
         </p>
 
