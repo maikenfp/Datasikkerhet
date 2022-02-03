@@ -33,6 +33,7 @@ session_start();
             }
         }
 
+
         echo "<br>";
 
         include_once "config/database.php";
@@ -135,7 +136,7 @@ function getEmnekode($pin){
 function getMessage($pin)
 {
     $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode, 
-         melding.svar, melding.spørsmål, melding.melding_id
+         melding.svar, melding.spørsmål, melding.melding_id, melding.dato, melding.tid ,melding.upassende_melding
          FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id WHERE pinkode='$pin'";
     $row = sqlQuery($sql);
     return $row;
@@ -156,7 +157,16 @@ function showMessage($pin)
     if ($row) {
         //Spørsmål and svar:
         foreach ($row as $row) {
-            echo "<br><br> Spørsmål: " . $row["spørsmål"];
+            echo "<br><br>[". $row["dato"]. " ". $row["tid"]."]";
+
+            // Show foreleser report count:
+            if (isset($_SESSION["foreleser_id"])) {
+                if (!empty($row["upassende_melding"])){
+                        echo "<br>Melding rapportert ". $row["upassende_melding"]. " ganger.";
+                    }
+            }
+            
+            echo "<br> Spørsmål: " . $row["spørsmål"];
             if (!empty($row["svar"])) {
                 echo "<br> Svar: " . $row["svar"];
             }
