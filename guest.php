@@ -28,6 +28,11 @@ session_start();
             ?>
             <a href="./teacher.php">Velg emne</a><?php
         }
+        if (isset($_SESSION["student_id"])) {
+            ?>
+            <a href="./student/index.php">Student Melding</a><?php
+        }
+
         ?>
         <section id="section_guest">
         <?php
