@@ -20,6 +20,7 @@
 	        <input type="password" name="brukerPassord" placeholder="Passord"><br>
 
 	        <button type="submit">Logg inn</button>
+			<a href="reset-password/index.php">Glemt passord</a>
 	     </form>
 
 			 <a href="index.php">Tilbake</a>

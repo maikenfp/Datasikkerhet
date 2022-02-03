@@ -60,8 +60,7 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
 
                 $id = $db->lastInsertId();
 
-                $stmt2 = $db->prepare("INSERT INTO student_emne (student_id, emne_id) VALUES ('$id', '$course')");
-                $stmt2->execute();
+                
 
                 header("Location: ../student/index.php");
                 exit();
