@@ -38,7 +38,7 @@ function getForeleserBilde($pin)
     $db = $database->connect();
     $emneID = $pin;
     $bilde = "";
-
+    $a = array();
 
     $query = "SELECT bilde_navn FROM foreleser f 
     JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$emneID'";
@@ -49,10 +49,10 @@ function getForeleserBilde($pin)
     if ($row) {
         foreach ($row as $row) {
             $bilde_navn = $row["bilde_navn"];
-            $bilde = $bilde_navn;
+            array_push($a, $bilde_navn);
         }
     }
 
 
-    return json_encode($bilde, JSON_PRETTY_PRINT);
+    return json_encode($a, JSON_PRETTY_PRINT);
 }

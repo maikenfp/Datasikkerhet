@@ -51,10 +51,19 @@ session_start();
                     }
                     ?>
                 </select>
-                <div id="foreleserDiv">
-                    <img id="foreleserImg">
+                <div id="foreleserDiv" class="bildewrapper">
+                    <img class="foreleserImg">
                 </div>
                 <script>
+                    const createImageElement = (pictureArray) => {
+                        pictureArray.forEach(e => {
+                            let img = $('<img class="foreleserImg"/>')
+                            img.attr('src', ".././photos/" + e);
+                            img.appendTo('#foreleserDiv');
+                        });
+                    }
+
+
                     function getPicture(cid) {
                         $.ajax({
                             url: "formsubmit.php", //the page containing php script
@@ -65,13 +74,15 @@ session_start();
                             },
                             success: function(result) {
                                 if (result) {
-                                    console.log(result);
-                                    $("#foreleserImg").show();
-                                    $("#foreleserImg").attr("src", ".././photos/" + result)
+                                    $("#foreleserDiv").empty();
+                                    createImageElement(result);
+                                    $("#foreleserDiv").show();
+
                                 }
                                 if (!result) {
                                     console.log(result);
-                                    $("#foreleserImg").hide();
+                                    $("#foreleserDiv").empty();
+                                    $("#foreleserDiv").hide()
                                 }
                             }
                         });

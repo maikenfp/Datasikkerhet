@@ -28,6 +28,11 @@ form {
 }
 
 
+.foreleserImg {
+    max-width: 150px; 
+    max-height: 150px;
+}
+
 h2 {
     text-align: center;
     margin-bottom: 40px;
