@@ -28,6 +28,11 @@ session_start();
             ?>
             <a href="./teacher.php">Velg emne</a><?php
         }
+        if (isset($_SESSION["student_id"])) {
+            ?>
+            <a href="./student/index.php">Student Melding</a><?php
+        }
+
         ?>
         <section id="section_guest">
         <?php
@@ -57,7 +62,7 @@ session_start();
             $pin = "[pin]";
             getEmneInfo($_POST["pin"]);
             getForeleserBilde($_POST["pin"]);
-            if ($currentStudentId > 1) {
+            if ($currentStudentId >= 1) {
                 //IF Student:
                 commentMessage($_POST["kommenter"], $_POST["meldingID"], $_POST["studentID"]);
             } else {
@@ -101,23 +106,20 @@ function getForeleserBilde($pin){
     }
 }
 
-function sqlQuery($sql)
-{
+function sqlQuery($sql){
     $database = new Database();
     $db = $database->connect();
     $stmt = $db->query($sql);
     return $stmt;
 }
 
-function fetchArray($sql)
-{
+function fetchArray($sql){
     $stmt = sqlQuery($sql);
     $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $row;
 }
 
-function getEmneInfo($pin)
-{
+function getEmneInfo($pin){
     $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode 
         FROM emne WHERE pinkode='$pin' limit 1";
     $row = sqlQuery($sql);
@@ -142,8 +144,7 @@ function getEmnekode($pin){
     }
 }
 
-function getMessage($pin)
-{
+function getMessage($pin){
     $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode, 
          melding.svar, melding.spørsmål, melding.melding_id, melding.dato, melding.tid ,melding.upassende_melding
          FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id WHERE pinkode='$pin'";
@@ -152,8 +153,7 @@ function getMessage($pin)
 }
 
 
-function getComment($meldingId)
-{
+function getComment($meldingId){
     $sql = "SELECT kommentar.kommentar_id, kommentar.melding_id, kommentar.kommentar FROM kommentar WHERE melding_id='$meldingId'";
     $row = sqlQuery($sql);
     return $row;
@@ -162,7 +162,7 @@ function getComment($meldingId)
 function showMessage($pin)
 {
     $row = getMessage($pin);
-    global $currentStudentId;
+    global $currentStudentId; 
     if ($row) {
         //Spørsmål and svar:
         foreach ($row as $row) {
@@ -204,7 +204,7 @@ function showMessage($pin)
             <!-- <form method="POST"> -->
                 <input type="hidden" name='report' value="<?php echo $row['melding_id'] ?>">
                 <input type="hidden" name="pin" value="<?php echo $pin ?>">
-                <button type="submit" name="rapporter">Report</button>
+                <button id="report" type="submit" name="rapporter">Report</button>
             </form>
 <?php
 
@@ -212,9 +212,8 @@ function showMessage($pin)
     }
 }
 
-function commentMessage($kommentar, $melding_id, $currentStudentId)
-{
-    if ($currentStudentId > 1) {
+function commentMessage($kommentar, $melding_id, $currentStudentId){
+    if ($currentStudentId >= 1) {
         // IF students:
         $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
                 VALUES ('$kommentar', '$melding_id', '$currentStudentId')";
@@ -227,8 +226,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId)
     }
 }
 
-function reportMessage($id)
-{
+function reportMessage($id){
     $sql = "UPDATE melding SET upassende_melding = COALESCE(upassende_melding)+1 WHERE melding_id = $id";
     sqlQuery($sql);
 }
