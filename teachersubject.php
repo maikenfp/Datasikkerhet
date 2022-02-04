@@ -46,10 +46,7 @@ if (empty($fid)) {
         <?php
         $database = new Database();
         $db = $database->connect();
-
-
-        $sql = "SELECT * from melding WHERE emne_id=$emneID AND svar = NULL";
-
+        $sql = "SELECT * from melding WHERE emne_id=$emneID AND svar IS NULL";
         $stmt = $db->query($sql);
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -60,8 +57,6 @@ if (empty($fid)) {
                 echo "<br>Dato:" . $row["dato"] . "<br>Spørsmål: " . $row["spørsmål"] . "<br>Svar: " . $row["svar"];
                 $meldingID = $row['melding_id'];
         ?>
-
-            
                 <form action="response_send.php" method="post" class="teacher-form">
                     <textarea name="reply" rows="4" cols="28" required></textarea>
                     <input type="hidden" name="responseID" value="<?php echo $meldingID; ?>" />
@@ -74,9 +69,23 @@ if (empty($fid)) {
             }
         }
 
+        $database = new Database();
+        $db = $database->connect();
+        $sql = "SELECT * from melding WHERE emne_id=$emneID";
+        $stmt = $db->query($sql);
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        echo "<h2>Tidligere besvarte meldinger:</h2>";
+        echo "<div>";
+        if ($row) {
+            foreach ($row as $row) {
+                echo "<div class='respond-form'>";
+                echo "<br>Dato:" . $row["dato"] . "<br>Spørsmål: " . $row["spørsmål"] . "<br>Svar: " . $row["svar"];
+                $meldingID = $row['melding_id'];
+            }
+        }
         ?>
-
+        </div>
         <a href="logout.php">Logout</a>
     </main>
 </body>
