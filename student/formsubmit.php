@@ -26,10 +26,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<meta http-equiv='refresh' content='0;url=index.php'>";
     }
 }
-?>
-<!-- INSERT INTO melding(spørsmål, emne_id, student_id, foreleser_id)
-	VALUES('question', 1, 1,
-           (SELECT melding.foreleser_id
-    		FROM foreleser_emne AS FE
-    		JOIN melding AS M ON FE.emne_id = M.emne_id 
-            	WHERE FE.emne_id = 1)) -->
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $cid = $_GET['cid'];
+    echo getForeleserBilde($cid);
+}
+
+function getForeleserBilde($pin)
+{
+    $database = new Database();
+    $db = $database->connect();
+    $emneID = $pin;
+    $bilde = "";
+
+
+    $query = "SELECT bilde_navn FROM foreleser f 
+    JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$emneID'";
+
+    $stmt = $db->query($query);
+    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($row) {
+        foreach ($row as $row) {
+            $bilde_navn = $row["bilde_navn"];
+            $bilde = $bilde_navn;
+        }
+    }
+
+
+    return json_encode($bilde, JSON_PRETTY_PRINT);
+}

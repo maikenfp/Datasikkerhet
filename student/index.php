@@ -9,6 +9,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8" />
     <title>Student Melding</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!--force php to load css-->
     <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
 
@@ -17,11 +18,11 @@ session_start();
         <h1>STUDENT MELDING</h1>
         <!--Sender skjemaet til formsubmit.php-->
         <section class="mainForm">
-            <form action="formsubmit.php" method="post">
+            <form action="formsubmit.php" method="post" id="mainForm">
                 <label for="subject">Emne:<span class="required"></span></label><br>
-                <select name="subject" required>
+                <select name="subject" id="selectedValue" onchange="getPicture(this.value)" required>
                     <option disabled selected value>Vennligst velg et emne!</option>
-                    
+
                     <?php
                     $currentStudentId = $_SESSION["student_id"];
                     require '.././config/Database.php';
@@ -50,8 +51,34 @@ session_start();
                     }
                     ?>
                 </select>
+                <div id="foreleserDiv">
+                    <img id="foreleserImg">
+                </div>
+                <script>
+                    function getPicture(cid) {
+                        $.ajax({
+                            url: "formsubmit.php", //the page containing php script
+                            type: "get", //request type,
+                            dataType: 'json',
+                            data: {
+                                "cid": cid
+                            },
+                            success: function(result) {
+                                if (result) {
+                                    console.log(result);
+                                    $("#foreleserImg").show();
+                                    $("#foreleserImg").attr("src", ".././photos/" + result)
+                                }
+                                if (!result) {
+                                    console.log(result);
+                                    $("#foreleserImg").hide();
+                                }
+                            }
+                        });
+                    }
+                </script>
                 <h3>Din foreleser: </h3>
-                
+
                 <div class="form-group">
                     <label for="subject_feedback">Tilbakemelding/Spørsmål: <span class="required">*</span></label><br>
                     <textarea name="subjectQuestion" id="subject_feedback" cols="74" rows="8" required></textarea>
@@ -62,7 +89,7 @@ session_start();
             </form>
         </section>
         <section class="sprsml">
-        <h1>Dine tidligere spørsmål:</h1>
+            <h1>Dine tidligere spørsmål:</h1>
             <div class="question">
                 <?php
                 //Midlertidig løsning for å hente spørsmål
