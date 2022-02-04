@@ -16,6 +16,7 @@
   $data = json_decode(file_get_contents("php://input"));
 
   $student->navn = $data->navn;
+  $student->passord = $data->passord;
 
   if($student->delete()) {
     echo json_encode(

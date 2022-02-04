@@ -77,23 +77,5 @@
 
           return false;
     }
-
-    public function delete() {
-          $query = 'DELETE FROM ' . $this->table . ' WHERE emnenavn = :emnenavn';
-
-          $stmt = $this->conn->prepare($query);
-
-          $this->emnenavn = htmlspecialchars(strip_tags($this->emnenavn));
-
-          $stmt->bindParam(':emnenavn', $this->emnenavn);
-
-          if($stmt->execute()) {
-            return true;
-          }
-
-          printf("Error: %s.\n", $stmt->error);
-
-          return false;
-    }
     
   }

@@ -2,33 +2,43 @@
 
 <html>
 	<head>
+        <meta charset="utf-8">
 	    <link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 
 	<body>
 	    <h1>Dokumentasjon for API</h1>
-        <p>Det anbefales å bruke Postman til testing av API-et. Det er laget CRUD metoder for foreleser, student og emne.
-             Alle fungerer på samme måte, så jeg bruker student som eksempel.</p>
+            <p>Anbefaler å bruke Postman til testing av API-et. Det er laget CRUD metoder for foreleser, student og emne.
+                Alle fungerer på samme måte, så jeg bruker student som eksempel.</p>
 
         <h3>Hent alle</h3>
-        <p>For å hente alle studenter vil url-en være http://158.39.188.205/api/student/read.php</p>
+            <p>For å hente alle studenter vil url-en være http://158.39.188.205/api/student/read.php, da blir all data hentet bortsett fra passord, dette gjelder også foreleser</p>
 
         <h3>Hent spesifikk</h3>
-        <p>For å hente en spesifikk student vil url-en være http://158.39.188.205/api/student/read_single.php?navn=*Navnet til studentet*</p>
+            <p>For å hente en spesifikk student vil url-en være http://158.39.188.205/api/student/read_single.php?navn=*Navnet til studentet/foreleser/emne*, også uten passord.</p>
 
         <h3>Lag en student</h3>
-        <p>For å lage en student vil url-en være http://158.39.188.205/api/student/create.php hvor du da må sende med navn, epost, passord, studieretning og studiekull. 
-            Studieretning skrives med ord, eks: "Informatikk", dersom emne ikke finnes, vil ikke studenten bli laget. 
-        </p>
+            <p>For å lage en student vil url-en være http://158.39.188.205/api/student/create.php hvor du da må sende med navn, epost, passord, studieretning og studiekull. 
+            Studieretning skrives med ord, eks: "Informatikk", dersom emne ikke finnes, vil ikke studenten bli laget.</p> 
+            <p>For foreleser sender du inn navn, epost og passord. </p>
+            <p>For emne sender du inn emnenavn, emnekode og pinkode.</p>
+        
 
         <h3>Oppdater en student</h3>
-        <p>For å oppdatere en student vil url-en være http://158.39.188.205/api/student/update.php  Her har jeg gjort det slik at du ikke kan endre passord, 
-            men kan endre navn, epost, studieretning og studiekull - dette sendes da inn som data </p>
+            <p>For å oppdatere en student vil url-en være http://158.39.188.205/api/student/update.php  Her har jeg gjort det slik at du ikke kan endre passord, 
+            men kan endre navn, epost, studieretning og studiekull - dette sendes da inn som data, hvor du også vil trenge student/foreleser sitt passord for å få lov til å endre.</p>
+            <p>For foreleser sender du inn epost og navn, hvor eposten vil bli oppdatert til brukeren med det navnet. </p>
+            <p>For emne sender du inn emnekode og emnenavn, hvor emnekoden vil bli oppdatert for emne med det emnenavnet. </p>
 
         <h3>Slette en student</h3>
-        <p>For å slette en student vil url-en være http://158.39.188.205/api/student/delete.php hvor du da sender inn navnet til studenten som skal slettes.</p>
+        <p>For å slette en student vil url-en være http://158.39.188.205/api/student/delete.php hvor du da sender inn navnet og passordet til studenten/foreleseren som skal slettes.
+            Emne vil ikke ha en slett metode da dette ikke skal kunne gjøres av hvem som helst.
+        </p>
 
-        <p>I disse url-ene trenger du da bare bytte ut student med foreleser eller emne for å gjøre det samme der.</p>
+        <p>I disse URL-ene trenger du da bare bytte ut ordet student med foreleser eller emne for å utføre de samme funksjonene. </p>
+            <p>Jeg har ikke helt fått til dette med error handling noen steder, alt skal funke men det er mulig at feil meldinger dukker opp, for eksempel hvis du skal slette en bruker, men ikke har med 
+            passord så vil ikke brukeren bli slettet, men det vil komme en melding at den har blitt slettet. 
+        </p>
         
 	</body>
 </html>

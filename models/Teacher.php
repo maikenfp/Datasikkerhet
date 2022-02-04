@@ -79,13 +79,15 @@
     }
 
     public function delete() {
-          $query = 'DELETE FROM ' . $this->table . ' WHERE navn = :navn';
+          $query = 'DELETE FROM ' . $this->table . ' WHERE navn = :navn AND passord = :passord';
 
           $stmt = $this->conn->prepare($query);
 
           $this->navn = htmlspecialchars(strip_tags($this->navn));
-
+          $this->passord = htmlspecialchars(strip_tags($this->passord));
+          
           $stmt->bindParam(':navn', $this->navn);
+          $stmt->bindParam(':passord', $this->passord);
 
           if($stmt->execute()) {
             return true;
