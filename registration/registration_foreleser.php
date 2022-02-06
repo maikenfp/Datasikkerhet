@@ -62,27 +62,27 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
     else {
         try {
-            $sql= "INSERT INTO foreleser (navn,epost,passord,glemt_spørsmål_1,glemt_spørsmål_2,glemt_svar_1,glemt_svar_2,bilde_navn)
-                VALUES (:uname,:uemail,:upassord,:sv1,:sv2,:sp1,:sp2,:bilde_navn)";
+            $sql= "INSERT INTO foreleser (navn,epost,passord,glemt_spørsmål_1,glemt_svar_1,glemt_spørsmål_2,glemt_svar_2,bilde_navn)
+                VALUES (:uname,:uemail,:upassord, :sp1, :sv1, :sp2, :sv2, :bilde_navn)";
 
             $insert_stmt = $db->prepare($sql);
             $insert_stmt->bindParam(":uname", $username);
             $insert_stmt->bindParam(":uemail", $email);
             $insert_stmt->bindParam(":upassord", $password);
-            $insert_stmt->bindParam(":sv1", $sv1);
-            $insert_stmt->bindParam(":sv2", $sv2);
             $insert_stmt->bindParam(":sp1", $sp1);
+            $insert_stmt->bindParam(":sv1", $sv1);
             $insert_stmt->bindParam(":sp2", $sp2);
+            $insert_stmt->bindParam(":sv2", $sv2);
             $insert_stmt->bindParam(":bilde_navn", $pic);
 
             $insert_stmt->execute(array(
                     ":uname" => $username,
                     ":uemail" => $email,
                     ":upassord" => $password,
-                    ":sv1" => $sv1,
-                    ":sv2" => $sv2,
                     ":sp1" => $sp1,
+                    ":sv1" => $sv1,
                     ":sp2" => $sp2,
+                    ":sv2" => $sv2,
                     ":bilde_navn" => $pic));
 
 

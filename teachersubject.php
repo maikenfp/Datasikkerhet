@@ -54,7 +54,7 @@ if (empty($fid)) {
 
             foreach ($row as $row) {
                 echo "<div class='respond-form'>";
-                echo "<br>Dato:" . $row["dato"] . "<br>Spørsmål: " . $row["spørsmål"] . "<br>Svar: " . $row["svar"];
+                echo "<br>Dato:" . $row["dato"] . "<br>Spørsmål: " . $row["question"] . "<br>Svar: " . $row["svar"];
                 $meldingID = $row['melding_id'];
         ?>
                 <form action="response_send.php" method="post" class="teacher-form">
@@ -80,7 +80,7 @@ if (empty($fid)) {
         if ($row) {
             foreach ($row as $row) {
                 echo "<div class='respond-form'>";
-                echo "<br>Dato:" . $row["dato"] . "<br>Spørsmål: " . $row["spørsmål"] . "<br>Svar: " . $row["svar"];
+                echo "<br>Dato:" . $row["dato"] . "<br>Spørsmål: " . $row["question"] . "<br>Svar: " . $row["svar"];
                 $meldingID = $row['melding_id'];
             }
         }
