@@ -2,29 +2,27 @@
   // Headers
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
-  header('Access-Control-Allow-Methods: POST');
+  header('Access-Control-Allow-Methods: DELETE');
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Message.php';
+  include_once '../../models/Emne.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $message = new Message($db);
+  $emne = new Emne($db);
 
   $data = json_decode(file_get_contents("php://input"));
 
-  $message->question = $data->question;
-  $message->emnenavn = $data->emnenavn;
-  $message->epost = $data->epost;
+  $emne->emnenavn = $data->emnenavn;
 
-  if($message->createMessage()) {
+  if($emne->delete()) {
     echo json_encode(
-      array('message' => 'Message Created')
+      array('message' => 'Emne deleted')
     );
   } else {
     echo json_encode(
-      array('message' => 'Message Not Created')
+      array('message' => 'Emne not deleted')
     );
   }

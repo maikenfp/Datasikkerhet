@@ -13,10 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $subject = $_POST['subject'];
     $question = $_POST['subjectQuestion'];
 
-    $date = date('Y-m-d');
+ 
 
-    $sql = "INSERT INTO melding(spørsmål, emne_id, student_id, dato, tid) 
-    VALUES ('$question', '$subject', '$currentStudentId', '$date', (NOW()))";
+    $sql = "INSERT INTO melding(question, emne_id, student_id) 
+    VALUES ('$question', '$subject', '$currentStudentId')";
     $result = $db->query($sql);
 
     if ($result) {

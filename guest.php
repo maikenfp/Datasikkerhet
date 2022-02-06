@@ -175,7 +175,7 @@ function showMessage($pin)
                     }
             }
             
-            echo "<br> Spørsmål: " . $row["spørsmål"];
+            echo "<br> Spørsmål: " . $row["question"];
             if (!empty($row["svar"])) {
                 echo "<br> Svar: " . $row["svar"];
             }

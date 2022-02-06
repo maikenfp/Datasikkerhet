@@ -51,6 +51,7 @@ session_start();
                     }
                     ?>
                 </select>
+                <h3>Forelesere: </h3>
                 <div id="foreleserDiv" class="bildewrapper">
                     <img class="foreleserImg">
                 </div>
@@ -88,7 +89,6 @@ session_start();
                         });
                     }
                 </script>
-                <h3>Din foreleser: </h3>
 
                 <div class="form-group">
                     <label for="subject_feedback">Tilbakemelding/Spørsmål: <span class="required">*</span></label><br>
