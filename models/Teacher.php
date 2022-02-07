@@ -56,46 +56,5 @@
 
       return false;
     }
-
-    public function update() {
-          $query = 'UPDATE ' . $this->table . '
-                                SET epost = :epost WHERE navn = :navn';
-
-          $stmt = $this->conn->prepare($query);
-
-          $this->navn = htmlspecialchars(strip_tags($this->navn));
-          $this->epost = htmlspecialchars(strip_tags($this->epost));
-
-          $stmt->bindParam(':navn', $this->navn);
-          $stmt->bindParam(':epost', $this->epost);
-          
-          if($stmt->execute()) {
-            return true;
-          }
-
-          printf("Error: %s.\n", $stmt->error);
-
-          return false;
-    }
-
-    public function delete() {
-          $query = 'DELETE FROM ' . $this->table . ' WHERE navn = :navn AND passord = :passord';
-
-          $stmt = $this->conn->prepare($query);
-
-          $this->navn = htmlspecialchars(strip_tags($this->navn));
-          $this->passord = htmlspecialchars(strip_tags($this->passord));
-          
-          $stmt->bindParam(':navn', $this->navn);
-          $stmt->bindParam(':passord', $this->passord);
-
-          if($stmt->execute()) {
-            return true;
-          }
-
-          printf("Error: %s.\n", $stmt->error);
-
-          return false;
-    }
     
   }

@@ -20,8 +20,8 @@ if($num > 0) {
     extract($row);
 
     $emne_item = array(
-      'emnekode' => $emnekode,
-      'emnenavn' => $emnenavn
+      'emnenavn' => $emnenavn,
+      'emnekode' => $emnekode
     );
 
     array_push($emne_arr, $emne_item);
@@ -31,6 +31,6 @@ if($num > 0) {
 
 } else {
   echo json_encode(
-    array('message' => 'No emner found')
+    array('message' => 'No students found')
   );
 }

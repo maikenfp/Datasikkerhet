@@ -1,7 +1,7 @@
 <?php
 // Start the session
 session_start();
-require '.././config/Database.php';
+require '../config/Database.php';
 
 $database = new Database();
 $db = $database->connect();
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $subject = $_POST['subject'];
     $question = $_POST['subjectQuestion'];
 
- 
+    $date = date('Y-m-d');
 
     $sql = "INSERT INTO melding(question, emne_id, student_id) 
     VALUES ('$question', '$subject', '$currentStudentId')";

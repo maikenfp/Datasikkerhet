@@ -17,7 +17,7 @@
 
 
         echo '<script>alert("Passordet er tilbakestilt!")</script>';
-        echo '<script>window.location.href = "../index.php"</script>';
+        header("Location: ../index.php");
     } else {
         header("Location: new-password.php?error=Passordene er ikke like!");
     }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+        <meta charset="utf-8">
+	    <link rel="stylesheet" type="text/css" href="../style.css">
+	</head>
+
+	<body>
+	    <h1>Dokumentasjon for API</h1>
+            <p>Anbefaler å bruke Postman til testing av API-et. Det er laget metoder for å kunne lese og lage foreleser og student.
+                De fungerer på samme måte, så jeg bruker student som eksempel.</p>
+
+        <h3>Hent alle</h3>
+            <p>For å hente alle studenter vil url-en være http://158.39.188.205/api/student/read.php, da blir all data hentet bortsett fra passord, dette gjelder også foreleser</p>
+
+        <h3>Hent spesifikk</h3>
+            <p>For å hente en spesifikk student vil url-en være http://158.39.188.205/api/student/read_single.php?navn=*Navnet til studentet/foreleser*, også uten passord.</p>
+
+        <h3>Lag en student</h3>
+            <p>For å lage en student vil url-en være http://158.39.188.205/api/student/create.php hvor du da må sende med navn, epost, passord, studieretning og studiekull. 
+            Studieretning skrives med ord, eks: "Informatikk", dersom emne ikke finnes, vil ikke studenten bli laget. Jeg har laget en read metode for emne så du kan se alle de forskjellige
+        emnene, http://158.39.188.205/api/emne/read.php</p> 
+            <p>For foreleser sender du inn navn, epost og passord. </p>
+
+        <h3>Sende melding</h3>
+        <p>For å sende melding som en student vil url-en være http://158.39.188.205/api/student/create_message.php hvor dataen som skal sendes inn er selve meldingen, refert til som "question", eposten til
+            studenten, og navnet til emnet det gjelder.
+        </p>
+
+        <p>I disse URL-ene trenger du da bare bytte ut ordet student med foreleser (eller emne for read metoden) for å utføre de samme funksjonene. </p>
+        
+	</body>
+</html>

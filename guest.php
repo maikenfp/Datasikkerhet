@@ -146,7 +146,7 @@ function getEmnekode($pin){
 
 function getMessage($pin){
     $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode, 
-         melding.svar, melding.question, melding.melding_id, melding.dato, melding.tid ,melding.upassende_melding
+         melding.svar, melding.question, melding.melding_id, melding.dato, melding.upassende_melding
          FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id WHERE pinkode='$pin'";
     $row = sqlQuery($sql);
     return $row;
@@ -166,7 +166,7 @@ function showMessage($pin)
     if ($row) {
         //Spørsmål and svar:
         foreach ($row as $row) {
-            echo "<br><br>[". $row["dato"]. " ". $row["tid"]."]";
+            echo "<br><br>[". $row["dato"]. "]";
 
             // Show foreleser report count:
             if (isset($_SESSION["foreleser_id"])) {

@@ -112,7 +112,7 @@ session_start();
                 if ($row) {
                     foreach ($row as $row) {
                         echo "<article>
-                                <h1 value=" . $row['melding_id'] . ">" . $row['question'] . "</h1><p>" . $row['dato'] . " <br> " . $row['tid'] . "</p>
+                                <h1 value=" . $row['melding_id'] . ">" . $row['question'] . "</h1><p>" . $row['dato'] . "</p>
                                 <h1>Svar fra foreleser</h1><p>" . $row['svar'] . "</p></article>";
                         //</h1><h1>Kommentarer fra andre studenter:</h1><p>". $row['kommentar'] ."</p></article>";
                     }

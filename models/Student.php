@@ -8,9 +8,6 @@
     public $studiekull;
     public $epost;
     public $navn;
-    public $student_id;
-    public $emne_id;
-    public $spørsmål;
 
     public function __construct($db) {
       $this->conn = $db;
@@ -68,51 +65,5 @@
       return false;
     }
 
-
-    public function update() {
-          $query = 'UPDATE ' . $this->table . '
-                                SET epost = :epost, studieretning = (SELECT retning_id FROM studieretning WHERE studieretning = :studieretning), studiekull = :studiekull WHERE epost = :epost AND passord = :passord';
-
-          $stmt = $this->conn->prepare($query);
-
-          $this->navn = htmlspecialchars(strip_tags($this->navn));
-          $this->epost = htmlspecialchars(strip_tags($this->epost));
-          $this->studieretning = htmlspecialchars(strip_tags($this->studieretning));
-          $this->studiekull = htmlspecialchars(strip_tags($this->studiekull));
-          $this->passord = htmlspecialchars(strip_tags($this->passord));
-
-          $stmt->bindParam(':navn', $this->navn);
-          $stmt->bindParam(':epost', $this->epost);
-          $stmt->bindParam(':studieretning', $this->studieretning);
-          $stmt->bindParam(':studiekull', $this->studiekull);
-          $stmt->bindParam(':passord', $this->passord);
-
-          if($stmt->execute()) {
-            return true;
-          }
-
-          printf("Error: %s.\n", $stmt->error);
-
-          return false;
-    }
-
-    public function delete() {
-          $query = 'DELETE FROM ' . $this->table . ' WHERE navn = :navn AND passord = :passord';
-
-          $stmt = $this->conn->prepare($query);
-
-          $this->navn = htmlspecialchars(strip_tags($this->navn));
-          $this->passord = htmlspecialchars(strip_tags($this->passord));
-          $stmt->bindParam(':navn', $this->navn);
-          $stmt->bindParam(':passord', $this->passord);
-
-          if($stmt->execute()) {
-            return true;
-          }
-
-          printf("Error: %s.\n", $stmt->error);
-
-          return false;
-    }
     
   }
