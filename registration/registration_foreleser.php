@@ -61,9 +61,19 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
     }
 
     else {
-        try {
+        $query = "SELECT epost FROM foreleser WHERE epost = '$email'";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $row_count = $stmt->fetch();
+
+        if($row_count > 0) {
+            header("Location: foreleser.php?error=Eposten er allerede i bruk!");
+            exit();
+        }
+        else {
             $sql= "INSERT INTO foreleser (navn,epost,passord,glemt_question_1,glemt_svar_1,glemt_question_2,glemt_svar_2,bilde_navn)
-                VALUES (:uname,:uemail,:upassord, :sp1, :sv1, :sp2, :sv2, :bilde_navn)";
+                VALUES (:uname,:uemail,:upassord, (SELECT question FROM question WHERE question_id = :sp1), :sv1, 
+                (SELECT question FROM question WHERE question_id =:sp2), :sv2, :bilde_navn)";
 
             $insert_stmt = $db->prepare($sql);
             $insert_stmt->bindParam(":uname", $username);
@@ -98,9 +108,6 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
             header("Location: ../teacher.php");
             exit();
-        }
-        catch(PDOException $e) {
-            echo $e->getMessage();
         }
 
     }

@@ -48,7 +48,7 @@ session_start();
 
         echo "<br>";
 
-        include_once "config/database.php";
+        include_once "config/Database.php";
 
         // Forms actions:
         // Pin-kode form:
@@ -227,7 +227,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
 }
 
 function reportMessage($id){
-    $sql = "UPDATE melding SET upassende_melding = COALESCE(upassende_melding)+1 WHERE melding_id = $id";
+    $sql = "UPDATE melding SET upassende_melding = (upassende_melding + 1) WHERE melding_id = $id";
     sqlQuery($sql);
 }
 ?>
