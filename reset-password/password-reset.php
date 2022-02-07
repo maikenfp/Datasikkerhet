@@ -44,11 +44,11 @@
             <?php } ?>
             <form action="new-password.php" method="post" class="form">
                     <label for="svar1"><?php
-                        echo $row['glemt_spørsmål_1'];
+                        echo $row['glemt_question_1'];
                     ?></label>
                     <input type="text" name="svar1"/>
                     <label for="svar2"><?php
-                        echo $row['glemt_spørsmål_2'];
+                        echo $row['glemt_question_2'];
                     ?></label>
                     <input type="text" name="svar2"/>
                     <button type="submit" name="submit">Go</button>

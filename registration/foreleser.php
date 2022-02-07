@@ -26,7 +26,7 @@
         <h4>Passord</h4>
             <input type="password" name="passord" id="passord" placeholder="Skriv inn ønsket passord">
         </div>
-        <h4>Sikkerhetsspørsmål1</h4>
+        <h4>Sikkerhetsspørsmål 1</h4>
         <div>
             <select name='sp1'>
                 <option disabled selected value>Vennligst velg et sikkerhetsspørsmål</option>
@@ -40,7 +40,7 @@
                         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         if ($row) {
                             foreach ($row as $row) {
-                                echo "<option value=". $row['question'] .">". $row['question']."</option>";
+                                echo "<option value=". $row['question_id'] .">". $row['question']."</option>";
                             }
                         }
                     ?>
@@ -50,7 +50,7 @@
         <div>
             <input type="text" name="sv1" id="sv1" placeholder="svar">
         </div>
-        <h4>Sikkerhetsspørsmål2</h4>
+        <h4>Sikkerhetsspørsmål 2</h4>
         <div>
             <select name='sp2'>
                 <option disabled selected value>Vennligst velg et sikkerhetsspørsmål</option>
@@ -63,7 +63,7 @@
                         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         if ($row) {
                             foreach ($row as $row) {
-                                echo "<option value=". $row['question'] .">". $row['question']."</option>";
+                                echo "<option value=". $row['question_id'] .">". $row['question']."</option>";
                             }
                         }
                     ?>

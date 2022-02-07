@@ -34,19 +34,16 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
     }
 
     else {
+        $query = "SELECT epost FROM student WHERE epost = '$email'";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $row_count = $stmt->fetch();
 
-            $query = "SELECT epost FROM student";
-            $stmt = $db->prepare($query);
-            $stmt->execute();
-            $user = $stmt->fetch();
-            
-        if($email == $user['epost']) {
-            header("Location: student.php?error=Eposten er i bruk");
-            echo "<script>";
-            echo "alert('Noe gikk galt');";
-            echo "</script>";
+        if($row_count > 0) {
+            header("Location: student.php?error=Eposten er allerede i bruk!");
+            exit();
         }
-        
+
         else{
             $sql = "INSERT INTO student (navn, epost, passord, studieretning, studiekull)
             VALUES (:uname, :uemail, :upassord, :ustudieretning, :ustudiekull)";
