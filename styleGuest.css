@@ -1,0 +1,118 @@
+*{
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+
+#wrapper{
+    display: grid;
+    grid-template-rows: 50px 50px 50px;
+    grid-template-columns: auto;
+    grid-template-areas: 
+        "header"
+        "nav "
+        "section ";
+    margin: 5px auto;
+    max-width: 60em;
+    width: auto;
+}
+
+#guestHeader{
+    grid-area: header;
+    text-align: center;
+}
+
+
+aside{
+    grid-area: aside;
+    display: block;
+}
+.navId{
+    grid-area: nav;
+    /* position: absolute; */
+    /* top: 10px; */
+    /* right: 0px; */
+}
+
+#section_guest{
+    grid-area: section;
+    /* position: absolute; */
+    /* right:0px; */
+    /* margin-top: 70px; */
+}
+
+body {
+    background: #5865F2;
+    margin: 0;
+}
+
+form {
+    /* width: 1000px; */
+    border: 3px solid rgb(177, 142, 142);
+    padding: 20px;
+    background: rgb(64, 64, 64);
+    border-radius: 20px;
+    margin-top: 10px;
+}
+
+h2 {
+    text-align: center;
+    /* margin-bottom: 40px; */
+}
+
+#report{
+    background: rgb(202, 68, 35);
+}
+
+button {
+    float: right;
+    background: rgb(35, 174, 202);
+    padding: 10px 15px;
+    color: #fff;
+    border-radius: 5px;
+    margin-right: 10px;
+    border: none;
+    margin-top: 25px;
+}
+
+input {
+    display: block;
+    border: 2px solid #ccc;
+    width: 95%;
+    padding: 10px;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+button:hover{
+    opacity: .8;
+}
+
+a:hover{
+    opacity: .7;
+}
+
+a {
+    float: right;
+    background: rgb(183, 225, 233);
+    padding: 10px 15px;
+    color: #fff;
+	background-color: grey;
+    border-radius: 10px;
+    margin-right: 10px;
+    border: none;
+    text-decoration: none;
+}
+
+h1,h2{
+    color: white;
+}
+
+label{
+    color: #888;
+    font-size: 18px;
+    padding: 10px;
+}
+textarea{
+    margin-top: 10px;
+}

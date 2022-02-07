@@ -9,27 +9,31 @@ session_start();
     <meta charset="utf-8">
     <title>Emne tilbakemelding | Gjestebruker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- dimensions and scaling for the browser -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styleGuest.css">
 </head>
 
 <body>
-    <header>
-        <h1>Tilbakemeldinger for emner</h1>
-    </header>
+    <div id="wrapper">
+        <header id="guestHeader">
+            <h1>Tilbakemeldinger for emner</h1>
+        </header>
     <main>
-        <form method="post">
-            <label>Pin-kode:</label>
-            <input type="number" name='pinkode' min="0" max="9999">
-            <button type="submit" name="PinButton">Søk</button>
-        </form>
-        <a href="./logout.php">Logg ut</a>
-        <?php
-        if (isset($_SESSION["foreleser_id"])) {
+        <nav class="navId">
+            <form method="post">
+                <label>Pin-kode:</label>
+                <input type="number" name='pinkode' min="0" max="9999">
+                <button type="submit" name="PinButton">Søk</button>
+            </form>
+            <a href="./logout.php">Logg ut</a>
+            <?php
+            if (isset($_SESSION["foreleser_id"])) {
+                ?>
+                <a href="./teacher.php">Velg emne</a><?php
+            }
             ?>
-            <a href="./teacher.php">Velg emne</a><?php
-        }
-        ?>
+        </nav>    
         <section id="section_guest">
+    
         <?php
         // When guest user comment on message, sudent_id = NULL
         $currentStudentId = 0;
@@ -39,6 +43,8 @@ session_start();
                 $currentStudentId = $_SESSION["student_id"];
             }
         }
+
+        
 
 
         echo "<br>";
@@ -78,6 +84,7 @@ session_start();
         ?>
         </section>
     </main>
+    </div>
 </body>
 
 </html>
@@ -88,14 +95,16 @@ function getForeleserBilde($pin){
     $emneID = getEmnekode($pin);
 
     $sql = "SELECT bilde_navn, navn FROM foreleser f 
-    JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$emneID'";
+    JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$emneID' limit 1";
 
     $row = fetchArray($sql);
     if ($row){
         foreach ($row as $row){
             $bilde_navn = $row["bilde_navn"];
             ?>
-            <img class="foreleser_bilde" src='photos/<?php echo $bilde_navn?>' width="250" height="250">
+            <aside>
+                <img class="foreleser_bilde" src='photos/<?php echo $bilde_navn?>' width="250" height="250">
+            </aside>
             <?php
         }
     }
@@ -198,13 +207,13 @@ function showMessage($pin)
                 <br>
                 <textarea name="kommenter" rows="4" cols="48"></textarea>
                 <button type="submit" name="button">Svar</button>
-            </form>
+            <!-- </form> -->
 
             <!-- Rapporter melding -->
-            <form method="POST">
+            <!-- <form method="POST"> -->
                 <input type="hidden" name='report' value="<?php echo $row['melding_id'] ?>">
                 <input type="hidden" name="pin" value="<?php echo $pin ?>">
-                <button type="submit" name="rapporter">Report</button>
+                <button  id="report" type="submit" name="rapporter">Report</button>
             </form>
 <?php
 
