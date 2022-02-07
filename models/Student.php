@@ -23,27 +23,37 @@
       return $stmt;
     }
 
-    public function read_single() {
-          $query = 'SELECT epost, navn FROM ' . $this->table . ' WHERE navn = ?';
+    public function login() {
+          $query = 'SELECT epost, navn, passord, studieretning, studiekull FROM ' . $this->table . ' 
+          WHERE epost = :epost AND passord = :passord';
 
           $stmt = $this->conn->prepare($query);
 
-          $stmt->bindParam(1, $this->navn);
+          $stmt->bindParam(':epost', $this->epost);
+          $stmt->bindParam(':passord', $this->passord);
 
           $stmt->execute();
-
           $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      
+          if($this->passord == $row['passord']){
 
           $this->epost= $row['epost'];
           $this->navn = $row['navn'];
+          $this->studieretning = $row['studieretning'];
+          $this->passord = $row['passord'];
+          $this->studiekull = $row['studiekull'];
 
-          
+          } else {
+            echo "Epost eller passord stemmer ikke";
+            exit();
+          }
     }
 
     public function create() {
           $query = 'INSERT INTO ' . $this->table . ' SET navn = :navn, epost = :epost, 
           studieretning = (SELECT retning_id FROM studieretning WHERE studieretning = 
           :studieretning), studiekull = :studiekull, passord = :passord ';
+
           $stmt = $this->conn->prepare($query);
 
           $this->navn = htmlspecialchars(strip_tags($this->navn));
@@ -51,18 +61,18 @@
           $this->passord = htmlspecialchars(strip_tags($this->passord));
           $this->studieretning = htmlspecialchars(strip_tags($this->studieretning));
           $this->studiekull = htmlspecialchars(strip_tags($this->studiekull));
+
           $stmt->bindParam(':navn', $this->navn);
           $stmt->bindParam(':epost', $this->epost);
           $stmt->bindParam(':passord', $this->passord);
           $stmt->bindParam(':studieretning', $this->studieretning);
           $stmt->bindParam(':studiekull', $this->studiekull);
-          if($stmt->execute()) {
-            return true;
-      }
 
-      printf("Error: %s.\n", $stmt->error);
-
-      return false;
+          try{
+            $stmt->execute();
+          }catch(PDOException $e) {
+            echo 'Message: ' .$e->getMessage();
+          }
     }
 
     

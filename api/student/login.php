@@ -10,13 +10,19 @@
 
  $student = new Student($db);
 
- $student->navn = isset($_GET['navn']) ? $_GET['navn'] : die();
+ $data = json_decode(file_get_contents("php://input"));
 
- $student->read_single();
+  $student->epost = $data->epost;
+  $student->passord = $data->passord;
+
+ $student->login();
 
  $student_arr = array(
    'epost' => $student->epost,
-   'navn' => $student->navn
+   'navn' => $student->navn,
+   'passord' => $student->passord,
+   'studieretning' => $student->studieretning,
+   'studiekull' => $student->studiekull
  );
 
  print_r(json_encode($student_arr));

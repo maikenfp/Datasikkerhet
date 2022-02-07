@@ -45,7 +45,6 @@
     </head>
     <body>
         <main>
-            <img src='photos/<?php echo $_SESSION['bilde_navn']?>'width="250" height="250">
             <h1>Foreleser</h1>
             <form action="teachersubject.php" method="post" class="form">
                 <label for="subject">Emne:<span class="required"></span></label>
