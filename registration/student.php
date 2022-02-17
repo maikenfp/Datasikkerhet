@@ -23,7 +23,7 @@
         </div>
         <div>
         <h4>Passord</h4>
-            <input type="text" name="passord" id="passord" placeholder="Skriv inn ønsket passord">
+            <input type="password" name="passord" id="passord" placeholder="Skriv inn ønsket passord">
         </div>
         <div>
         <h4>Studieretning</h4>

@@ -13,9 +13,7 @@
     
         $query = "UPDATE foreleser SET passord='$pw2' WHERE epost='$epost'";
         $stmt = $db->query($query);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
+   
         echo "<script>";
         echo "alert('Passordet er tilbakestilt');";
         echo "</script>";
