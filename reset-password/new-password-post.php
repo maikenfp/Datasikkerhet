@@ -10,7 +10,7 @@
     if($pw1 === $pw2){
         $database = new Database();
         $db = $database->connect();
-    
+
         $query = "UPDATE foreleser SET passord='$pw2' WHERE epost='$epost'";
         $stmt = $db->query($query);
    
@@ -23,4 +23,3 @@
     }
 
 ?>
-
