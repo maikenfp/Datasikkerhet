@@ -51,7 +51,6 @@ session_start();
                     }
                     ?>
                 </select>
-                <h3>Forelesere: </h3>
                 <div id="foreleserDiv" class="bildewrapper">
                     <img class="foreleserImg">
                 </div>
@@ -89,6 +88,7 @@ session_start();
                         });
                     }
                 </script>
+                <h3>Din foreleser: </h3>
 
                 <div class="form-group">
                     <label for="subject_feedback">Tilbakemelding/Spørsmål: <span class="required">*</span></label><br>
@@ -112,7 +112,7 @@ session_start();
                 if ($row) {
                     foreach ($row as $row) {
                         echo "<article>
-                                <h1 value=" . $row['melding_id'] . ">" . $row['question'] . "</h1><p>" . $row['dato'] . "</p>
+                                <h1 value=" . $row['melding_id'] . ">" . $row['spørsmål'] . "</h1><p>" . $row['dato'] . " <br> " . $row['tid'] . "</p>
                                 <h1>Svar fra foreleser</h1><p>" . $row['svar'] . "</p></article>";
                         //</h1><h1>Kommentarer fra andre studenter:</h1><p>". $row['kommentar'] ."</p></article>";
                     }
