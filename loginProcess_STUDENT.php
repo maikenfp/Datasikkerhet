@@ -24,6 +24,44 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         header("Location: login_STUDENT.php?error=Du må skrive inn passord!");
         exit();
     } else{
+		// $sql = "SELECT * FROM student WHERE epost = ? AND passord = ?";
+
+		// $stmt = $db->prepare('SELECT * FROM student WHERE epost = :epost AND passord = :passord');
+		$sql = 'SELECT * FROM student WHERE epost = :epost';
+		$stmt = $db->prepare($sql);
+		$stmt->bindValue(':epost', $brukerEpost, PDO::PARAM_STR);
+		// $stmt->execute([$brukerEpost, $brukerPassord]);
+
+		$stmt->execute();
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if($row){
+			// if(password_verify($_POST['brukerPassord'], $passord)) {
+
+			if($brukerPassord === $row['passord']) {
+				session_regenerate_id();
+
+				$_SESSION['loggedin'] = TRUE;
+				$_SESSION['navn'] = $row['navn'];
+				$_SESSION['student_id'] = $row['student_id'];
+				$_SESSION['studieretning'] = $row['studieretning'];
+				$_SESSION['studiekull'] = $row['studiekull'];
+
+				header("Location: student/index.php");
+				exit();
+			} else {
+				header("Location: login_STUDENT.php?error=Feil passord  | " . $brukerEpost . " | " . $brukerPassord . " | " . $row['passord'] . " | " . $row['navn'] . " | ");
+				exit();
+			}
+		} else{
+			header("Location: login_STUDENT.php?error=Feil epost   " . $brukerEpost . $row_count);
+			exit();
+		}
+
+		$stmt->close();
+
+		/* OLD STUDENT LOGIN PROCESS
+
         $sql = "SELECT * FROM student WHERE epost='$brukerEpost' AND passord='$brukerPassord'";
 
         $stmt = $db->query($sql);
@@ -32,6 +70,8 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         $result = $db->prepare("SELECT FOUND_ROWS()");
         $result->execute();
         $row_count = $result->fetchColumn();
+
+		/* OLD STUDENT LOGIN PROCESS
 
         if ($row_count > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -56,6 +96,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
             header("Location: login_STUDENT.php?error=Feil brukernavn eller passord");
             exit();
         }
+		*/
     }
 } else{
     header("Location: login_STUDENT.php");
