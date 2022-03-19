@@ -14,6 +14,8 @@ class Database
   private $host = 'localhost';
   private $db_name = 'datasikkerhet';
   private $username = 'root';
+  private $password = '';
+  private $conn;
 
   // DB Connect
   public function connect()

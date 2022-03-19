@@ -24,20 +24,16 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
         header("Location: login_STUDENT.php?error=Du må skrive inn passord!");
         exit();
     } else{
-		// $sql = "SELECT * FROM student WHERE epost = ? AND passord = ?";
-
-		// $stmt = $db->prepare('SELECT * FROM student WHERE epost = :epost AND passord = :passord');
 		$sql = 'SELECT * FROM student WHERE epost = :epost';
+
 		$stmt = $db->prepare($sql);
 		$stmt->bindValue(':epost', $brukerEpost, PDO::PARAM_STR);
-		// $stmt->execute([$brukerEpost, $brukerPassord]);
 
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		if($row){
-			// if(password_verify($_POST['brukerPassord'], $passord)) {
-
+			// if(password_verify($brukerPassord, $row['passord'])) {
 			if($brukerPassord === $row['passord']) {
 				session_regenerate_id();
 
@@ -50,11 +46,11 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
 				header("Location: student/index.php");
 				exit();
 			} else {
-				header("Location: login_STUDENT.php?error=Feil passord  | " . $brukerEpost . " | " . $brukerPassord . " | " . $row['passord'] . " | " . $row['navn'] . " | ");
+				header("Location: login_STUDENT.php?error=Feil epost eller passord");
 				exit();
 			}
 		} else{
-			header("Location: login_STUDENT.php?error=Feil epost   " . $brukerEpost . $row_count);
+			header("Location: login_STUDENT.php?error=Feil epost eller passord");
 			exit();
 		}
 
