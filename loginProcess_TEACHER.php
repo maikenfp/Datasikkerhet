@@ -18,7 +18,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
     $brukerPassord = validate($_POST['brukerPassord']);
 
     if (empty($brukerEpost)) {
-        header("Location: login_TEACHER.php?error=Du må skrive inn e-post!");
+        header("Location: login_TEACHER.php?error=Du må skrive inn epost!");
         exit();
     } else if(empty($brukerPassord)){
         header("Location: login_TEACHER.php?error=Du må skrive inn passord!");
@@ -39,8 +39,8 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
             if(password_verify($brukerPassord, $row['passord'])){
                 session_regenerate_id();
 
-                $_SESSION['navn'] = $row['navn'];
                 $_SESSION['foreleser_id'] = $row['foreleser_id'];
+                $_SESSION['navn'] = $row['navn'];
                 $_SESSION['epost'] = $row['epost'];
                 $_SESSION['bilde_navn'] = $row['bilde_navn'];
 
