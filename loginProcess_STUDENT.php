@@ -20,7 +20,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
     if (empty($brukerEpost)) {
         header("Location: login_STUDENT.php?error=Du må skrive inn epost!");
         exit();
-    } else if(empty($brukerPassord)){
+    } else if(empty($brukerPassord)) {
         header("Location: login_STUDENT.php?error=Du må skrive inn passord!");
         exit();
     } else if (!filter_var($brukerEpost, FILTER_VALIDATE_EMAIL)) {
@@ -31,11 +31,11 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
 
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':epost', $brukerEpost, PDO::PARAM_STR);
-
         $stmt->execute();
+
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($row){
+        if($row) {
             if(password_verify($brukerPassord, $row['passord'])) {
                 session_regenerate_id();
 
@@ -51,14 +51,14 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 header("Location: login_STUDENT.php?error=Feil epost eller passord");
                 exit();
             }
-        } else{
+        } else {
             header("Location: login_STUDENT.php?error=Feil epost eller passord");
             exit();
         }
 
         $stmt->close();
     }
-} else{
+} else {
     header("Location: login_STUDENT.php");
     exit();
 }
