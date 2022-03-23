@@ -6,19 +6,29 @@ $database = new Database();
 $db = $database->connect();
 
 if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til registering av studenter på index.php
+
+    function validate($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
+
     $username = strip_tags($_POST["navn"]); // Tar infoen som står i boksene med tags som er i ["tag"].
     $email = strip_tags($_POST["epost"]);
     $password = strip_tags($_POST["passord"]);
     $course = strip_tags($_POST["studieretning"]);
     $year = strip_tags($_POST["studiekull"]);
     $pass_hash = password_hash($password, PASSWORD_DEFAULT);
+    $emailValidated = validate($email);
 
 
     if(empty($username)) {
         header("Location: index.php?error=Du må skrive inn navn!");
         exit();
     }
-    else if(empty($email)) {
+    else if(empty($emailValidated)) {
         header("Location: index.php?error=Du må skrive inn epost!");
         exit();
     }
@@ -52,14 +62,14 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
 
             $insert_stmt = $db->prepare($sql);
             $insert_stmt->bindParam(":uname", $username);
-            $insert_stmt->bindParam(":uemail", $email);
+            $insert_stmt->bindParam(":uemail", $emailValidated);
             $insert_stmt->bindParam(":upassord", $pass_hash);
             $insert_stmt->bindParam(":ustudieretning", $course);
             $insert_stmt->bindParam(":ustudiekull", $year);
 
             $insert_stmt->execute(array(
                     ":uname" => $username,
-                    ":uemail" => $email,
+                    ":uemail" => $emailValidated,
                     ":upassord" => $pass_hash,
                     ":ustudieretning" => $course,
                     ":ustudiekull" => $year));
@@ -67,7 +77,7 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
             $_SESSION['student_id'] = $db->lastInsertId();
             $_SESSION['studieretning'] = $course;
             $_SESSION['studiekull'] = $year;
-            $_SESSION['epost'] = $email;
+            $_SESSION['epost'] = $emailValidated;
             $_SESSION['navn'] = $username;
 
             $id = $db->lastInsertId();

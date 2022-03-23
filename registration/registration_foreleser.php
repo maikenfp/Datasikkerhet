@@ -6,6 +6,15 @@ $database = new Database();
 $db = $database->connect();
 
 if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til registering av studenter på index.php
+   
+    function validate($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
+
     $imgFile = $_FILES['picture']['name'];
     $tmp_dir = $_FILES['picture']['tmp_name'];
     $imgSize = $_FILES['picture']['size'];
@@ -40,6 +49,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
     $sp1 = strip_tags($_POST["sp1"]);
     $sp2 = strip_tags($_POST["sp2"]);
     $pass_hash = password_hash($password, PASSWORD_DEFAULT);
+    $emailValidated = validate($email);
     
     $pic = $coverpic;
 
@@ -47,7 +57,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
         header("Location: index.php?error=Du må skrive inn navn!");
         exit();
     }
-    else if(empty($email)) {
+    else if(empty($emailValidated)) {
         header("Location: index.php?error=Du må skrive inn epost!");
         exit();
     }
@@ -78,7 +88,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
             $insert_stmt = $db->prepare($sql);
             $insert_stmt->bindParam(":uname", $username);
-            $insert_stmt->bindParam(":uemail", $email);
+            $insert_stmt->bindParam(":uemail", $emailValidated);
             $insert_stmt->bindParam(":upassord", $pass_hash);
             $insert_stmt->bindParam(":sp1", $sp1);
             $insert_stmt->bindParam(":sv1", $sv1);
@@ -88,7 +98,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
             $insert_stmt->execute(array(
                     ":uname" => $username,
-                    ":uemail" => $email,
+                    ":uemail" => $emailValidated,
                     ":upassord" => $pass_hash,
                     ":sp1" => $sp1,
                     ":sv1" => $sv1,
@@ -98,7 +108,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
 
             $_SESSION['foreleser_id'] = $db->lastInsertId();
-            $_SESSION['epost'] = $email;
+            $_SESSION['epost'] = $emailValidated;
             $_SESSION['navn'] = $username;
             $_SESSION['bilde_navn'] = $pic;
 
