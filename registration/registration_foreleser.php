@@ -61,6 +61,10 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
         header("Location: index.php?error=Du må skrive inn epost!");
         exit();
     }
+    else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        header("Location: index.php?error=Eposten er ikke gyldig!");
+        exit();
+    }
     else if(empty($password)) {
         header("Location: index.php?error=Du må skrive inn passord!");
         exit();
