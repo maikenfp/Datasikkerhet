@@ -6,11 +6,25 @@ $database = new Database();
 $db = $database->connect();
 
 if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til registering av studenter på index.php
-    $username = strip_tags($_POST["navn"]); // Tar infoen som står i boksene med tags som er i ["tag"].
-    $email = strip_tags($_POST["epost"]);
-    $password = strip_tags($_POST["passord"]);
-    $course = strip_tags($_POST["studieretning"]);
-    $year = strip_tags($_POST["studiekull"]);
+
+    function validate($data) {
+        $data = preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
+
+    $username = validate(strip_tags($_POST["navn"])); // Tar infoen som står i boksene med tags som er i ["tag"].
+    $email = validate(strip_tags($_POST["epost"]));
+    $password = validate(strip_tags($_POST["passord"]));
+    $course = validate(strip_tags($_POST["studieretning"]));
+    $year = validate(strip_tags($_POST["studiekull"]));
+    $pass_hash = password_hash($password, PASSWORD_DEFAULT);
+
+    
+
 
     if(empty($username)) {
         header("Location: index.php?error=Du må skrive inn navn!");
@@ -18,6 +32,10 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
     }
     else if(empty($email)) {
         header("Location: index.php?error=Du må skrive inn epost!");
+        exit();
+    }
+    else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        header("Location: index.php?error=Eposten er ikke gyldig!");
         exit();
     }
     else if(empty($password)) {
@@ -51,14 +69,14 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
             $insert_stmt = $db->prepare($sql);
             $insert_stmt->bindParam(":uname", $username);
             $insert_stmt->bindParam(":uemail", $email);
-            $insert_stmt->bindParam(":upassord", $password);
+            $insert_stmt->bindParam(":upassord", $pass_hash);
             $insert_stmt->bindParam(":ustudieretning", $course);
             $insert_stmt->bindParam(":ustudiekull", $year);
 
             $insert_stmt->execute(array(
                     ":uname" => $username,
                     ":uemail" => $email,
-                    ":upassord" => $password,
+                    ":upassord" => $pass_hash,
                     ":ustudieretning" => $course,
                     ":ustudiekull" => $year));
 

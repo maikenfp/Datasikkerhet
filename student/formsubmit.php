@@ -6,20 +6,30 @@ require '../config/Database.php';
 $database = new Database();
 $db = $database->connect();
 
-//se hva som har blitt sendt dra skjemaet: var_dump($_POST);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //Form variabler - htmlspecialchars hindrer XSS ("<" blir "lt" og ">" blir "gt")
     $currentStudentId = $_SESSION["student_id"];
-
-    $subject = $_POST['subject'];
-    $question = $_POST['subjectQuestion'];
-
+    $question = htmlspecialchars($_POST['subjectQuestion']);
     $date = date('Y-m-d');
 
-    $sql = "INSERT INTO melding(question, emne_id, student_id) 
-    VALUES ('$question', '$subject', '$currentStudentId')";
-    $result = $db->query($sql);
+    //Sjekker om dropdown option er numeric eller ikke (hindrer sql injection og XSS i inspect element)
+    if (isset($_POST['subject'])) {
+        htmlspecialchars($subject = $_POST['subject']);
 
-    if ($result) {
+        if (!(is_numeric($subject))) {
+            echo "nice try :)";
+            exit();
+        }
+    }
+
+    $stmt = $db->prepare("INSERT INTO melding (spørsmål, emne_id, student_id, dato, tid) VALUES (:currentQuestion, :currentSubject, :currentStudentID, :currentDate, (NOW()))");
+
+    $stmt->bindParam(':currentQuestion', $question);
+    $stmt->bindParam(':currentSubject', $subject);
+    $stmt->bindParam(':currentStudentID', $currentStudentId);
+    $stmt->bindParam(':currentDate', $date);
+
+    if ($stmt->execute()) {
         echo "<script>";
         echo "alert('Tilbakemeldingen din er mottatt!');";
         echo "</script>";
@@ -28,7 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
     $cid = $_GET['cid'];
+    //Sjekker om dropdown option er numeric eller ikke når foreleser bilder blir hentet
+    if (!(is_numeric($cid))) {
+        echo "nice try :)";
+        exit();
+    }
+
     echo getForeleserBilde($cid);
 }
 
@@ -37,7 +54,6 @@ function getForeleserBilde($pin)
     $database = new Database();
     $db = $database->connect();
     $emneID = $pin;
-    $bilde = "";
     $a = array();
 
     $query = "SELECT bilde_navn FROM foreleser f 

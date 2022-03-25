@@ -6,39 +6,38 @@ $database = new Database();
 $db = $database->connect();
 
 if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
-    function validate($data){
-       $data = trim($data);
-       $data = stripslashes($data);
-       $data = htmlspecialchars($data);
+    function validate($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
 
-       return $data;
+        return $data;
     }
 
     $brukerEpost = validate($_POST['brukerEpost']);
     $brukerPassord = validate($_POST['brukerPassord']);
 
     if (empty($brukerEpost)) {
-        header("Location: login_TEACHER.php?error=Du må skrive inn e-post!");
+        header("Location: login_TEACHER.php?error=Du må skrive inn epost!");
         exit();
-    } else if(empty($brukerPassord)){
+    } else if(empty($brukerPassord)) {
         header("Location: login_TEACHER.php?error=Du må skrive inn passord!");
         exit();
-    } else{
-        $sql = "SELECT * FROM foreleser WHERE epost='$brukerEpost' AND passord='$brukerPassord'";
+    } else if (!filter_var($brukerEpost, FILTER_VALIDATE_EMAIL)) {
+        header("Location: login_TEACHER.php?error=Eposten er ikke gyldig!");
+        exit();
+    } else {
+        $sql = 'SELECT * FROM foreleser WHERE epost = :epost';
 
-        $stmt = $db->query($sql);
-        $result = $db->prepare("SELECT SQL_CALC_FOUND_ROWS foreleser_id, navn, passord, epost, bilde_navn FROM foreleser");
-        $result->execute();
-        $result = $db->prepare("SELECT FOUND_ROWS()");
-        $result->execute();
-        $row_count = $result->fetchColumn();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':epost', $brukerEpost, PDO::PARAM_STR);
+        $stmt->execute();
 
-        if ($row_count > 0) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($row['epost'] === $brukerEpost && $row['passord'] === $brukerPassord) {
-
-                echo "Du er logget inn!";
+        if($row) {
+            if(password_verify($brukerPassord, $row['passord'])) {
+                session_regenerate_id();
 
                 $_SESSION['foreleser_id'] = $row['foreleser_id'];
                 $_SESSION['navn'] = $row['navn'];
@@ -47,16 +46,18 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
 
                 header("Location: teacher.php");
                 exit();
-            } else{
-                header("Location: login_TEACHER.php?error=Feil brukernavn eller passord");
+            } else {
+                header("Location: login_TEACHER.php?error=Feil epost eller passord");
                 exit();
             }
-        } else{
-            header("Location: login_TEACHER.php?error=Feil brukernavn eller passord");
+        } else {
+            header("Location: login_TEACHER.php?error=Feil epost eller passord");
             exit();
         }
+
+        $stmt->close();
     }
-} else{
+} else {
     header("Location: login_TEACHER.php");
     exit();
 }

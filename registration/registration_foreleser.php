@@ -6,6 +6,16 @@ $database = new Database();
 $db = $database->connect();
 
 if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til registering av studenter på index.php
+   
+    function validate($data) {
+        $data = preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
+
     $imgFile = $_FILES['picture']['name'];
     $tmp_dir = $_FILES['picture']['tmp_name'];
     $imgSize = $_FILES['picture']['size'];
@@ -31,14 +41,15 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
             $errMSG = "Kun JPG, JPEG, PNG & GIF filer tillatt";
         }
     }
-    $username = strip_tags($_POST["navn"]);
-    $email = strip_tags($_POST["epost"]);
-    $password = strip_tags($_POST["passord"]);
-    $course = strip_tags($_POST["studieretning"]);
-    $sv1 = strip_tags($_POST["sv1"]);
-    $sv2 = strip_tags($_POST["sv2"]);
-    $sp1 = strip_tags($_POST["sp1"]);
-    $sp2 = strip_tags($_POST["sp2"]);
+    $username = validate(strip_tags($_POST["navn"]));
+    $email = validate(strip_tags($_POST["epost"]));
+    $password = validate(strip_tags($_POST["passord"]));
+    $course = validate(strip_tags($_POST["studieretning"]));
+    $sv1 = validate(strip_tags($_POST["sv1"]));
+    $sv2 = validate(strip_tags($_POST["sv2"]));
+    $sp1 = validate(strip_tags($_POST["sp1"]));
+    $sp2 = validate(strip_tags($_POST["sp2"]));
+    $pass_hash = password_hash($password, PASSWORD_DEFAULT);
     
     $pic = $coverpic;
 
@@ -48,6 +59,10 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
     }
     else if(empty($email)) {
         header("Location: index.php?error=Du må skrive inn epost!");
+        exit();
+    }
+    else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        header("Location: index.php?error=Eposten er ikke gyldig!");
         exit();
     }
     else if(empty($password)) {
@@ -78,7 +93,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
             $insert_stmt = $db->prepare($sql);
             $insert_stmt->bindParam(":uname", $username);
             $insert_stmt->bindParam(":uemail", $email);
-            $insert_stmt->bindParam(":upassord", $password);
+            $insert_stmt->bindParam(":upassord", $pass_hash);
             $insert_stmt->bindParam(":sp1", $sp1);
             $insert_stmt->bindParam(":sv1", $sv1);
             $insert_stmt->bindParam(":sp2", $sp2);
@@ -88,7 +103,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
             $insert_stmt->execute(array(
                     ":uname" => $username,
                     ":uemail" => $email,
-                    ":upassord" => $password,
+                    ":upassord" => $pass_hash,
                     ":sp1" => $sp1,
                     ":sv1" => $sv1,
                     ":sp2" => $sp2,
