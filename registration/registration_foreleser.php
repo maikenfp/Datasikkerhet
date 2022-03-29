@@ -46,6 +46,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
         exit();
     } else if(empty($imgFile)) {
         header("Location: foreleser.php?error=Du har ikke valgt bilde!");
+        exit();
     } else {
         $query = "SELECT epost FROM foreleser WHERE epost = '$email'";
         $stmt = $db->prepare($query);
@@ -62,7 +63,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
             $upload_dir = '../photos/';
 
-            $imgExt = strtolower(pathinfo($imgFile,PATHINFO_EXTENSION));
+            $imgExt = strtolower(pathinfo($imgFile, PATHINFO_EXTENSION));
 
             $valid_extensions = array('jpeg', 'jpg', 'png', 'gif');
             $coverpic = rand(1000,1000000).".".$imgExt;
@@ -72,10 +73,12 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                     move_uploaded_file($tmp_dir,$upload_dir.$coverpic);
                     echo "Opplasting ferdig";
                 } else{
-                    $errMSG = "Filen er for stor";
+                    header("Location: foreleser.php?error=Filen er for stor");
+                    exit();
                 }
             } else{
-                $errMSG = "Kun JPG, JPEG, PNG & GIF filer tillatt";
+                header("Location: foreleser.php?error=Det er ikke gyldig filtype!");
+                exit();
             }
 
             $pic = $coverpic;
