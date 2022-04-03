@@ -28,6 +28,8 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
     $sp1 = validate(strip_tags($_POST["sp1"]));
     $sp2 = validate(strip_tags($_POST["sp2"]));
     $pass_hash = password_hash($password, PASSWORD_DEFAULT);
+    $sv1_hash = password_hash($sv1, PASSWORD_DEFAULT);
+    $sv2_hash = password_hash($sv2, PASSWORD_DEFAULT);
 
     if(empty($username)) {
         header("Location: foreleser.php?error=Du må skrive inn navn!");
@@ -88,9 +90,9 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
             $insert_stmt->bindParam(":uemail", $email);
             $insert_stmt->bindParam(":upassord", $pass_hash);
             $insert_stmt->bindParam(":sp1", $sp1);
-            $insert_stmt->bindParam(":sv1", $sv1);
+            $insert_stmt->bindParam(":sv1", $sv1_hash);
             $insert_stmt->bindParam(":sp2", $sp2);
-            $insert_stmt->bindParam(":sv2", $sv2);
+            $insert_stmt->bindParam(":sv2", $sv2_hash);
             $insert_stmt->bindParam(":bilde_navn", $pic);
 
             $insert_stmt->execute(array(
@@ -98,9 +100,9 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                 ":uemail" => $email,
                 ":upassord" => $pass_hash,
                 ":sp1" => $sp1,
-                ":sv1" => $sv1,
+                ":sv1" => $sv1_hash,
                 ":sp2" => $sp2,
-                ":sv2" => $sv2,
+                ":sv2" => $sv2_hash,
                 ":bilde_navn" => $pic));
 
                 $_SESSION['foreleser_id'] = $db->lastInsertId();
