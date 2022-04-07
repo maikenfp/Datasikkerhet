@@ -39,6 +39,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
     $brukerPassord = validate($_POST['brukerPassord']);
 
     if (empty($brukerEpost)) {
+        $logger->info('hei');
         header("Location: login_STUDENT.php?error=Du må skrive inn epost!");
         /*$logger->pushProcessor(function ($record) {
             $record['extra']['email'] = $brukerPassord;
