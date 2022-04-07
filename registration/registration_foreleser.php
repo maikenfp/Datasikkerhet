@@ -2,6 +2,25 @@
 session_start();
 include "../config/Database.php";
 
+require __DIR__ . '/../../vendor/autoload.php';
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\GelfHandler;
+use Gelf\Message;
+use Monolog\Formatter\GelfMessageFormatter;
+
+$logger = new Logger('sikkerhet');
+$logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/app.log', Logger::DEBUG)); 
+$transport = new Gelf\Transport\UdpTransport("127.0.0.1", 12201);
+$publisher = new Gelf\Publisher($transport);
+$handler = new GelfHandler($publisher,Logger::DEBUG);
+$logger->pushHandler($handler);
+
+$logger->pushProcessor(function ($record) {
+$record['extra']['user'] = get_current_user();
+return $record;
+});
+
 $database = new Database();
 $db = $database->connect();
 
@@ -33,6 +52,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
     if(empty($username)) {
         header("Location: foreleser.php?error=Du må skrive inn navn!");
+        $logger->notice("Skrev ikke inn navn");
         exit();
     } else if(empty($email)) {
         header("Location: foreleser.php?error=Du må skrive inn epost!");
