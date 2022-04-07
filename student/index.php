@@ -33,22 +33,29 @@ session_start();
                     if (empty($currentStudentId)) {
                         header('Location: ../index.php');
                     } else {
-                        $query = "SELECT * from student JOIN retning_emne re on re.retning_id = student.studieretning JOIN emne e on re.emne_id = e.emne_id WHERE student.student_id = $currentStudentId";
-                        $stmt = $db->query($query);
+                        $stmt = $db->prepare("SELECT * from student_emne WHERE student_id = :studentid");
+                        $stmt->execute(['studentid' => $currentStudentId]);
 
-                        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        if ($row) {
+                        while ($row = $stmt->fetchAll(PDO::FETCH_ASSOC)) {
                             foreach ($row as $row) {
                                 echo "<p>" . $row['emne_id'] . "</p>";
                                 echo "<option value=" . $row['emne_id'] . ">" . $row['emnekode'] . ' ' . $row['emnenavn'] . "</option>";
-                                $course_id = $row['emne_id'];
-                                $idQuery = "SELECT bilde_navn FROM foreleser f JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$course_id'";
                             }
-
-                            $stmt2 = $db->query($idQuery);
-                            $idRow = $stmt2->fetch(PDO::FETCH_ASSOC);
                         }
                     }
+
+                    // $query = "SELECT * from student_emne WHERE student_id = $currentStudentId";
+                    // $stmt = $db->query($query);
+
+                    // $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    // if ($row) {
+                    //     foreach ($row as $row) {
+                    //         echo "<p>" . $row['emne_id'] . "</p>";
+                    //         echo "<option value=" . $row['emne_id'] . ">" . $row['emnekode'] . ' ' . $row['emnenavn'] . "</option>";
+
+                    //         $course_id = $row['emne_id'];
+                    //         $idQuery = "SELECT bilde_navn FROM foreleser_bilde WHERE emne_id = '$course_id'";
+                    //     }
                     ?>
                 </select>
                 <div id="foreleserDiv" class="bildewrapper">
