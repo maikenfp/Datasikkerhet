@@ -2,6 +2,24 @@
 session_start();
 include "../config/Database.php";
 
+require __DIR__ . '/../../../vendor/autoload.php';
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\GelfHandler;
+use Gelf\Message;
+use Monolog\Formatter\GelfMessageFormatter;
+
+$logger = new Logger('sikkerhet');
+$transport = new Gelf\Transport\UdpTransport("127.0.0.1", 12201);
+$publisher = new Gelf\Publisher($transport);
+$handler = new GelfHandler($publisher,Logger::DEBUG);
+$logger->pushHandler($handler);
+
+$logger->pushProcessor(function ($record) {
+$record['extra']['user'] = get_current_user();
+return $record;
+});
+
 $database = new Database();
 $db = $database->connect();
 
@@ -28,26 +46,32 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
 
     if(empty($username)) {
         header("Location: index.php?error=Du må skrive inn navn!");
+        $logger->notice("Skrev ikke inn navn under registrering av student");
         exit();
     }
     else if(empty($email)) {
         header("Location: index.php?error=Du må skrive inn epost!");
+        $logger->notice("Skrev ikke inn epost under registrering av student");
         exit();
     }
     else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: index.php?error=Eposten er ikke gyldig!");
+        $logger->warning("Skrev inn ugyldig epost under registrering av student");
         exit();
     }
     else if(empty($password)) {
         header("Location: index.php?error=Du må skrive inn passord!");
+        $logger->notice("Skrev ikke inn passord under registrering av student");
         exit();
     }
     else if(empty($course)) {
         header("Location: index.php?error=Du må skrive inn studeretning!");
+        $logger->notice("Valgte ikke studieretning under registrering av student");
         exit();
     }
     else if(empty($year)) {
         header("Location: index.php?error=Du må skrive inn studiekull!");
+        $logger->notice("Valgte ikke studiekull under registrering av student");
         exit();
     }
 
@@ -89,6 +113,7 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
             $id = $db->lastInsertId();
 
             header("Location: ../student/index.php");
+            $logger->notice("Student bruker opprettet");
             exit();
         }
     }

@@ -19,7 +19,7 @@
         </div>
         <div>
         <h4>Epost</h4>
-            <input type="text" name="epost" id="epost" placeholder="Skriv inn din epostadresse">
+            <input type="email" name="epost" id="epost" placeholder="Skriv inn din epostadresse">
         </div>
         <div>
         <h4>Passord</h4>
@@ -30,7 +30,7 @@
         <select name="studieretning" required>
             <option disabled selected value>Vennligst velg en studieretning!</option>
                 <?php
-                    require '../config/Database.php';
+                    include "../config/Database.php";
                         $database = new Database();
                         $db = $database->connect();
                         $query = "SELECT * FROM studieretning";

@@ -51,22 +51,27 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
     if(empty($username)) {
         header("Location: foreleser.php?error=Du må skrive inn navn!");
-        $logger->notice("Skrev ikke inn navn");
+        $logger->notice("Skrev ikke inn navn under registrering av foreleser");
         exit();
     } else if(empty($email)) {
         header("Location: foreleser.php?error=Du må skrive inn epost!");
+        $logger->notice("Skrev ikke inn epost under registrering av foreleser");
         exit();
     } else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: foreleser.php?error=Eposten er ikke gyldig!");
+        $logger->warning("Skrev inn ugyldig epost under registrering av student");
         exit();
     } else if(empty($password)) {
         header("Location: foreleser.php?error=Du må skrive inn passord!");
+        $logger->notice("Skrev ikke inn passord under registrering av foreleser");
         exit();
     } else if(empty($course)) {
         header("Location: foreleser.php?error=Du må skrive inn emne!");
+        $logger->notice("Valgte ikke emne under registrering av foreleser");
         exit();
     } else if(empty($imgFile)) {
         header("Location: foreleser.php?error=Du har ikke valgt bilde!");
+        $logger->notice("La ikke ved et bilde under registrering av foreleser");
         exit();
     } else {
         $query = "SELECT epost FROM foreleser WHERE epost = '$email'";
@@ -95,10 +100,12 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                     echo "Opplasting ferdig";
                 } else{
                     header("Location: foreleser.php?error=Filen er for stor");
+                    $logger->warning("Prøvde å sende inn for stor fil!");
                     exit();
                 }
             } else{
                 header("Location: foreleser.php?error=Det er ikke gyldig filtype!");
+                $logger->warning("Prøvde å sende inn en uønsket filtype!");
                 exit();
             }
 
@@ -135,6 +142,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                 $stmt2->execute();
 
                 header("Location: ../teacher.php");
+                $logger->notice("Foreleser bruker opprettet");
                 exit();
             }
 

@@ -14,7 +14,7 @@
 	        <?php } ?>
 
 	        <label>E-post</label>
-	        <input type="text" name="brukerEpost" placeholder="E-post"><br>
+	        <input type="email" name="brukerEpost" placeholder="E-post"><br>
 
 	        <label>Passord</label>
 	        <input type="password" name="brukerPassord" placeholder="Passord"><br>

@@ -20,7 +20,7 @@
         </div>
         <div>
         <h4>Epost</h4>
-            <input type="text" name="epost" id="epost" placeholder="Skriv inn din epostadresse">
+            <input type="email" name="epost" id="epost" placeholder="Skriv inn din epostadresse">
         </div>
         <div>
         <h4>Passord</h4>
