@@ -2,7 +2,7 @@
 session_start();
 include_once 'config/Database.php';
 
-require __DIR__ . '/../../vendor/autoload.php';
+/*require __DIR__ . '/../../vendor/autoload.php';
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\GelfHandler;
@@ -10,8 +10,7 @@ use Gelf\Message;
 use Monolog\Formatter\GelfMessageFormatter;
 
 
-$logger = new Logger('sikkerhet');
-$logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/app.log', Logger::DEBUG)); 
+$logger = new Logger('sikkerhet'); 
 $transport = new Gelf\Transport\UdpTransport("127.0.0.1", 12201);
 $publisher = new Gelf\Publisher($transport);
 $handler = new GelfHandler($publisher,Logger::DEBUG);
@@ -20,7 +19,7 @@ $logger->pushHandler($handler);
 $logger->pushProcessor(function ($record) {
     $record['extra']['user'] = get_current_user();
     return $record;
-});
+});*/
 
 $database = new Database();
 $db = $database->connect();
@@ -39,12 +38,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
     $brukerPassord = validate($_POST['brukerPassord']);
 
     if (empty($brukerEpost)) {
-        $logger->info('hei');
         header("Location: login_STUDENT.php?error=Du må skrive inn epost!");
-        /*$logger->pushProcessor(function ($record) {
-            $record['extra']['email'] = $brukerPassord;
-            return $record;
-        });*/
         $logger->notice("Ikke skrevet email");
         exit();
     } else if(empty($brukerPassord)) {
@@ -77,12 +71,12 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 exit();
             } else {
                 header("Location: login_STUDENT.php?error=Feil epost eller passord");
-                $logger->notice("Feilet innlogging");
+                $logger->warning("Feilet innlogging");
                 exit();
             }
         } else {
             header("Location: login_STUDENT.php?error=Feil epost eller passord");
-            $logger->notice("Feilet innlogging");
+            $logger->warning("Feilet innlogging");
             exit();
         }
 
