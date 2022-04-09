@@ -94,6 +94,7 @@ function getForeleserBilde($pin){
 
     $sql = "SELECT bilde_navn, navn FROM foreleser f 
     JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$emneID'";
+    // $sql = "SELECT bilde_navn, navn FROM foreleserBilde JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$emneID'";
 
     $row = fetchArray($sql);
     if ($row){
@@ -109,6 +110,7 @@ function getForeleserBilde($pin){
 function sqlQuery($sql){
     $database = new Database();
     $db = $database->connect();
+    // $db = $database->connectGjest();
     $stmt = $db->query($sql);
     return $stmt;
 }
@@ -120,9 +122,14 @@ function fetchArray($sql){
 }
 
 function getEmneInfo($pin){
-    $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode 
-        FROM emne WHERE pinkode='$pin' limit 1";
+    // $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode 
+    //     FROM emne WHERE pinkode='$pin' limit 1";
+    $sql = "SELECT emnekode, emnenavn, pinkode FROM `emneInfo` WHERE pinkode='$pin' limit 1";
+    // $sql = "SELECT * FROM `emneInfo` WHERE pinkode='$pin' limit 1";
     $row = sqlQuery($sql);
+
+    
+    
 
     if ($row) {
         echo "<h2> Emne info: </h2>";
@@ -136,6 +143,7 @@ function getEmneInfo($pin){
 function getEmnekode($pin){
     $sql = "SELECT emne.emne_id 
         FROM emne WHERE pinkode='$pin' limit 1";
+    // $sql = "SELECT * FROM `emneKode` WHERE pinkode='$pin' limit 1";
     $row = sqlQuery($sql);
     if ($row){
         foreach ($row as $row){
