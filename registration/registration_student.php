@@ -5,6 +5,8 @@ include "../config/Database.php";
 $database = new Database();
 $db = $database->connect();
 
+$passlen = 8;
+
 if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til registering av studenter på index.php
 
     function validate($data) {
@@ -23,31 +25,27 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
     $year = validate(strip_tags($_POST["studiekull"]));
     $pass_hash = password_hash($password, PASSWORD_DEFAULT);
 
-    
-
 
     if(empty($username)) {
-        header("Location: index.php?error=Du må skrive inn navn!");
+        header("Location: student.php?error=Du må skrive inn navn!");
         exit();
-    }
-    else if(empty($email)) {
-        header("Location: index.php?error=Du må skrive inn epost!");
+    } else if(empty($email)) {
+        header("Location: student.php?error=Du må skrive inn epost!");
         exit();
-    }
-    else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: index.php?error=Eposten er ikke gyldig!");
+    } else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        header("Location: student.php?error=Eposten er ikke gyldig!");
         exit();
-    }
-    else if(empty($password)) {
-        header("Location: index.php?error=Du må skrive inn passord!");
+    } else if(empty($password)) {
+        header("Location: student.php?error=Du må skrive inn passord!");
         exit();
-    }
-    else if(empty($course)) {
-        header("Location: index.php?error=Du må skrive inn studeretning!");
+    }  else if(strlen($password) < $passlen) { //Check if pasword is shorter than value of $passlen
+        header("Location: student.php?error=Prøv et sikrere passord");
         exit();
-    }
-    else if(empty($year)) {
-        header("Location: index.php?error=Du må skrive inn studiekull!");
+    } else if(empty($course)) {
+        header("Location: student.php?error=Du må skrive inn studeretning!");
+        exit();
+    } else if(empty($year)) {
+        header("Location: student.php?error=Du må skrive inn studiekull!");
         exit();
     }
 

@@ -99,6 +99,8 @@
         <div>
             <input type="submit" name="fore_reg" id="fore_reg" value="Register">
         </div>
+        
+        <a href="index.php">Tilbake</a>
 
         </form>
     </body>

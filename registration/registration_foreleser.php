@@ -5,6 +5,12 @@ include "../config/Database.php";
 $database = new Database();
 $db = $database->connect();
 
+$passlen = 8;
+define('KB', 1024);
+define('MB', 1048576);
+define('GB', 1073741824);
+define('TB', 1099511627776);
+
 if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til registering av studenter på index.php
     function validate($data) {
         $data = preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
@@ -43,6 +49,9 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
     } else if(empty($password)) {
         header("Location: foreleser.php?error=Du må skrive inn passord!");
         exit();
+    } else if(strlen($password) < $passlen) { //Check if pasword is shorter than value of $passlen
+        header("Location: foreleser.php?error=Prøv et sikrere passord");
+        exit();
     } else if(empty($course)) {
         header("Location: foreleser.php?error=Du må skrive inn emne!");
         exit();
@@ -71,7 +80,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
             $coverpic = rand(1000,1000000).".".$imgExt;
 
             if(in_array($imgExt, $valid_extensions)){
-                if($imgSize < 5000000){
+                if($imgSize < 8*MB){
                     move_uploaded_file($tmp_dir,$upload_dir.$coverpic);
                     echo "Opplasting ferdig";
                 } else{
