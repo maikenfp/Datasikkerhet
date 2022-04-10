@@ -58,6 +58,9 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
     } else if(empty($imgFile)) {
         header("Location: foreleser.php?error=Du har ikke valgt bilde!");
         exit();
+    } else if($sp1 === $sp2) {
+        header("Location: foreleser.php?error=Du kan ikke velge samme sikkerhetsspørsmål!");
+        exit();
     } else {
         $query = "SELECT epost FROM foreleser WHERE epost = '$email'";
         $stmt = $db->prepare($query);
