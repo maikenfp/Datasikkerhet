@@ -59,16 +59,13 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
 
         if($row) {
             if(password_verify($brukerPassord, $row['passord'])) {
-                // session_regenerate_id();
+                session_regenerate_id();
 
                 $_SESSION['student_id'] = $row['student_id'];
                 $_SESSION['navn'] = $row['navn'];
                 $_SESSION['epost'] = $row['epost'];
                 $_SESSION['studieretning'] = $row['studieretning'];
                 $_SESSION['studiekull'] = $row['studiekull'];
-
-                var_dump($row['student_id']);
-                return;
 
                 header("Location: student/index.php");
                 exit();

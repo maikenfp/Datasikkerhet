@@ -30,6 +30,9 @@ session_start();
                     $database = new Database();
                     $db = $database->connect();
 
+                    var_dump($currentStudentId);
+                    return;
+
                     if (empty($currentStudentId)) {
                         header('Location: ../index.php');
                     } else {
