@@ -6,10 +6,6 @@
     $db = $database->connect();
     $fid = $_SESSION['foreleser_id'];
 
-    // TESTING
-    var_dump($fid);
-    return;
-
     if(empty($fid)){
         header('Location: index.php');
     } else {

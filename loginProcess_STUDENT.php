@@ -23,7 +23,6 @@ $logger->pushProcessor(function ($record) {
 $database = new Database();
 $db = $database->connect();
 
-
 if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
     function validate($data){
         $data = trim($data);
