@@ -66,6 +66,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 $_SESSION['bilde_navn'] = $row['bilde_navn'];
 
                 header("Location: teacher.php");
+                $logger->info("Foreleser logget inn");
                 exit();
             } else {
                 header("Location: login_TEACHER.php?error=Feil epost eller passord");
@@ -82,7 +83,6 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
     }
 } else {
     header("Location: login_TEACHER.php");
-    $logger->info("Student logget inn");
     exit();
 }
 ?>

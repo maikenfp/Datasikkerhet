@@ -68,6 +68,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 $_SESSION['studiekull'] = $row['studiekull'];
 
                 header("Location: student/index.php");
+                $logger->info("Student logget inn");
                 exit();
             } else {
                 header("Location: login_STUDENT.php?error=Feil epost eller passord");
@@ -85,7 +86,6 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
 
 } else {
     header("Location: login_STUDENT.php");
-    $logger->info("Student logget inn");
     exit();
 }
 ?>
