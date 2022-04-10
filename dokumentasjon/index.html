@@ -2,14 +2,13 @@
 
 <html>
 	<head>
-	    <link rel="stylesheet" type="text/css" href="style.css">
         <meta charset="utf-8">
 	</head>
 
 	<body>
 	     <h1>Dokumentasjon</h1>
 
-        <h3>Steg 2</h3>
+        <h2>Steg 2</h2>
         <p> Vi har laget et tilbakemeldingssystem for studenter og forelesere. Vi har jobbet med prosjektet lokalt gjennom git hvor alle har jobbet på
             hver sine brancher, så koblet vi alt sammen til slutt. Vi brukte XXAMP som webserver for å teste lokalt.
         </p>
@@ -54,26 +53,39 @@
             du ikke kunne bytte passord.
         </p>
 
-        <h3>Endringer i steg 2:</h3>
+        <h2>Endringer i steg 2:</h2>
 
-        <p>Webserver: I hoved configen for apache2 har vi endret TimeOut tiden til 60sek og fjernet visning av webserver versjon og port, 
-            bortsett fra det har vi ikke endret noe i den.
-            Vi lagde heller en egen site for steg 2 for at endringene ikke skulle påvirke steg 1. I denne site-en har vi da lagt like 
-            ulike sikkerhetsheadere, fjernet HTTP versjon 1.0, blokkert tilgang til noen mapper som composer, vendor etc. 
-             
-            X-Frame-Options ble satt til "sameorigin" slik at det ikke kan bli hentet/lastet iframes fra andre domener.  	
-            Set-Cookie ^(.*)$ $1;HttpOnly;Secure ble lagt til for å hjelpe å forhindre mot XXS angrep.
-            X-XSS-Protection "1; mode=block" gir nettleseren et filter som den bruker for å oppdage XXS angrep, og den vil blokkere siden hvor scriptet kommer fra helt.
-            Content-Security-Policy "default-src 'self';" også for å hindre XXS angrep, likt X-Frame-Options
-            X-content-type-options "nosniff" 
-            X-Permitted-Cross-Domain-Policies master-only; for å hindre lasting av ressurser til andre domener 
-            Permission-policy "autoplay 'none'; camera 'none'"
+        <h4>Webserver</h4>
+        <p>
+            <ul>
+                <li>I hoved configen for apache2 har vi endret TimeOut tiden til 60sek og fjernet visning av webserver versjon og port, 
+                bortsett fra det har vi ikke endret noe i den.
+                Vi lagde heller en egen site for steg 2 for at endringene ikke skulle påvirke steg 1. I denne site-en har vi da lagt like 
+                ulike sikkerhetsheadere, fjernet HTTP versjon 1.0, blokkert tilgang til noen mapper som composer, vendor etc. </li>           
+                <li><strong>X-Frame-Options "sameorigin"</strong> ble satt slik at det ikke kan bli hentet/lastet iframes fra andre domener.</li>  	 
+                <li><strong>X-XSS-Protection "1; mode=block"</strong> gir nettleseren et filter som den bruker for å oppdage XXS angrep, og den vil blokkere siden hvor scriptet kommer fra helt.</li>
+                <li><strong>Content-Security-Policy "default-src 'self';"</strong> også for å hindre XXS angrep, likt X-Frame-Options</li>
+                <li><strong>X-Permitted-Cross-Domain-Policies master-only;</strong> for å hindre lasting av ressurser til andre domener</li> 
+                <li><strong>Permission-policy "autoplay 'none'; camera 'none'"</strong></li>
+            </ul>
         </p>
 
         <p>SSH har vi ikke gjort noe med, men vi burde laget en bruker for hver av oss og begrenset rettighetene, da vet vi også hvem som
             utfører hvilke handlinger. Kunne også prøvd å endre portnr til SSH, og vi kunne ha laget en passordløs innlogging, generert en public
             og en private key eller to-faktor autentisering i tillegg til passord. 
         </p>
+
+        <h4>Login</h4>
+        <ul>
+            <li>Lagt inn prepared statements og det blir nå brukt php-funksjonene “password_verify()”, “session_regenerate_id()” og “filter_var()”.</li> 
+            <li>Prepared statements: blir brukt for å sende sql-spørringen og dataen til databasen separat. Dette blir i hovedsak brukt for å stoppe sql-injection angrep.</li>
+            <li>“filter_var(input, FILTER_VALIDATE_EMAIL)”: blir brukt for å verifisere at brukeren faktisk skrev inn en gyldig epost i “epost”-feltet. </li>
+            <li>“password_verify(input, hashed_password)”: blir brukt for å verifisere den hashede passordet med det brukeren legger inn i “passord”-feltet. </li>
+            <li>“session_regenerate_id()”: blir brukt for å erstatte gjeldende sesjon-id med en ny en, men fortsatt lagre gjeldende sesjon-informasjon. 
+            Dette kan hjelpe med å unngå “session fixation”-angrep der angriperen har tilgang til brukeren sin sesjon-id.</li>
+        </ul>
+
+
 
 
         <p><a href="https://github.com/maikenfp/Datasikkerhet">Github</a></p>
