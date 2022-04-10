@@ -3,24 +3,25 @@
 session_start();
 require '.././config/Database.php';
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+
+
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\GelfHandler;
 use Gelf\Message;
 use Monolog\Formatter\GelfMessageFormatter;
 
-$logger = new Logger('sikkerhet'); 
+$logger = new Logger('sikkerhet');
 $transport = new Gelf\Transport\UdpTransport("127.0.0.1", 12201);
 $publisher = new Gelf\Publisher($transport);
-$handler = new GelfHandler($publisher,Logger::DEBUG);
+$handler = new GelfHandler($publisher, Logger::DEBUG);
 $logger->pushHandler($handler);
 
 $logger->pushProcessor(function ($record) {
     $record['extra']['user'] = get_current_user();
     return $record;
 });
-
 $database = new Database();
 $db = $database->connect();
 
@@ -28,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Form variabler (htmlspecialchars hindrer XSS) 
     $currentStudentId = $_SESSION["student_id"];
     $question = htmlspecialchars($_POST['subjectQuestion']);
-    $date = date('Y-m-d');
+    //$date = date('Y-m-d');
 
     //Sjekker om dropdown option er numeric eller ikke (hindrer sql injection og XSS i inspect element)
     if (isset($_POST['subject'])) {
@@ -40,13 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
     }
-
-    $stmt = $db->prepare("INSERT INTO melding (spørsmål, emne_id, student_id, dato, tid) VALUES (:currentQuestion, :currentSubject, :currentStudentID, :currentDate, (NOW()))");
+    $stmt = $db->prepare("INSERT INTO melding (question, emne_id, student_id) VALUES (:currentQuestion, :currentSubject, :currentStudentID)");
 
     $stmt->bindParam(':currentQuestion', $question);
     $stmt->bindParam(':currentSubject', $subject);
     $stmt->bindParam(':currentStudentID', $currentStudentId);
-    $stmt->bindParam(':currentDate', $date);
 
     if ($stmt->execute()) {
         echo "<script>";
