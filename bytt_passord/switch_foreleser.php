@@ -91,7 +91,8 @@ if(empty($fid)){
             echo "<script>";
             echo "alert('Noe gikk galt');";
             echo "</script>";
-            echo "<meta http-equiv='refresh' content='0;url=../teacher.php'>";	
+            echo "<meta http-equiv='refresh' content='0;url=../teacher.php'>";
+            $logger->debug("Noe gikk galt under bytting av passord for foreleser");	
             exit();
         
 }

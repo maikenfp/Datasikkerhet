@@ -92,6 +92,7 @@ if(empty($sid)){
             echo "alert('Noe gikk galt');";
             echo "</script>";
             echo "<meta http-equiv='refresh' content='0;url=../student/index.php'>";	
+            $logger->debug("Noe gikk galt under bytting av passord for student");	
             exit();
         
 }

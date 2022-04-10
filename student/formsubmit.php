@@ -3,6 +3,24 @@
 session_start();
 require '.././config/Database.php';
 
+require __DIR__ . '/../../vendor/autoload.php';
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\GelfHandler;
+use Gelf\Message;
+use Monolog\Formatter\GelfMessageFormatter;
+
+$logger = new Logger('sikkerhet'); 
+$transport = new Gelf\Transport\UdpTransport("127.0.0.1", 12201);
+$publisher = new Gelf\Publisher($transport);
+$handler = new GelfHandler($publisher,Logger::DEBUG);
+$logger->pushHandler($handler);
+
+$logger->pushProcessor(function ($record) {
+    $record['extra']['user'] = get_current_user();
+    return $record;
+});
+
 $database = new Database();
 $db = $database->connect();
 
@@ -18,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!(is_numeric($subject))) {
             echo "nice try :)";
+            $logger->warning("Numeric dropdown hos student");
             exit();
         }
     }
@@ -34,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "alert('Tilbakemeldingen din er mottatt!');";
         echo "</script>";
         echo "<meta http-equiv='refresh' content='0;url=index.php'>";
+        $logger->info("Student sendte inn en melding");
     }
 }
 
@@ -43,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     //Sjekker om dropdown option er numeric eller ikke når foreleser bilder blir hentet
     if (!(is_numeric($cid))) {
         echo "nice try :)";
+        $logger->warning("Numeric dropdown hos student");
         exit();
     }
 

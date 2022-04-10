@@ -57,30 +57,30 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
     if(empty($username)) {
         header("Location: foreleser.php?error=Du må skrive inn navn!");
-        $logger->notice("Skrev ikke inn navn under registrering av foreleser");
+        $logger->info("Skrev ikke inn navn under registrering av foreleser");
         exit();
     } else if(empty($email)) {
         header("Location: foreleser.php?error=Du må skrive inn epost!");
-        $logger->notice("Skrev ikke inn epost under registrering av foreleser");
+        $logger->info("Skrev ikke inn epost under registrering av foreleser");
         exit();
     } else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: foreleser.php?error=Eposten er ikke gyldig!");
-        $logger->warning("Skrev inn ugyldig epost under registrering av student");
+        $logger->notice("Skrev inn ugyldig epost under registrering av student");
         exit();
     } else if(empty($password)) {
         header("Location: foreleser.php?error=Du må skrive inn passord!");
-        $logger->notice("Skrev ikke inn passord under registrering av foreleser");
+        $logger->info("Skrev ikke inn passord under registrering av foreleser");
         exit();
     } else if(strlen($password) < $passlen) { //Check if pasword is shorter than value of $passlen
         header("Location: foreleser.php?error=Prøv et sikrere passord");
         exit();
     } else if(empty($course)) {
         header("Location: foreleser.php?error=Du må skrive inn emne!");
-        $logger->notice("Valgte ikke emne under registrering av foreleser");
+        $logger->info("Valgte ikke emne under registrering av foreleser");
         exit();
     } else if(empty($imgFile)) {
         header("Location: foreleser.php?error=Du har ikke valgt bilde!");
-        $logger->notice("La ikke ved et bilde under registrering av foreleser");
+        $logger->info("La ikke ved et bilde under registrering av foreleser");
         exit();
     } else {
         $query = "SELECT epost FROM foreleser WHERE epost = '$email'";
@@ -90,6 +90,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
         if($row_count > 0) {
             header("Location: foreleser.php?error=Eposten er allerede i bruk!");
+            $logger->info("Prøvde å registrere en foreleser bruker med en eksisterende epost");
             exit();
         } else {
             $sql= "INSERT INTO foreleser (navn,epost,passord,glemt_question_1,glemt_svar_1,glemt_question_2,glemt_svar_2,bilde_navn)
@@ -151,7 +152,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                 $stmt2->execute();
 
                 header("Location: ../teacher.php");
-                $logger->notice("Foreleser bruker opprettet");
+                $logger->info("Foreleser bruker opprettet");
                 exit();
             }
 

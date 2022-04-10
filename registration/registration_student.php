@@ -43,27 +43,32 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
     $year = validate(strip_tags($_POST["studiekull"]));
     $pass_hash = password_hash($password, PASSWORD_DEFAULT);
 
-
     if(empty($username)) {
         header("Location: student.php?error=Du må skrive inn navn!");
+        $logger->info("Skrev ikke inn navn under registrering av student");
         exit();
     } else if(empty($email)) {
         header("Location: student.php?error=Du må skrive inn epost!");
+        $logger->info("Skrev ikke inn epost under registrering av student");
         exit();
     } else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: student.php?error=Eposten er ikke gyldig!");
+        $logger->notice("Skrev inn ugyldig epost under registrering av student");
         exit();
     } else if(empty($password)) {
         header("Location: student.php?error=Du må skrive inn passord!");
+        $logger->info("Skrev ikke inn passord under registrering av student");
         exit();
     }  else if(strlen($password) < $passlen) { //Check if pasword is shorter than value of $passlen
         header("Location: student.php?error=Prøv et sikrere passord");
         exit();
     } else if(empty($course)) {
         header("Location: student.php?error=Du må skrive inn studeretning!");
+        $logger->info("Valgte ikke studieretning under registrering av student");
         exit();
     } else if(empty($year)) {
         header("Location: student.php?error=Du må skrive inn studiekull!");
+        $logger->info("Valgte ikke studiekull under registrering av student");
         exit();
     }
 
@@ -105,7 +110,7 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
             $id = $db->lastInsertId();
 
             header("Location: ../student/index.php");
-            $logger->notice("Student bruker opprettet");
+            $logger->info("Student bruker opprettet");
             exit();
         }
     }
