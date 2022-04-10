@@ -53,6 +53,7 @@ session_start();
         // Forms actions:
         // Pin-kode form:
         if (isset($_POST["PinButton"])) {
+            usleep(800000);
             getEmneInfo($_POST["pinkode"]);
             getForeleserBilde($_POST["pinkode"]);
             showMessage($_POST["pinkode"]);
