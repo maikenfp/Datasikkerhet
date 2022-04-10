@@ -19,7 +19,7 @@
     $record['extra']['user'] = get_current_user();
     return $record;
     });
-    
+
     function validate($data) {
         $data = preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
         $data = trim($data);
@@ -29,8 +29,19 @@
         return $data;
     }
 
+    $minPassLen = 8;
+    $maxPassLen = 32;
+
     $pw1 = validate(strip_tags($_POST['pw1']));
     $pw2 = validate(strip_tags($_POST['pw2']));
+
+    if (strlen($pw2) < $minPassLen) {
+        header("Location: new-password.php?error=Prøv et sikrere passord!");
+        exit();
+    } else if strlen($pw2) > $maxPassLen) {
+        header("Location: new-password.php?error=Passordet er for langt!");
+        exit();
+    }
 
     $epost = $_SESSION['epost'];
     $pass_hash = password_hash($pw2, PASSWORD_DEFAULT);
@@ -41,7 +52,7 @@
 
         $query = "UPDATE foreleser SET passord='$pass_hash' WHERE epost='$epost'";
         $stmt = $db->query($query);
-   
+
         echo "<script>";
         echo "alert('Passordet er tilbakestilt');";
         echo "</script>";
