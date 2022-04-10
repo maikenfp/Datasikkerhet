@@ -58,6 +58,8 @@
         <div>
             <button type="submit" name="stud_reg" id="stud_reg">Register</button>
         </div>
+
+        <a href="index.php">Tilbake</a>
 </form>
     </body>
 </html>
