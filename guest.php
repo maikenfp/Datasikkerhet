@@ -19,7 +19,7 @@ session_start();
     <main>
         <form method="post">
             <label>Pin-kode:</label>
-            <input type="number" name='pinkode' min="0" max="9999">
+            <input type="number" name='pinkode' min="0" max="9999" required>
             <button type="submit" name="PinButton">Søk</button>
         </form>
         <a href="./logout.php">Logg ut</a>
@@ -54,23 +54,39 @@ session_start();
         // Pin-kode form:
         if (isset($_POST["PinButton"])) {
             usleep(800000);
-            getEmneInfo($_POST["pinkode"]);
-            getForeleserBilde($_POST["pinkode"]);
-            showMessage($_POST["pinkode"]);
+            if(!preg_match("/^[0-9]*$/", $_POST["PinButton"]))  
+            {  
+                    // $name_error = "<p>Feil input type</p>";  
+            }
+            else{ 
+                getEmneInfo($_POST["pinkode"]);
+                getForeleserBilde($_POST["pinkode"]);
+                showMessage($_POST["pinkode"]);
+            }
         }
 
         if (isset($_POST["button"])) {
             $pin = "[pin]";
             getEmneInfo($_POST["pin"]);
             getForeleserBilde($_POST["pin"]);
-            if ($currentStudentId >= 1) {
-                //IF Student:
-                commentMessage($_POST["kommenter"], $_POST["meldingID"], $_POST["studentID"]);
-            } else {
-                //IF guest:
-                commentMessage($_POST["kommenter"], $_POST["meldingID"], 0);
-            }
-            showMessage($_POST["pin"]);
+
+            // Input validation
+            
+            if(!preg_match("/^[a-zA-Z.!?,: 0-9 ]*$/", $_POST["kommenter"]))  
+            {  
+                    // $name_error = "<p>Feil input type</p>";  
+            } 
+            else{
+                if ($currentStudentId >= 1) {
+                    //IF Student:
+                    commentMessage($_POST["kommenter"], $_POST["meldingID"], $_POST["studentID"]);
+                } else {
+                    //IF guest:
+                    commentMessage($_POST["kommenter"], $_POST["meldingID"], 0);
+                }
+                showMessage($_POST["pin"]);
+
+            }  
         }
 
         if (isset($_POST['rapporter'])) {
@@ -205,7 +221,7 @@ function showMessage($pin)
                 <input type="hidden" name="pin" value="<?php echo $pin ?>">
                 <label>Kommentar:</label>
                 <br>
-                <textarea name="kommenter" rows="4" cols="48"></textarea>
+                <textarea name="kommenter" rows="4" cols="48" minlength="3" maxlength="26" required></textarea>
                 <button type="submit" name="button">Svar</button>
             <!-- </form> -->
 
@@ -224,14 +240,25 @@ function showMessage($pin)
 function commentMessage($kommentar, $melding_id, $currentStudentId){
     if ($currentStudentId >= 1) {
         // IF students:
-        $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
+        if(strlen($kommentar) > 26){
+            // "<p>Feil input lengde</p>"
+            // Burde legges i en try catch som så registreres av graylog
+        }
+        else {
+            $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
                 VALUES ('$kommentar', '$melding_id', '$currentStudentId')";
-        sqlQuery($sql);
+            sqlQuery($sql);
+        }
     } else {
         // If guest users:
-        $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
-                VALUES ('$kommentar', '$melding_id', NULL)";
-        sqlQuery($sql);
+        if(strlen($kommentar) > 26){
+            // "<p>Feil input lengde</p>"
+        }
+        else {
+            $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
+                    VALUES ('$kommentar', '$melding_id', NULL)";
+            sqlQuery($sql);
+        }
     }
 }
 
