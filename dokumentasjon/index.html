@@ -61,12 +61,16 @@
                 <li>I hoved configen for apache2 har vi endret TimeOut tiden til 60sek og fjernet visning av webserver versjon og port, 
                 bortsett fra det har vi ikke endret noe i den.
                 Vi lagde heller en egen site for steg 2 for at endringene ikke skulle påvirke steg 1. I denne site-en har vi da lagt like 
-                ulike sikkerhetsheadere, fjernet HTTP versjon 1.0, blokkert tilgang til noen mapper som composer, vendor etc. </li>           
+                ulike sikkerhetsheadere, fjernet HTTP versjon 1.0, blokkert tilgang til noen mapper som composer, vendor etc. Noen eksempler på
+                sikkerhetsheadere som er lagt til: </li>           
                 <li><strong>X-Frame-Options "sameorigin"</strong> ble satt slik at det ikke kan bli hentet/lastet iframes fra andre domener.</li>  	 
-                <li><strong>X-XSS-Protection "1; mode=block"</strong> gir nettleseren et filter som den bruker for å oppdage XXS angrep, og den vil blokkere siden hvor scriptet kommer fra helt.</li>
-                <li><strong>Content-Security-Policy "default-src 'self';"</strong> også for å hindre XXS angrep, likt X-Frame-Options</li>
-                <li><strong>X-Permitted-Cross-Domain-Policies master-only;</strong> for å hindre lasting av ressurser til andre domener</li> 
-                <li><strong>Permission-policy "autoplay 'none'; camera 'none'"</strong></li>
+                <li><strong>X-XSS-Protection "1; mode=block"</strong> gir nettleseren et filter som den bruker for å oppdage XXS angrep, og vil "renske" siden 
+                    og samtidig hindre den fra å laste i det hele tatt.</li>
+                <li><strong>Content-Security-Policy "default-src 'self';"</strong> er satt for å hindre XXS, og er en bedre versjon av X-Frame-Options som forteller nettleseren hvilke 
+                    sider den kan laste opp, i dette tilfelle kun sider fra vårt domene.</li>
+                <li><strong>Permission-policy "autoplay 'none'; camera 'none'" er satt for å kontrollere hvilke operasjonner som nettleseren for lov til å
+                    gjøre.
+                </strong></li>
             </ul>
         </p>
 
