@@ -158,16 +158,23 @@ function getEmneInfo($pin){
 
 
 function getEmnekode($pin){
-    $sql = "SELECT emne.emne_id 
-        FROM emne WHERE pinkode='$pin' limit 1";
-    // $sql = "SELECT * FROM `emneKode` WHERE pinkode='$pin' limit 1";
-    $row = sqlQuery($sql);
-    if ($row){
-        foreach ($row as $row){
-            return $row["emne_id"];
+    if(!preg_match("/^[0-9]*$/", $pin)){
+        // Feil input
+    }
+    else{
+        $sql = "SELECT emne.emne_id 
+            FROM emne WHERE pinkode='$pin' limit 1";
+            // FROM emne WHERE pinkode=('" . $pin . "') limit 1";
+        // $sql = "SELECT * FROM `emneKode` WHERE pinkode='$pin' limit 1";
+        $row = sqlQuery($sql);
+        if ($row){
+            foreach ($row as $row){
+                return $row["emne_id"];
+            }
         }
     }
 }
+
 
 function getMessage($pin){
     $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode, 
@@ -221,7 +228,7 @@ function showMessage($pin)
                 <input type="hidden" name="pin" value="<?php echo $pin ?>">
                 <label>Kommentar:</label>
                 <br>
-                <textarea name="kommenter" rows="4" cols="48" minlength="3" maxlength="26" required></textarea>
+                <textarea name="kommenter" rows="4" cols="48" minlength="3" maxlength="26"></textarea>
                 <button type="submit" name="button">Svar</button>
             <!-- </form> -->
 
@@ -263,7 +270,12 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
 }
 
 function reportMessage($id){
-    $sql = "UPDATE melding SET upassende_melding = (upassende_melding + 1) WHERE melding_id = $id";
-    sqlQuery($sql);
+    if(!preg_match("/^[0-9]*$/", $id)){
+        // Feil input
+    }
+    else{
+        $sql = ("UPDATE melding SET upassende_melding = (upassende_melding + 1) WHERE melding_id = ('" . $id . "')");
+        sqlQuery($sql);
+    }
 }
 ?>
