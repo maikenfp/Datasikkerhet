@@ -3,10 +3,18 @@
     require '../config/Database.php';
 
 
+    function validate($data) {
+        $data = preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $sv1 = $_POST['svar1'];
-        $sv2 = $_POST['svar2'];
+        $sv1 = validate(strip_tags($_POST['svar1']));
+        $sv2 = validate(strip_tags($_POST['svar2']));
         $_SESSION['sv1'] = $sv1;
         $_SESSION['sv2'] = $sv2;
     }

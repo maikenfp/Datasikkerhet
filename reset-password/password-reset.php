@@ -2,6 +2,15 @@
     session_start();
     require '../config/Database.php';
 
+    function validate($data) {
+        $data = preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $epost = $_POST['epost'];
          $_SESSION['epost'] = $epost;
@@ -44,11 +53,11 @@
             <?php } ?>
             <form action="new-password.php" method="post" class="form">
                     <label for="svar1"><?php
-                        echo $row['glemt_question_1'];
+                        echo validate($row['glemt_question_1']);
                     ?></label>
                     <input type="text" name="svar1"/>
                     <label for="svar2"><?php
-                        echo $row['glemt_question_2'];
+                        echo validate($row['glemt_question_2']);
                     ?></label>
                     <input type="text" name="svar2"/>
                     <button type="submit" name="submit">Go</button>
