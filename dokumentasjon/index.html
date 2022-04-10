@@ -89,7 +89,22 @@
             Dette kan hjelpe med å unngå “session fixation”-angrep der angriperen har tilgang til brukeren sin sesjon-id.</li>
         </ul>
 
-
+        <h4>Registrering</h4>
+        <ul>
+            <li>Lagt til validering av eposter med: else if(!filter_var($email, FILTER_VALIDATE_EMAIL))</li>
+            <li>Lagt til validering av input, slikt at tegn som potensielt kan gjøre slikt at kode blir kjørt, så vil det bli fjernet fra inputet før det lastes opp. Brukt funksjoner under.    
+                
+                preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
+                trim($data);
+                stripslashes($data);
+                htmlspecialchars($data);
+            </li>
+            <li>Lagt til hashing av passord for både student og foreleser</li>
+            <li>La til begrensning på 8MB for alle filer</li>
+            <li>La til minimums- og maksimums lengde på passord</li>
+            <li>La til en tilbakeknapp på registeringssidene</li>
+            <li>Filtyper burde bli sjekket at de er en av noen få godkjente (png, img, gif)</li>
+        </ul>
 
 
         <p><a href="https://github.com/maikenfp/Datasikkerhet">Github</a></p>
