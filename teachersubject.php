@@ -5,7 +5,7 @@ require 'config/Database.php';
 $fid = $_SESSION['foreleser_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $_SESSION['emneID'] = $_POST['subject'];
+    $_SESSION['emneID'] = strip_tags($_POST['subject']);
 }
 $emneID = $_SESSION['emneID'];
 
@@ -40,7 +40,7 @@ if (empty($fid)) {
         <h1>
             Emne:
             <?php
-            echo $emnenavn;
+                echo $emnenavn;
             ?>
         </h1>
         <?php

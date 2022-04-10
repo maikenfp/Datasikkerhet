@@ -25,8 +25,8 @@ $database = new Database();
 $db = $database->connect();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $responseID = $_POST['responseID'];
-  $reply = $_POST['reply'];
+  $responseID = strip_tags($_POST['responseID']);
+  $reply = strip_tags($_POST['reply']);
 
   $sql = "UPDATE melding SET svar='$reply' WHERE melding_id='$responseID'";
   $result = $db->query($sql);
