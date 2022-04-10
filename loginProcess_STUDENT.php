@@ -9,7 +9,7 @@ use Monolog\Handler\GelfHandler;
 use Gelf\Message;
 use Monolog\Formatter\GelfMessageFormatter;
 
-$logger = new Logger('sikkerhet'); 
+$logger = new Logger('sikkerhet');
 $transport = new Gelf\Transport\UdpTransport("127.0.0.1", 12201);
 $publisher = new Gelf\Publisher($transport);
 $handler = new GelfHandler($publisher,Logger::DEBUG);
@@ -62,6 +62,8 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 session_regenerate_id();
 
                 $_SESSION['student_id'] = $row['student_id'];
+                var_dump($row['student_id']);
+                return;
                 $_SESSION['navn'] = $row['navn'];
                 $_SESSION['epost'] = $row['epost'];
                 $_SESSION['studieretning'] = $row['studieretning'];
