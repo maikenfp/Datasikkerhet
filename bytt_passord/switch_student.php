@@ -3,6 +3,24 @@
 session_start();
 include '../config/Database.php';
 
+require __DIR__ . '/../../../vendor/autoload.php';
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\GelfHandler;
+use Gelf\Message;
+use Monolog\Formatter\GelfMessageFormatter;
+
+$logger = new Logger('sikkerhet');
+$transport = new Gelf\Transport\UdpTransport("127.0.0.1", 12201);
+$publisher = new Gelf\Publisher($transport);
+$handler = new GelfHandler($publisher,Logger::DEBUG);
+$logger->pushHandler($handler);
+
+$logger->pushProcessor(function ($record) {
+$record['extra']['user'] = get_current_user();
+return $record;
+});
+
 $database = new Database();
 $db = $database->connect();
 
@@ -26,9 +44,11 @@ if(empty($sid)){
 
         if (empty($passord)) {
             header("Location: change_student.php?error=Du må skrive inn passord!");
+            $logger->info("Skrev ikke inn gammelt passord!");
             exit();
         } else if(empty($nyttpassord)){
             header("Location: change_student.php?error=Du må skrive inn nytt passord!");
+            $logger->info("Skrev ikke inn nytt passord!");
             exit();
         } else if(strlen($nyttpassord) < $passlen) {
             header("Location: change_student.php?error=Prøv et sikrere passord");
@@ -50,19 +70,22 @@ if(empty($sid)){
                     exit();
                 } else{
                     header("Location: change_student.php?error=Feil passord");
+                    $logger->warning("Tastet inn feil passord!");
                     exit();
                 }
             } else{
                 header("Location: change_student.php?error=Feil passord");
+                $logger->warning("Tastet inn feil passord!");
                 exit();
             }
         }
     } else {
-        header("Location: ../student/index.php");
-        echo "<script>";
-        echo "alert('Noe gikk galt');";
-        echo "</script>";
-        echo "<meta http-equiv='refresh' content='0;url=../student/index.php'>";
-        exit();
-    }
+            header("Location: ../student/index.php");
+            echo "<script>";
+            echo "alert('Noe gikk galt');";
+            echo "</script>";
+            echo "<meta http-equiv='refresh' content='0;url=../student/index.php'>";	
+            $logger->debug("Noe gikk galt under bytting av passord for student");	
+            exit();
+        
 }

@@ -2,6 +2,24 @@
     session_start();
     require '../config/Database.php';
 
+    require __DIR__ . '/../../../vendor/autoload.php';
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+    use Monolog\Handler\GelfHandler;
+    use Gelf\Message;
+    use Monolog\Formatter\GelfMessageFormatter;
+
+    $logger = new Logger('sikkerhet');
+    $transport = new Gelf\Transport\UdpTransport("127.0.0.1", 12201);
+    $publisher = new Gelf\Publisher($transport);
+    $handler = new GelfHandler($publisher,Logger::DEBUG);
+    $logger->pushHandler($handler);
+
+    $logger->pushProcessor(function ($record) {
+    $record['extra']['user'] = get_current_user();
+    return $record;
+    });
+    
     function validate($data) {
         $data = preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
         $data = trim($data);
@@ -30,6 +48,7 @@
 
     }else{
         header("Location: index.php?error=Email ikke registrert!");
+        $logger->notice("Brukte en ikke-eksisterende epost under glemt passord.");
     }
 
 ?>
