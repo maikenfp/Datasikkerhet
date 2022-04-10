@@ -23,7 +23,8 @@ return $record;
 $database = new Database();
 $db = $database->connect();
 
-$passlen = 8;
+$minPassLen = 8;
+$maxPassLen = 32;
 define('KB', 1024);
 define('MB', 1048576);
 define('GB', 1073741824);
@@ -71,8 +72,11 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
         header("Location: foreleser.php?error=Du må skrive inn passord!");
         $logger->info("Skrev ikke inn passord under registrering av foreleser");
         exit();
-    } else if(strlen($password) < $passlen) { //Check if pasword is shorter than value of $passlen
+    } else if(strlen($password) < $minPassLen) { //Check if pasword is shorter than value of $passlen
         header("Location: foreleser.php?error=Prøv et sikrere passord");
+        exit();
+    } else if(strlen($password) > $maxPassLen) { //Check if pasword is longer than value of $passlen
+        header("Location: foreleser.php?error=Prøv et mindre sikkert passord ;)");
         exit();
     } else if(empty($course)) {
         header("Location: foreleser.php?error=Du må skrive inn emne!");

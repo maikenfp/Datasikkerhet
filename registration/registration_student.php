@@ -24,6 +24,7 @@ $database = new Database();
 $db = $database->connect();
 
 $passlen = 8;
+$maxPassLen = 32;
 
 if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til registering av studenter på index.php
 
@@ -59,8 +60,11 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
         header("Location: student.php?error=Du må skrive inn passord!");
         $logger->info("Skrev ikke inn passord under registrering av student");
         exit();
-    }  else if(strlen($password) < $passlen) { //Check if pasword is shorter than value of $passlen
+    } else if(strlen($password) < $passlen) { //Check if pasword is shorter than value of $passlen
         header("Location: student.php?error=Prøv et sikrere passord");
+        exit();
+    } else if(strlen($password) > $maxPassLen) { //Check if pasword is longer than value of $passlen
+        header("Location: foreleser.php?error=Prøv et mindre sikkert passord ;)");
         exit();
     } else if(empty($course)) {
         header("Location: student.php?error=Du må skrive inn studeretning!");
