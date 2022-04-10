@@ -25,7 +25,8 @@ $database = new Database();
 $db = $database->connect();
 
 $sid = $_SESSION['student_id'];
-$passlen = 8;
+$minPassLen = 8;
+$maxPassLen = 32;
 
 if(empty($sid)){
     header('Location: ../index.php');
@@ -50,8 +51,11 @@ if(empty($sid)){
             header("Location: change_student.php?error=Du må skrive inn nytt passord!");
             $logger->info("Skrev ikke inn nytt passord!");
             exit();
-        } else if(strlen($nyttpassord) < $passlen) {
-            header("Location: change_student.php?error=Prøv et sikrere passord");
+        } else if(strlen($nyttpassord) < $minPasslen) {
+            header("Location: change_student.php?error=Prøv et sikrere passord!");
+            exit();
+        } else if(strlen($nyttpassord) > $maxPasslen) {
+            header("Location: change_student.php?error=Passordet er for langt!");
             exit();
         } else {
             $sql = "SELECT passord, student_id FROM student WHERE student_id='$sid'";
@@ -84,8 +88,8 @@ if(empty($sid)){
             echo "<script>";
             echo "alert('Noe gikk galt');";
             echo "</script>";
-            echo "<meta http-equiv='refresh' content='0;url=../student/index.php'>";	
-            $logger->debug("Noe gikk galt under bytting av passord for student");	
+            echo "<meta http-equiv='refresh' content='0;url=../student/index.php'>";
+            $logger->debug("Noe gikk galt under bytting av passord for student");
             exit();
-        
+
 }

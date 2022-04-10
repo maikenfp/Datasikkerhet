@@ -25,7 +25,8 @@ $database = new Database();
 $db = $database->connect();
 
 $fid = $_SESSION['foreleser_id'];
-$passlen = 8;
+$minPassLen = 8;
+$maxPassLen = 32;
 
 if(empty($fid)){
     header('Location: ../index.php');
@@ -37,7 +38,7 @@ if(empty($fid)){
             $data = htmlspecialchars($data);
             return $data;
         }
-    
+
         $passord = validate($_POST['passord']);
         $nyttpassord = validate($_POST['nyttpassord']);
         $nyttpassord_hash = password_hash($nyttpassord, PASSWORD_DEFAULT);
@@ -50,8 +51,11 @@ if(empty($fid)){
             header("Location: change_foreleser.php?error=Du må skrive inn nytt passord!");
             $logger->info("Skrev ikke inn nytt passord!");
             exit();
-        } else if(strlen($nyttpassord) < $passlen) {
+        } else if(strlen($nyttpassord) < $minPasslen) {
             header("Location: change_foreleser.php?error=Prøv et sikrere passord");
+            exit();
+        } else if(strlen($nyttpassord) > $maxPasslen) {
+            header("Location: change_foreleser.php?error=Passordet er for langt!");
             exit();
         } else {
             $sql = "SELECT passord, foreleser_id FROM foreleser WHERE foreleser_id='$fid'";
