@@ -67,6 +67,9 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 $_SESSION['studieretning'] = $row['studieretning'];
                 $_SESSION['studiekull'] = $row['studiekull'];
 
+                var_dump($row['student_id']);
+                return;
+
                 header("Location: student/index.php");
                 exit();
             } else {
