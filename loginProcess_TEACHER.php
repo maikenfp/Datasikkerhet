@@ -58,7 +58,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
 
         if($row) {
             if(password_verify($brukerPassord, $row['passord'])) {
-                //session_regenerate_id();
+                // session_regenerate_id();
 
                 $_SESSION['foreleser_id'] = $row['foreleser_id'];
                 $_SESSION['navn'] = $row['navn'];
