@@ -48,25 +48,21 @@ if(empty($sid)){
                     echo "</script>";
                     echo "<meta http-equiv='refresh' content='0;url=../student/index.php'>";
                     exit();
-                }
-                else{
+                } else{
                     header("Location: change_student.php?error=Feil passord");
                     exit();
                 }
-            }
-            else{
+            } else{
                 header("Location: change_student.php?error=Feil passord");
                 exit();
             }
         }
-    }
-    else {
+    } else {
         header("Location: ../student/index.php");
         echo "<script>";
         echo "alert('Noe gikk galt');";
         echo "</script>";
         echo "<meta http-equiv='refresh' content='0;url=../student/index.php'>";
         exit();
-
     }
 }

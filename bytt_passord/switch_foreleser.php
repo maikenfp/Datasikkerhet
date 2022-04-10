@@ -48,19 +48,16 @@ if(empty($fid)){
                     echo "</script>";
                     echo "<meta http-equiv='refresh' content='0;url=../teacher.php'>";
                     exit();
-                }
-                else{
+                } else{
                     header("Location: change_foreleser.php?error=Feil passord");
                     exit();
                 }
-            }
-            else{
+            } else{
                 header("Location: change_foreleser.php?error=Feil passord");
                 exit();
             }
         }
-    }
-    else {
+    } else {
         header("Location: ../teacher.php");
         echo "<script>";
         echo "alert('Noe gikk galt');";
