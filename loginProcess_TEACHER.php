@@ -82,6 +82,7 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
     }
 } else {
     header("Location: login_TEACHER.php");
+    $logger->info("Student logget inn");
     exit();
 }
 ?>

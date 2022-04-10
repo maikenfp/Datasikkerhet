@@ -84,6 +84,7 @@ if(isset($_POST["stud_reg"])) { // Requester action fra knappen som er til regis
 
         if($row_count > 0) {
             header("Location: student.php?error=Eposten er allerede i bruk!");
+            $logger->info("Prøvde å registrere en student bruker med en eksisterende epost");
             exit();
         }
 
