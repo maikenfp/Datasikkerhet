@@ -72,15 +72,12 @@
                 <li><strong>Permission-policy "autoplay 'none'; camera 'none'" er satt for å kontrollere hvilke operasjonner som nettleseren for lov til å
                     gjøre.
                 </strong></li>
-<<<<<<< HEAD
                 <li><strong>Opprettet lokalt certificate for SSL slik at HTTPS kan aktiveres. HTTP blir også redirectet til HTTPS for å unngå at HTTP kan brukes.
                 </strong></li>
-=======
                 <li>Hadde orginalt også en header for Content-Security-Policy, men vi var avhengig av scripts for bilde lasting, og
                     fant ikke ut hva vi kunne sette den som uten å blokkere for scriptene. Dette gjelder da også tilgangen til bilde mappen, 
                     kunne ikke blokkere tilgangen til mappen da vi trengte scriptene.
                 </li>
->>>>>>> 8d9bcd653f73a942430bd284307959bac72c2196
             </ul>
         </p>
 
@@ -146,14 +143,26 @@
         <h4>Gjestesiden</h4>
         <ul>
             <li>Har lagt validering av pin-kode på serverside, som sjekker at det bare er tall som er lagt inn.</li>
-            <li>Har lagt til en tidsdelay på 0,8s når man søker med pin-kode.</li>
+            <li>Har lagt til en tidsdelay på 0,8s når man søker med pin-kode, slik at det tar lenger tid å iterate gjennom alle pinkodene.</li>
             <li>Har lagt til whitelist validering på kommentar feltet, som ikke tillater farlige tegn.</li>
             <li>Har prøvd å koble til egen gjestebruker til databasen, men får ikke koblet til.</li>
-            <li>Har prøvd å legge til views for å hente emnekode fra databasen. Fungerer lokalt men ikke på serveren.</li>
+            <li>Vi har lagt til noen views som vi bruker på gjestesiden, men har valgt å ikke gjøre det over alt, slik at vi får tid til andre ting.</li>
             <li>Har lagt til input validering på emnekode.</li>
-            <li>Har satt min- og maxlengde client og serverside for kommentar. </li>
-            <li>Har lagt inn info, notice og warning logger for graylog.  </li>
-            <li>Har lagt til inputvalidering for report message server side og håndterer alt som stringer..</li>
+            <li>Har satt min- og maxlengde client og serverside for kommentar.</li>
+            <li>Vi hadde lagt inn info, notice og warning logger for graylog, men fikk bug med det etterhvert, så vi har kommentert de fleste ut fra koden.</li>
+            <li>Har lagt til inputvalidering for report message server side.</li>
+            <li>Håndterer noen variabler man bruker for sql spørringer som stinger, men har ikke endret det over alt.</li>
+        </ul>
+	
+	 <h4>Database</h4>
+        <ul>
+            <li>Lagt til forskellige databasebrukere for student, foreleser og gjest med begrensende rettigheter.</li>
+            <li>Lagd prepared staments for å hindre SQL injections</li>
+	    <li>Satt maks antall queries for hver bruker til 200 per time</li>
+	    <li>Lagd views med rettigheter til de forskjellige brukerene</li>
+	    <li>Satt opp logging til graylog</li>
+            <li>Hashet passordene i databasen</li>
+	    <li>Fikk ikke brukt brukerene fordi vi ikke fikk koblet med serveren med databasen gjennom brukerene på @158.39.188.205 så måtte bare bruke en localhost admin med alle rettigheter</li>
         </ul>
 
         <h4>Andre ting</h4>
