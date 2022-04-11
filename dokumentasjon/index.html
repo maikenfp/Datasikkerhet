@@ -107,6 +107,14 @@
 
             <li>Skulle gjerne lagt inn en form for begrensning på hvor mange brukere som kan lages av en person, eneste problemet med dette er hvordan vi skal kontrollere at det er samme person lager disse brukerne. Her kan jo kanskje sesjonsIDer tas i bruk, eller eventuelt å sjekke IP adresser men er usikker på hvordan man skal få gjort det. </li>
         </ul>
+        <h4>Student hjemmeside</h4>
+        <ul>
+            <li>Lagt til inputvalidering av dropdown menyen, sjekker om valuen er numerisk eller ikke. (forhindrer sql injections gjennom inspect element)</li>
+            <li>Endret SQL querys til å ha prepared statements for å forhindre sql injections</li>
+            <li>htmlspecialchars() ble tatt i bruk på meldingen som brukeren sender. Den endrer spesielle tegn til HTML entities. - "< = &lt;" "> = &gt" og fnutter blir til "&qt" osv.  </li>
+            <li>Bruker en logger for å logge når en ny melding blir sendt.</li>
+            <li>Har laget student bruker i databasen med begrenset rettigheter, men har ikke fått implementert funksjonaliteten på student hjemmesiden til å bruke denne.</li>
+        </ul>
 
 
         <p><a href="https://github.com/maikenfp/Datasikkerhet">Github</a></p>

@@ -110,7 +110,7 @@ session_start();
             <h1>Dine tidligere spørsmål:</h1>
             <div class="question">
                 <?php
-                //Midlertidig løsning for å hente spørsmål
+
                 $query = "SELECT * from melding WHERE student_id = $currentStudentId";
 
                 $stmt = $db->query($query);
