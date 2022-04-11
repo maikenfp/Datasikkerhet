@@ -61,7 +61,8 @@
                 <li>I hoved configen for apache2 har vi endret TimeOut tiden til 60sek og fjernet visning av webserver versjon og port, 
                 bortsett fra det har vi ikke endret noe i den.
                 Vi lagde heller en egen site for steg 2 for at endringene ikke skulle påvirke steg 1. I denne site-en har vi da lagt like 
-                ulike sikkerhetsheadere, fjernet HTTP versjon 1.0, blokkert tilgang til noen mapper som composer, vendor etc. Noen eksempler på
+                ulike sikkerhetsheadere, fjernet HTTP versjon 1.0, blokkert tilgang til noen mapper som composer, vendor og mapper med config filer
+                etc, og satt opp HTTPS. Noen eksempler på
                 sikkerhetsheadere som er lagt til: </li>           
                 <li><strong>X-Frame-Options "sameorigin"</strong> ble satt slik at det ikke kan bli hentet/lastet iframes fra andre domener.</li>  	 
                 <li><strong>X-XSS-Protection "1; mode=block"</strong> gir nettleseren et filter som den bruker for å oppdage XXS angrep, og vil "renske" siden 
@@ -106,6 +107,11 @@
             <li>Filtyper burde bli sjekket at de er en av noen få godkjente (png, img, gif)</li>
 
             <li>Skulle gjerne lagt inn en form for begrensning på hvor mange brukere som kan lages av en person, eneste problemet med dette er hvordan vi skal kontrollere at det er samme person lager disse brukerne. Her kan jo kanskje sesjonsIDer tas i bruk, eller eventuelt å sjekke IP adresser men er usikker på hvordan man skal få gjort det. </li>
+        </ul>
+
+        <h4>API</h4>
+        <ul>
+            <li>Kunne gjort slik at API ikke kjørte på default port, og gjort om til et ikke åpent API.</li>
         </ul>
 
 
