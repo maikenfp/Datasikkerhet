@@ -138,7 +138,7 @@
             <li>Lagt til inputvalidering av post og get statements, samt for error-meldinger(header) forhindrer sql injections og XXS</li>
             <li>Headers er definert i config for server som ekstra sikkerhet mot XXS</li>
             <li>Manger å opprette bruker og views for reset passord</li>
-            <li>passord hashes før det sendes til db</li>
+            <li>passord hashes før det sendes til db og har samme krav til sikkerhet som registeringssiden</li>
             <li>Greylog logger alle pwresets</li>
 
         </ul>
@@ -176,6 +176,7 @@
                 til meldingene som blir sendt til graylog, men klarte ikke å finne ut av det.</li>
             <li>Skulle gjort graylog "usynlig"/utilgjengelig for andre, men vet ikke hvordan det gjøres. Kunne byttet
                     port, men det er sketchy business.</li>
+            <li>Testet svakheter på siden med OWASP ZAP for å se om de endringene som ble gjort fjernet svakhetene</li>
         </ul>
 
         <p>Alle konfigurasjonsfiler som vi har endret ligge <a href="../conf/index.html" target="_blank">her</a>, men er mye mer leselig i mappen "conf" i github.</p>
