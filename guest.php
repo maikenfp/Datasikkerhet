@@ -162,10 +162,10 @@ function fetchArray($sql){
 }
 
 function getEmneInfo($pin){
-    $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode 
-        FROM emne WHERE pinkode='$pin' limit 1";
+    // $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode 
+    //     FROM emne WHERE pinkode='$pin' limit 1";
     // View;
-    // $sql = "SELECT emnekode, emnenavn, pinkode FROM `emneInfo` WHERE pinkode='$pin' limit 1";
+    $sql = "SELECT emnekode, emnenavn, pinkode FROM `emneInfo` WHERE pinkode='$pin' limit 1";
     $row = sqlQuery($sql);
 
     
@@ -187,9 +187,9 @@ function getEmnekode($pin){
         $logger->warning("Variabelen pin inneholder noe annet enn tall. Forsøk på SQL-injections?");
     }
     else{
-        $sql = "SELECT emne.emne_id FROM emne WHERE pinkode = '$pin' limit 1";
+        // $sql = "SELECT emne.emne_id FROM emne WHERE pinkode = '$pin' limit 1";
         // View
-        // $sql = ("SELECT emne_id, pinkode FROM `emneKode2` WHERE pinkode = ('" . $pin . "') limit 1");
+        $sql = ("SELECT emne_id, pinkode FROM `emneKode2` WHERE pinkode = ('" . $pin . "') limit 1");
         $row = sqlQuery($sql);
         if ($row){
             foreach ($row as $row){
@@ -211,9 +211,9 @@ function getMessage($pin){
 
 
 function getComment($meldingId){
-    $sql = ("SELECT kommentar.kommentar_id, kommentar.melding_id, kommentar.kommentar FROM kommentar WHERE melding_id= ('" . $meldingId . "')");
+    // $sql = ("SELECT kommentar.kommentar_id, kommentar.melding_id, kommentar.kommentar FROM kommentar WHERE melding_id= ('" . $meldingId . "')");
     // View;
-    // $sql = ("SELECT kommentar_id, melding_id, kommentar FROM `comment` WHERE melding_id = ('" . $meldingId . "')");
+    $sql = ("SELECT kommentar_id, melding_id, kommentar FROM `comment` WHERE melding_id = ('" . $meldingId . "')");
     $row = sqlQuery($sql);
     return $row;
 }
