@@ -75,7 +75,7 @@ session_start();
             if(!preg_match("/^[0-9]*$/", $_POST["PinButton"]))  
             {  
                     // Pin-kode inneholder noe annet enn tall.
-                    $logger->warning("Pin-kode inneholder noe annet enn tall. Forsøk på SQL-injections?")
+                    $logger->warning("Pin-kode inneholder noe annet enn tall. Forsøk på SQL-injections?");
             }
             else{ 
                 getEmneInfo($_POST["pinkode"]);
@@ -181,7 +181,7 @@ function getEmneInfo($pin){
 function getEmnekode($pin){
     if(!preg_match("/^[0-9]*$/", $pin)){
         // Feil input
-        $logger->warning("Variabelen pin inneholder noe annet enn tall. Forsøk på SQL-injections?")
+        $logger->warning("Variabelen pin inneholder noe annet enn tall. Forsøk på SQL-injections?");
     }
     else{
         $sql = "SELECT emne.emne_id 
