@@ -57,7 +57,8 @@
                 <option disabled selected value>Vennligst velg et sikkerhetsspørsmål</option>
             <?php
                         $database = new Database();
-                        $db = $database->connect();
+                        // $db = $database->connect();
+                        $db = $database->connectForeleser();
                         $query = "SELECT * FROM question";
 
                         $stmt = $db->query($query);
@@ -80,7 +81,8 @@
                 <?php
 
                         $database = new Database();
-                        $db = $database->connect();
+                        // $db = $database->connect();
+                        $db = $database->connectForeleser();
                         $query = "SELECT * FROM emne";
 
                         $stmt = $db->query($query);
