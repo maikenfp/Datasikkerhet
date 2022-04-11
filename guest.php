@@ -269,9 +269,9 @@ function showMessage($pin)
 function commentMessage($kommentar, $melding_id, $currentStudentId){
     if ($currentStudentId >= 1) {
         // IF students:
-        if(strlen($kommentar) > 26){
+        if(strlen($kommentar) > 26 || strlen($kommentar) < 3){
             // Feil input lengde
-            $logger->notice("Kommentar lenger en 26 tegn");
+            $logger->notice("Kommentar lenger en 26 eller mindre enn 3 tegn.");
         }
         else {
             $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
