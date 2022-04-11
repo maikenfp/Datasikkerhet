@@ -22,7 +22,8 @@ return $record;
 });*/
 
 $database = new Database();
-$db = $database->connect();
+// $db = $database->connect();
+$db = $database->connectForeleser();
 
 $fid = $_SESSION['foreleser_id'];
 $minPassLen = 8;
