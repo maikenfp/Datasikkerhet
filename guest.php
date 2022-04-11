@@ -19,7 +19,7 @@ session_start();
     <main>
         <form method="post">
             <label>Pin-kode:</label>
-            <input type="number" name='pinkode' min="0" max="9999">
+            <input type="number" name='pinkode' min="0" max="9999" required>
             <button type="submit" name="PinButton">Søk</button>
         </form>
         <a href="./logout.php">Logg ut</a>
@@ -71,23 +71,42 @@ session_start();
         // Forms actions:
         // Pin-kode form:
         if (isset($_POST["PinButton"])) {
-            getEmneInfo($_POST["pinkode"]);
-            getForeleserBilde($_POST["pinkode"]);
-            showMessage($_POST["pinkode"]);
+            usleep(800000);
+            if(!preg_match("/^[0-9]*$/", $_POST["PinButton"]))  
+            {  
+                    // Pin-kode inneholder noe annet enn tall.
+                    $logger->warning("Pin-kode inneholder noe annet enn tall. Forsøk på SQL-injections?")
+            }
+            else{ 
+                getEmneInfo($_POST["pinkode"]);
+                getForeleserBilde($_POST["pinkode"]);
+                showMessage($_POST["pinkode"]);
+            }
         }
 
         if (isset($_POST["button"])) {
             $pin = "[pin]";
             getEmneInfo($_POST["pin"]);
             getForeleserBilde($_POST["pin"]);
-            if ($currentStudentId >= 1) {
-                //IF Student:
-                commentMessage($_POST["kommenter"], $_POST["meldingID"], $_POST["studentID"]);
-            } else {
-                //IF guest:
-                commentMessage($_POST["kommenter"], $_POST["meldingID"], 0);
-            }
-            showMessage($_POST["pin"]);
+
+            // Input validation
+            
+            if(!preg_match("/^[a-zA-Z.!?,: 0-9 ]*$/", $_POST["kommenter"]))  
+            {  
+                    //Ugyldig tegn i kommentar feltet
+                    $logger->notice("Ugyldig tegn i kommentar feltet") 
+            } 
+            else{
+                if ($currentStudentId >= 1) {
+                    //IF Student:
+                    commentMessage($_POST["kommenter"], $_POST["meldingID"], $_POST["studentID"]);
+                } else {
+                    //IF guest:
+                    commentMessage($_POST["kommenter"], $_POST["meldingID"], 0);
+                }
+                showMessage($_POST["pin"]);
+
+            }  
         }
 
         if (isset($_POST['rapporter'])) {
@@ -112,6 +131,7 @@ function getForeleserBilde($pin){
 
     $sql = "SELECT bilde_navn, navn FROM foreleser f 
     JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$emneID'";
+    // $sql = "SELECT bilde_navn, navn FROM foreleserBilde JOIN foreleser_emne fe on fe.foreleser_id = f.foreleser_id WHERE emne_id = '$emneID'";
 
     $row = fetchArray($sql);
     if ($row){
@@ -127,6 +147,7 @@ function getForeleserBilde($pin){
 function sqlQuery($sql){
     $database = new Database();
     $db = $database->connect();
+    // $db = $database->connectGjest();
     $stmt = $db->query($sql);
     return $stmt;
 }
@@ -138,9 +159,14 @@ function fetchArray($sql){
 }
 
 function getEmneInfo($pin){
-    $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode 
-        FROM emne WHERE pinkode='$pin' limit 1";
+    // $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode 
+    //     FROM emne WHERE pinkode='$pin' limit 1";
+    $sql = "SELECT emnekode, emnenavn, pinkode FROM `emneInfo` WHERE pinkode='$pin' limit 1";
+    // $sql = "SELECT * FROM `emneInfo` WHERE pinkode='$pin' limit 1";
     $row = sqlQuery($sql);
+
+    
+    
 
     if ($row) {
         echo "<h2> Emne info: </h2>";
@@ -152,15 +178,24 @@ function getEmneInfo($pin){
 
 
 function getEmnekode($pin){
-    $sql = "SELECT emne.emne_id 
-        FROM emne WHERE pinkode='$pin' limit 1";
-    $row = sqlQuery($sql);
-    if ($row){
-        foreach ($row as $row){
-            return $row["emne_id"];
+    if(!preg_match("/^[0-9]*$/", $pin)){
+        // Feil input
+        $logger->warning("Variabelen pin inneholder noe annet enn tall. Forsøk på SQL-injections?")
+    }
+    else{
+        $sql = "SELECT emne.emne_id 
+            FROM emne WHERE pinkode='$pin' limit 1";
+            // FROM emne WHERE pinkode=('" . $pin . "') limit 1";
+        // $sql = "SELECT * FROM `emneKode` WHERE pinkode='$pin' limit 1";
+        $row = sqlQuery($sql);
+        if ($row){
+            foreach ($row as $row){
+                return $row["emne_id"];
+            }
         }
     }
 }
+
 
 function getMessage($pin){
     $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode, 
@@ -214,7 +249,7 @@ function showMessage($pin)
                 <input type="hidden" name="pin" value="<?php echo $pin ?>">
                 <label>Kommentar:</label>
                 <br>
-                <textarea name="kommenter" rows="4" cols="48"></textarea>
+                <textarea name="kommenter" rows="4" cols="48" minlength="3" maxlength="26"></textarea>
                 <button type="submit" name="button">Svar</button>
             <!-- </form> -->
 
@@ -233,22 +268,40 @@ function showMessage($pin)
 function commentMessage($kommentar, $melding_id, $currentStudentId){
     if ($currentStudentId >= 1) {
         // IF students:
-        $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
+        if(strlen($kommentar) > 26){
+            // Feil input lengde
+            $logger->notice("Kommentar lenger en 26 tegn");
+        }
+        else {
+            $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
                 VALUES ('$kommentar', '$melding_id', '$currentStudentId')";
-        sqlQuery($sql);
-        $logger->info("Student kommenterte en melding fra gjestesiden");
+            sqlQuery($sql);
+            $logger->info("Student kommenterte en melding fra gjestesiden");
+        }
     } else {
         // If guest users:
-        $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
-                VALUES ('$kommentar', '$melding_id', NULL)";
-                $logger->info("Gjest kommenterte en melding på gjestesiden");
-        sqlQuery($sql);
+        if(strlen($kommentar) > 26){
+            // Feil input lengde</p>
+            $logger->notice("Kommentar lenger en 26 tegn");
+        }
+        else {
+            $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
+                    VALUES ('$kommentar', '$melding_id', NULL)";
+                    $logger->info("Gjest kommenterte en melding på gjestesiden");
+            sqlQuery($sql);
+        }
     }
 }
 
 function reportMessage($id){
-    $sql = "UPDATE melding SET upassende_melding = (upassende_melding + 1) WHERE melding_id = $id";
-    $logger->notice("En melding ble rapportert");
-    sqlQuery($sql);
+    if(!preg_match("/^[0-9]*$/", $id)){
+        // Feil input
+        $logger->warning("Variabelen id inneholder noe annet enn tall. Forsøk på SQL-injections?")
+    }
+    else{
+        $sql = ("UPDATE melding SET upassende_melding = (upassende_melding + 1) WHERE melding_id = ('" . $id . "')");
+        $logger->notice("En melding ble rapportert");
+        sqlQuery($sql);
+    }
 }
 ?>
