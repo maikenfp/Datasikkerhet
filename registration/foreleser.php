@@ -12,7 +12,7 @@
 <form action="registration_foreleser.php" method="post" enctype="multipart/form-data">
             <h3>Foreleser</h3>
             <?php if (isset($_GET['error'])) { ?>
-	            <p class="error"><?php echo $_GET['error']; ?></p>
+	            <p class="error"><?php echo htmlspecialchars($_GET['error']); ?></p>
 	        <?php } ?>
         <div>
         <h4>Navn</h4>
