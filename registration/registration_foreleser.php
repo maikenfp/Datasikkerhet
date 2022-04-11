@@ -21,7 +21,8 @@ return $record;
 });*/
 
 $database = new Database();
-$db = $database->connect();
+// $db = $database->connect();
+$db = $database->connectForeleser();
 
 $minPassLen = 8;
 $maxPassLen = 32;
