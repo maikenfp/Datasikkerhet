@@ -21,7 +21,8 @@ return $record;
 });*/
 
 $database = new Database();
-$db = $database->connect();
+// $db = $database->connect();
+$db = $database->connectStudent();
 
 $passlen = 8;
 $maxPassLen = 32;
