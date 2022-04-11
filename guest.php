@@ -140,7 +140,7 @@ function getForeleserBilde($pin){
         foreach ($row as $row){
             $bilde_navn = $row["bilde_navn"];
             ?>
-            <img class="foreleser_bilde" src='photos/<?php echo $bilde_navn?>' width="250" height="250">
+            <img class="foreleser_bilde" src='detteerenmappesominneholdernoeduikkeskalse/<?php echo $bilde_navn?>' width="250" height="250">
             <?php
         }
     }
