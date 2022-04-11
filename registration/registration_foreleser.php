@@ -108,7 +108,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
             $imgExt = strtolower(pathinfo($imgFile, PATHINFO_EXTENSION));
 
-            $valid_extensions = array('jpeg', 'jpg', 'png', 'gif');
+            $valid_extensions = array('jpeg', 'jpg', 'png');
             $coverpic = rand(1000,1000000).".".$imgExt;
 
             if(in_array($imgExt, $valid_extensions)){
@@ -117,6 +117,8 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                     echo "Opplasting ferdig";
                 } else{
                     header("Location: foreleser.php?error=Filen er for stor");
+                    var_dump($imgSize);
+                    return;
                     $logger->warning("Prøvde å sende inn for stor fil!");
                     exit();
                 }
