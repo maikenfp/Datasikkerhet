@@ -18,10 +18,10 @@ $publisher = new Gelf\Publisher($transport);
 $handler = new GelfHandler($publisher, Logger::DEBUG);
 $logger->pushHandler($handler);
 
-$logger->pushProcessor(function ($record) {
-    $record['extra']['user'] = get_current_user();
-    return $record;
-});
+/*$logger->pushProcessor(function ($record) {
+$record['extra']['user'] = get_current_user();
+return $record;
+});*/
 $database = new Database();
 $db = $database->connect();
 
