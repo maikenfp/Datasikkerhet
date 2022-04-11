@@ -72,8 +72,14 @@
                 <li><strong>Permission-policy "autoplay 'none'; camera 'none'" er satt for å kontrollere hvilke operasjonner som nettleseren for lov til å
                     gjøre.
                 </strong></li>
+<<<<<<< HEAD
                 <li><strong>Opprettet lokalt certificate for SSL slik at HTTPS kan aktiveres. HTTP blir også redirectet til HTTPS for å unngå at HTTP kan brukes.
                 </strong></li>
+=======
+                <li>Hadde orginalt også en header for Content-Security-Policy, men vi var avhengig av scripts for bilde lasting, og
+                    fant ikke ut hva vi kunne sette den som uten å blokkere for scriptene.
+                </li>
+>>>>>>> 8d9bcd653f73a942430bd284307959bac72c2196
             </ul>
         </p>
 
@@ -148,9 +154,13 @@
             <li>Har lagt til inputvalidering for report message server side og håndterer alt som stringer..</li>
         </ul>
 
-        <h4>API</h4>
+        <h4>Andre ting</h4>
         <ul>
             <li>Kunne gjort slik at API ikke kjørte på default port, og gjort om til et ikke åpent API.</li>
+            <li>Satt opp logging til graylog så alle relevante hendelser blir logget dit. Prøvde også med tilleggsinformasjon
+                til meldingene som blir sendt til graylog, men klarte ikke å finne ut av det.</li>
+            <li>Skulle gjort graylog "usynlig"/utilgjengelig for andre, men vet ikke hvordan det gjøres. Kunne byttet
+                    port, men det er sketchy business.</li>
         </ul>
 
         <p>Alle konfigurasjonsfiler som vi har endret ligge <a href="../conf/index.html">her</a>, men er mye mer leselig i mappen "conf" i github.</p>

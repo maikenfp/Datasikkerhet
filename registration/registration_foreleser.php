@@ -15,10 +15,10 @@ $publisher = new Gelf\Publisher($transport);
 $handler = new GelfHandler($publisher,Logger::DEBUG);
 $logger->pushHandler($handler);
 
-$logger->pushProcessor(function ($record) {
+/*$logger->pushProcessor(function ($record) {
 $record['extra']['user'] = get_current_user();
 return $record;
-});
+});*/
 
 $database = new Database();
 $db = $database->connect();
@@ -104,7 +104,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
             VALUES (:uname,:uemail,:upassord, (SELECT question FROM question WHERE question_id = :sp1), :sv1,
             (SELECT question FROM question WHERE question_id =:sp2), :sv2, :bilde_navn)";
 
-            $upload_dir = '../photos/';
+            $upload_dir = '../detteerenmappesominneholdernoeduikkeskalse/';
 
             $imgExt = strtolower(pathinfo($imgFile, PATHINFO_EXTENSION));
 

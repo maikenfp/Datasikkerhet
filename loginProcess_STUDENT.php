@@ -15,10 +15,10 @@ $publisher = new Gelf\Publisher($transport);
 $handler = new GelfHandler($publisher,Logger::DEBUG);
 $logger->pushHandler($handler);
 
-$logger->pushProcessor(function ($record) {
+/*$logger->pushProcessor(function ($record) {
     $record['extra']['user'] = get_current_user();
     return $record;
-});
+});*/
 
 $database = new Database();
 $db = $database->connect();
@@ -37,7 +37,13 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
 
     if (empty($brukerEpost)) {
         htmlspecialchars(header("Location: login_STUDENT.php?error=Du må skrive inn epost!"));
-        $logger->info("Ikke skrevet email under innlogging som student");
+        /*$logger->pushProcessor(function ($record) {
+            $record['extra']['email'] = $brukerEpost;
+            return $record;
+        });*/
+        $logger->info('Ikke skrevet email under innlogging som student');
+        //$logger->info('Ikke skrevet email under innlogging som student', ['email' => '$brukerEpost']);
+
         exit();
     } else if(empty($brukerPassord)) {
         htmlspecialchars(header("Location: login_STUDENT.php?error=Du må skrive inn passord!"));
@@ -67,6 +73,10 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
                 $_SESSION['studiekull'] = $row['studiekull'];
 
                 header("Location: student/index.php");
+                /*$logger->pushProcessor(function ($record) {
+                    $record['extra']['user'] = $brukerEpost;
+                    return $record;
+                });*/
                 $logger->info("Student logget inn");
                 exit();
             } else {
