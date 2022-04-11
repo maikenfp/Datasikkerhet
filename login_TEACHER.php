@@ -10,7 +10,7 @@
 	        <h2>FORELESER LOGG INN</h2>
 
 	        <?php if (isset($_GET['error'])) { ?>
-	            <p class="error"><?php echo $_GET['error']; ?></p>
+	            <p class="error"><?php echo htmlspecialchars($_GET['error']); ?></p>
 	        <?php } ?>
 
 	        <label>E-post</label>
