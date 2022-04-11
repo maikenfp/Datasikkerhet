@@ -34,7 +34,7 @@
          $_SESSION['epost'] = $epost;
     }
     
-    $epost = $_SESSION['epost'];
+    $epost = strip_tags(trim($_SESSION['epost']));
 
     $database = new Database();
     $db = $database->connect();
@@ -44,10 +44,10 @@
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if(($epost === $row['epost'])){
-        $_SESSION['epost'] = $epost;
+        $_SESSION['epost'] = strip_tags(trim($epost));
 
     }else{
-        header("Location: index.php?error=Email ikke registrert!");
+        validate(header("Location: index.php?error=Email ikke registrert!"));
         $logger->notice("Brukte en ikke-eksisterende epost under glemt passord.");
     }
 
@@ -68,7 +68,7 @@
         <main>
             <h1>Foreleser</h1>
             <?php if (isset($_GET['error'])) { ?>
-	            <p class="error"><?php echo $_GET['error']; ?></p>
+	            <p class="error"><?php echo validate($_GET['error']); ?></p>
             <?php } ?>
             <form action="new-password.php" method="post" class="form">
                     <label for="svar1"><?php
