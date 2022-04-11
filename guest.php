@@ -160,10 +160,10 @@ function fetchArray($sql){
 }
 
 function getEmneInfo($pin){
-    // $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode 
-    //     FROM emne WHERE pinkode='$pin' limit 1";
-    $sql = "SELECT emnekode, emnenavn, pinkode FROM `emneInfo` WHERE pinkode='$pin' limit 1";
-    // $sql = "SELECT * FROM `emneInfo` WHERE pinkode='$pin' limit 1";
+    $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode 
+        FROM emne WHERE pinkode='$pin' limit 1";
+    // View;
+    // $sql = "SELECT emnekode, emnenavn, pinkode FROM `emneInfo` WHERE pinkode='$pin' limit 1";
     $row = sqlQuery($sql);
 
     
