@@ -37,7 +37,8 @@ return $record;
     $epost = strip_tags(trim($_SESSION['epost']));
 
     $database = new Database();
-    $db = $database->connect();
+    // $db = $database->connect();
+    $db = $database->connectForeleser();
 
     $query = "SELECT * from foreleser WHERE epost='$epost'";
     $stmt = $db->query($query);

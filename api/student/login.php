@@ -6,7 +6,8 @@
  include_once '../../models/Student.php';
 
  $database = new Database();
- $db = $database->connect();
+//  $db = $database->connect();
+$db = $database->connectStudent();
 
  $student = new Student($db);
 

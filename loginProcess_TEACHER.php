@@ -22,6 +22,7 @@ return $record;
 
 $database = new Database();
 $db = $database->connect();
+$db = $database->connectForeleser();
 
 if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
     function validate($data) {

@@ -32,7 +32,8 @@ function validate($data) {
 }
 
 $database = new Database();
-$db = $database->connect();
+// $db = $database->connect();
+$db = $database->connectForeleser();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $responseID = validate($_POST['responseID']);

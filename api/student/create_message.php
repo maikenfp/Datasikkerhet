@@ -9,7 +9,8 @@
   include_once '../../models/Message.php';
 
   $database = new Database();
-  $db = $database->connect();
+  // $db = $database->connect();
+  $db = $database->connectStudent();
 
   $message = new Message($db);
 

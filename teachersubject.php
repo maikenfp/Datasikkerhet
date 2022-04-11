@@ -20,7 +20,8 @@ function validate($data) {
 
 
 $database = new Database();
-$db = $database->connect();
+// $db = $database->connect();
+$db = $database->connectForeleser();
 
 if (empty($fid)) {
     header('Location: index.php');
@@ -54,7 +55,8 @@ if (empty($fid)) {
         </h1>
         <?php
         $database = new Database();
-        $db = $database->connect();
+        // $db = $database->connect();
+        $db = $database->connectForeleser();
         $sql = "SELECT * from melding WHERE emne_id=$emneID AND svar IS NULL";
         $stmt = $db->query($sql);
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -79,7 +81,8 @@ if (empty($fid)) {
         }
 
         $database = new Database();
-        $db = $database->connect();
+        // $db = $database->connect();
+        $db = $database->connectForeleser();
         $sql = "SELECT * from melding WHERE emne_id=$emneID";
         $stmt = $db->query($sql);
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);

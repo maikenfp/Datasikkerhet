@@ -3,7 +3,8 @@
     require 'config/Database.php';
 
     $database = new Database();
-    $db = $database->connect();
+    // $db = $database->connect();
+    $db = $database->connectForeleser();
     $fid = $_SESSION['foreleser_id'];
 
     if(empty($fid)){
@@ -52,7 +53,8 @@
 
                     <?php
                     $database = new Database();
-                    $db = $database->connect();
+                    // $db = $database->connect();
+                    $db = $database->connectForeleser();
 
                     $query = "SELECT * FROM emne WHERE emne_id IN $in";
                     $stmt = $db->query($query);
