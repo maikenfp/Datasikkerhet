@@ -36,15 +36,15 @@ if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
     $brukerPassord = validate($_POST['brukerPassord']);
 
     if (empty($brukerEpost)) {
-        header("Location: login_TEACHER.php?error=Du må skrive inn epost!");
+        htmlspecialchars(header("Location: login_TEACHER.php?error=Du må skrive inn epost!"));
         $logger->info("Ikke skrevet email under innlogging som foreleser");
         exit();
     } else if(empty($brukerPassord)) {
-        header("Location: login_TEACHER.php?error=Du må skrive inn passord!");
+        htmlspecialchars(header("Location: login_TEACHER.php?error=Du må skrive inn passord!"));
         $logger->info("Ikke skrevet passord under innlogging som foreleser");
         exit();
     } else if (!filter_var($brukerEpost, FILTER_VALIDATE_EMAIL)) {
-        header("Location: login_TEACHER.php?error=Eposten er ikke gyldig!");
+        htmlspecialchars(header("Location: login_TEACHER.php?error=Eposten er ikke gyldig!"));
         $logger->warning("Tastet inn ugyldig epost hos innlogging for foreleser");
         exit();
     } else {
