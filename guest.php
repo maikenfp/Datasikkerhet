@@ -306,11 +306,11 @@ function reportMessage($id){
     if(!preg_match("/^[0-9]*$/", $id)){
         // Feil input
         echo "\n<h2> Alert (Feil input)</h2>";
-        $logger->warning("Variabelen id inneholder noe annet enn tall. Forsøk på SQL-injections?");
+        // $logger->warning("Variabelen id inneholder noe annet enn tall. Forsøk på SQL-injections?");
     }
     else{
         $sql = ("UPDATE melding SET upassende_melding = (upassende_melding + 1) WHERE melding_id = ('" . $id . "')");
-        $logger->notice("En melding ble rapportert");
+        // $logger->notice("En melding ble rapportert");
         sqlQuery($sql);
     }
 }
