@@ -75,6 +75,7 @@ session_start();
             if(!preg_match("/^[0-9]*$/", $_POST["PinButton"]))  
             {  
                     // Pin-kode inneholder noe annet enn tall.
+                    echo "\n<h2> Alert (Feil input)</h2>";
                     $logger->warning("Pin-kode inneholder noe annet enn tall. Forsøk på SQL-injections?");
             }
             else{ 
@@ -94,6 +95,7 @@ session_start();
             if(!preg_match("/^[a-zA-Z.!?,: 0-9 ]*$/", $_POST["kommenter"]))  
             {  
                     //Ugyldig tegn i kommentar feltet
+                    echo "\n<h2> Alert (Ugyldig tegn!)</h2>";
                     $logger->notice("Ugyldig tegn i kommentar feltet");
             } 
             else{
@@ -181,6 +183,7 @@ function getEmneInfo($pin){
 function getEmnekode($pin){
     if(!preg_match("/^[0-9]*$/", $pin)){
         // Feil input
+        echo "\n<h2> Alert (Feil input)</h2>";
         $logger->warning("Variabelen pin inneholder noe annet enn tall. Forsøk på SQL-injections?");
     }
     else{
@@ -274,6 +277,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
         // if(strlen($kommentar) > 26 || strlen($kommentar) < 3){
         if(strlen($kommentar) > 26){
             // Feil input lengde
+            echo "\n<h2> Alert (Feil input lengde)</h2>";
             $logger->notice("Kommentar lenger en 26 eller mindre enn 3 tegn.");
         }
         else {
@@ -286,6 +290,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
         // If guest users:
         if(strlen($kommentar) > 26){
             // Feil input lengde
+            echo "\n<h2> Alert (Feil input lengde)</h2>"; 
             $logger->notice("Kommentar lenger en 26 tegn");
         }
         else {
@@ -300,6 +305,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
 function reportMessage($id){
     if(!preg_match("/^[0-9]*$/", $id)){
         // Feil input
+        echo "\n<h2> Alert (Feil input)</h2>";
         $logger->warning("Variabelen id inneholder noe annet enn tall. Forsøk på SQL-injections?");
     }
     else{
