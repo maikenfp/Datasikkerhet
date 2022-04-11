@@ -274,7 +274,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
                 VALUES ('$kommentar', '$melding_id', '$currentStudentId')";
             sqlQuery($sql);
             $logger->info("Student kommenterte en melding fra gjestesiden");
-        
+        }
     } else {
         // If guest users:
         if(strlen($kommentar) > 26){
