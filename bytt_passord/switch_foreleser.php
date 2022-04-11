@@ -51,10 +51,10 @@ if(empty($fid)){
             header("Location: change_foreleser.php?error=Du må skrive inn nytt passord!");
             $logger->info("Skrev ikke inn nytt passord!");
             exit();
-        } else if(strlen($nyttpassord) < $minPasslen) {
+        } else if(strlen($nyttpassord) > $minPasslen) {
             header("Location: change_foreleser.php?error=Prøv et sikrere passord");
             exit();
-        } else if(strlen($nyttpassord) > $maxPasslen) {
+        } else if(strlen($nyttpassord) < $maxPasslen) {
             header("Location: change_foreleser.php?error=Passordet er for langt!");
             exit();
         } else {
