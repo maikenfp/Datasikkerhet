@@ -117,8 +117,6 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                     echo "Opplasting ferdig";
                 } else{
                     header("Location: foreleser.php?error=Filen er for stor");
-                    var_dump($imgSize);
-                    return;
                     $logger->warning("Prøvde å sende inn for stor fil!");
                     exit();
                 }
