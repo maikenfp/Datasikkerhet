@@ -72,8 +72,7 @@
                 <li><strong>Permission-policy "autoplay 'none'; camera 'none'" er satt for å kontrollere hvilke operasjonner som nettleseren for lov til å
                     gjøre.
                 </strong></li>
-                <li><strong>Opprettet lokalt certificate for SSL slik at HTTPS kan aktiveres. HTTP blir også redirectet til HTTPS for å unngå at HTTP kan brukes.
-                </strong></li>
+
                 <li>Hadde orginalt også en header for Content-Security-Policy, men vi var avhengig av scripts for bilde lasting, og
                     fant ikke ut hva vi kunne sette den som uten å blokkere for scriptene. Dette gjelder da også tilgangen til bilde mappen, 
                     kunne ikke blokkere tilgangen til mappen da vi trengte scriptene.
@@ -177,6 +176,7 @@
             <li>Skulle gjort graylog "usynlig"/utilgjengelig for andre, men vet ikke hvordan det gjøres. Kunne byttet
                     port, men det er sketchy business.</li>
             <li>Testet svakheter på siden med OWASP ZAP for å se om de endringene som ble gjort fjernet svakhetene</li>
+            <li>Opprettet lokalt certificate for SSL slik at HTTPS kan aktiveres. HTTP blir også redirectet til HTTPS for å hindre bruk av HTTP.</li>
         </ul>
 
         <p>Alle konfigurasjonsfiler som vi har endret ligge <a href="../conf/index.html" target="_blank">her</a>, men er mye mer leselig i mappen "conf" i github.</p>
