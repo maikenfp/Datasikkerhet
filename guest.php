@@ -150,8 +150,8 @@ function getForeleserBilde($pin){
 
 function sqlQuery($sql){
     $database = new Database();
-    $db = $database->connect();
-    // $db = $database->connectGjest();
+    // $db = $database->connect();
+    $db = $database->connectGjest();
     $stmt = $db->query($sql);
     return $stmt;
 }
