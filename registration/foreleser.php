@@ -33,7 +33,8 @@
             <?php
                     require '../config/Database.php';
                         $database = new Database();
-                        $db = $database->connect();
+                        // $db = $database->connect();
+                        $db = $database->connectForeleser();
                         $query = "SELECT * FROM question";
 
                         $stmt = $db->query($query);
