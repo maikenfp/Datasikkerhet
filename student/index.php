@@ -66,7 +66,7 @@ session_start();
                     const createImageElement = (pictureArray) => {
                         pictureArray.forEach(e => {
                             let img = $('<img class="foreleserImg"/>')
-                            img.attr('src', ".././photos/" + e);
+                            img.attr('src', ".././detteerenmappesominneholdernoeduikkeskalse/" + e);
                             img.appendTo('#foreleserDiv');
                         });
                     }
