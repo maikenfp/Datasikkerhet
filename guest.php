@@ -284,7 +284,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
             $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
                 VALUES ('$kommentar', '$melding_id', '$currentStudentId')";
             sqlQuery($sql);
-            $logger->info("Student kommenterte en melding fra gjestesiden");
+            // $logger->info("Student kommenterte en melding fra gjestesiden");
         }
     } else {
         // If guest users:
@@ -296,7 +296,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
         else {
             $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
                     VALUES ('$kommentar', '$melding_id', NULL)";
-                    $logger->info("Gjest kommenterte en melding på gjestesiden");
+                    // $logger->info("Gjest kommenterte en melding på gjestesiden");
             sqlQuery($sql);
         }
     }
