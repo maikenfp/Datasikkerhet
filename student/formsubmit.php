@@ -23,7 +23,8 @@ $record['extra']['user'] = get_current_user();
 return $record;
 });*/
 $database = new Database();
-$db = $database->connect();
+// $db = $database->connect();
+$db = $database->connectStudent();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Form variabler (htmlspecialchars hindrer XSS) 
@@ -72,7 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 function getForeleserBilde($pin)
 {
     $database = new Database();
-    $db = $database->connect();
+    // $db = $database->connect();
+    $db = $database->connectStudent();
     $emneID = $pin;
     $a = array();
 

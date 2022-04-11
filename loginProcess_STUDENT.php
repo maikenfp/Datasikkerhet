@@ -21,7 +21,8 @@ $logger->pushHandler($handler);
 });*/
 
 $database = new Database();
-$db = $database->connect();
+// $db = $database->connect();
+$db = $database->connectStudent();
 
 if (isset($_POST['brukerEpost']) && isset($_POST['brukerPassord'])) {
     function validate($data){

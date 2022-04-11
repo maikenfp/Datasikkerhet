@@ -29,7 +29,8 @@ session_start();
                     require '.././config/Database.php';
 
                     $database = new Database();
-                    $db = $database->connect();
+                    // $db = $database->connect();
+                    $db = $database->connectStudent();
 
                     if (empty($currentStudentId)) {
                         header('Location: ../index.php');
