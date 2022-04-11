@@ -48,7 +48,8 @@ return $record;
 
     if($pw1 === $pw2){
         $database = new Database();
-        $db = $database->connect();
+        // $db = $database->connect();
+        $db = $database->connectForeleser();
 
         $query = "UPDATE foreleser SET passord='$pass_hash' WHERE epost='$epost'";
         $stmt = $db->query($query);
