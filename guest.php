@@ -74,7 +74,8 @@ session_start();
             usleep(800000);
             if(!preg_match("/^[0-9]*$/", $_POST["PinButton"]))  
             {  
-                    // $name_error = "<p>Feil input type</p>";  
+                    // Pin-kode inneholder noe annet enn tall.
+                    $logger->warning("Pin-kode inneholder noe annet enn tall. Forsøk på SQL-injections?")
             }
             else{ 
                 getEmneInfo($_POST["pinkode"]);
@@ -92,7 +93,8 @@ session_start();
             
             if(!preg_match("/^[a-zA-Z.!?,: 0-9 ]*$/", $_POST["kommenter"]))  
             {  
-                    // $name_error = "<p>Feil input type</p>";  
+                    //Ugyldig tegn i kommentar feltet
+                    $logger->notice("Ugyldig tegn i kommentar feltet") 
             } 
             else{
                 if ($currentStudentId >= 1) {
@@ -178,6 +180,7 @@ function getEmneInfo($pin){
 function getEmnekode($pin){
     if(!preg_match("/^[0-9]*$/", $pin)){
         // Feil input
+        $logger->warning("Variabelen pin inneholder noe annet enn tall. Forsøk på SQL-injections?")
     }
     else{
         $sql = "SELECT emne.emne_id 
@@ -266,8 +269,8 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
     if ($currentStudentId >= 1) {
         // IF students:
         if(strlen($kommentar) > 26){
-            // "<p>Feil input lengde</p>"
-            // Burde legges i en try catch som så registreres av graylog
+            // Feil input lengde
+            $logger->notice("Kommentar lenger en 26 tegn");
         }
         else {
             $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
@@ -278,7 +281,8 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
     } else {
         // If guest users:
         if(strlen($kommentar) > 26){
-            // "<p>Feil input lengde</p>"
+            // Feil input lengde</p>
+            $logger->notice("Kommentar lenger en 26 tegn");
         }
         else {
             $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
@@ -292,6 +296,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
 function reportMessage($id){
     if(!preg_match("/^[0-9]*$/", $id)){
         // Feil input
+        $logger->warning("Variabelen id inneholder noe annet enn tall. Forsøk på SQL-injections?")
     }
     else{
         $sql = ("UPDATE melding SET upassende_melding = (upassende_melding + 1) WHERE melding_id = ('" . $id . "')");
