@@ -102,11 +102,12 @@
         <ul>
             <li>Lagt til validering av eposter med: else if(!filter_var($email, FILTER_VALIDATE_EMAIL))</li>
             <li>Lagt til validering av input, slikt at tegn som potensielt kan gjøre slikt at kode blir kjørt, så vil det bli fjernet fra inputet før det lastes opp. Brukt funksjoner under.    
-                
+                validate(){
                 preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
                 trim($data);
                 stripslashes($data);
                 htmlspecialchars($data);
+                }
             </li>
             <li>Lagt til hashing av passord for både student og foreleser</li>
             <li>La til begrensning på 8MB for alle filer</li>
@@ -125,21 +126,21 @@
             <li>Bruker en logger for å logge når en ny melding blir sendt.</li>
             <li>Har laget student bruker i databasen med begrenset rettigheter, men har ikke fått implementert funksjonaliteten på student hjemmesiden til å bruke denne.</li>
         </ul>
-
         <h4>Foreleser hjemmeside</h4>
         <ul>
-            <li>Lagt til inputvalidering av dropdown menyen, sjekker om valuen er numerisk eller ikke. (forhindrer sql injections gjennom inspect element)</li>
-            <li>Endret SQL querys til å ha prepared statements for å forhindre sql injections</li>
-            <li>htmlspecialchars() ble tatt i bruk på meldingen som brukeren sender. Den endrer spesielle tegn til HTML entities. - "< = &lt;" "> = &gt" og fnutter blir til "&qt" osv.  </li>
+            <li>validate() brukes for å forhindre XXS og sql injection i post, get og header()</li>
+            <li>Manger å opprette bruker og views for foreleser</li>
 
         </ul>
 
         <h4>Foreleser reset-password</h4>
         <ul>
-            <li>Lagt til inputvalidering av post statements og for error-meldinger(header) forhindrer sql injections</li>
-
+            <li>Lagt til inputvalidering av post og get statements, samt for error-meldinger(header) forhindrer sql injections og XXS</li>
+            <li>Headers er definert i config for server som ekstra sikkerhet mot XXS</li>
+            <li>Manger å opprette bruker og views for reset passord</li>
 
         </ul>
+
 
         <h4>Gjestesiden</h4>
         <ul>
