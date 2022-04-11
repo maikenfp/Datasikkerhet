@@ -25,6 +25,7 @@
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
+        $data = strip_tags($data);
 
         return $data;
     }
@@ -34,7 +35,7 @@
          $_SESSION['epost'] = $epost;
     }
     
-    $epost = $_SESSION['epost'];
+    $epost = validate($_SESSION['epost']);
 
     $database = new Database();
     $db = $database->connect();
@@ -44,10 +45,10 @@
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if(($epost === $row['epost'])){
-        $_SESSION['epost'] = $epost;
+        $_SESSION['epost'] = validate($epost));
 
     }else{
-        header("Location: index.php?error=Email ikke registrert!");
+        validate(header("Location: index.php?error=Email ikke registrert!"));
         $logger->notice("Brukte en ikke-eksisterende epost under glemt passord.");
     }
 
