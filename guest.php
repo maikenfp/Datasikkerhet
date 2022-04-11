@@ -184,10 +184,9 @@ function getEmnekode($pin){
         $logger->warning("Variabelen pin inneholder noe annet enn tall. Forsøk på SQL-injections?");
     }
     else{
-        $sql = "SELECT emne.emne_id 
-            FROM emne WHERE pinkode='$pin' limit 1";
-            // FROM emne WHERE pinkode=('" . $pin . "') limit 1";
-        // $sql = "SELECT * FROM `emneKode` WHERE pinkode='$pin' limit 1";
+        $sql = "SELECT emne.emne_id FROM emne WHERE pinkode = '$pin' limit 1";
+        // View
+        // $sql = ("SELECT emne_id, pinkode FROM `emneKode2` WHERE pinkode = ('" . $pin . "') limit 1");
         $row = sqlQuery($sql);
         if ($row){
             foreach ($row as $row){
@@ -202,13 +201,16 @@ function getMessage($pin){
     $sql = "SELECT emne.emnekode, emne.emnenavn, emne.pinkode, 
          melding.svar, melding.question, melding.melding_id, melding.dato, melding.upassende_melding
          FROM emne INNER JOIN melding ON emne.emne_id = melding.emne_id WHERE pinkode='$pin'";
+    // $sql = "SELECT emnekode, emnenavn, pinkode, svar, question, melding_id, dato, upassende_melding WHERE pinkode = '$pin'";
     $row = sqlQuery($sql);
     return $row;
 }
 
 
 function getComment($meldingId){
-    $sql = "SELECT kommentar.kommentar_id, kommentar.melding_id, kommentar.kommentar FROM kommentar WHERE melding_id='$meldingId'";
+    $sql = ("SELECT kommentar.kommentar_id, kommentar.melding_id, kommentar.kommentar FROM kommentar WHERE melding_id= ('" . $meldingId . "')");
+    // View;
+    // $sql = ("SELECT kommentar_id, melding_id, kommentar FROM `comment` WHERE melding_id = ('" . $meldingId . "')");
     $row = sqlQuery($sql);
     return $row;
 }
@@ -269,7 +271,8 @@ function showMessage($pin)
 function commentMessage($kommentar, $melding_id, $currentStudentId){
     if ($currentStudentId >= 1) {
         // IF students:
-        if(strlen($kommentar) > 26 || strlen($kommentar) < 3){
+        // if(strlen($kommentar) > 26 || strlen($kommentar) < 3){
+        if(strlen($kommentar) > 26){
             // Feil input lengde
             $logger->notice("Kommentar lenger en 26 eller mindre enn 3 tegn.");
         }
