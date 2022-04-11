@@ -51,10 +51,10 @@ if(empty($sid)){
             header("Location: change_student.php?error=Du må skrive inn nytt passord!");
             $logger->info("Skrev ikke inn nytt passord!");
             exit();
-        } else if(strlen($nyttpassord) < $minPasslen) {
+        } else if(strlen($nyttpassord) < $minPassLen) {
             header("Location: change_student.php?error=Prøv et sikrere passord!");
             exit();
-        } else if(strlen($nyttpassord) > $maxPasslen) {
+        } else if(strlen($nyttpassord) > $maxPassLen) {
             header("Location: change_student.php?error=Passordet er for langt!");
             exit();
         } else {
@@ -92,4 +92,6 @@ if(empty($sid)){
             $logger->debug("Noe gikk galt under bytting av passord for student");
             exit();
 
+    }
 }
+?>

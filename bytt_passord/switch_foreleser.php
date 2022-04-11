@@ -51,10 +51,10 @@ if(empty($fid)){
             header("Location: change_foreleser.php?error=Du må skrive inn nytt passord!");
             $logger->info("Skrev ikke inn nytt passord!");
             exit();
-        } else if(strlen($nyttpassord) < $minPasslen) {
+        } else if(strlen($nyttpassord) < $minPassLen) {
             header("Location: change_foreleser.php?error=Prøv et sikrere passord");
             exit();
-        } else if(strlen($nyttpassord) > $maxPasslen) {
+        } else if(strlen($nyttpassord) > $maxPassLen) {
             header("Location: change_foreleser.php?error=Passordet er for langt!");
             exit();
         } else {
@@ -63,7 +63,7 @@ if(empty($fid)){
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if($row){
-                if(intval($row['student_id']) == $sid && password_verify($passord, $row['passord'])){
+                if(intval($row['foreleser_id']) == $fid && password_verify($passord, $row['passord'])){
                     $query = "UPDATE foreleser SET passord='$nyttpassord_hash' WHERE foreleser_id='$fid'";
                     $change = $db->query($query);
 
@@ -94,3 +94,5 @@ if(empty($fid)){
 
     }
 }
+
+?>
