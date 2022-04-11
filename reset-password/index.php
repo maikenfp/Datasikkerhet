@@ -1,8 +1,15 @@
 <?php
     session_start();
+
+    function validate($data) {
+        $data = preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="nb">
@@ -20,7 +27,7 @@
             <h1>Foreleser</h1>
 
             <?php if (isset($_GET['error'])) { ?>
-	            <p class="error"><?php echo $_GET['error']; ?></p>
+	            <p class="error"><?php echo validate(strip_tags($_GET['error'])); ?></p>
             <?php } ?>
             <form action="password-reset.php" method="post" class="form">
                 <label for="epost">Epost:<span class="required"></span></label>

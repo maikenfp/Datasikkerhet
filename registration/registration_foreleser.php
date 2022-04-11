@@ -2,10 +2,29 @@
 session_start();
 include "../config/Database.php";
 
+require __DIR__ . '/../../../vendor/autoload.php';
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\GelfHandler;
+use Gelf\Message;
+use Monolog\Formatter\GelfMessageFormatter;
+
+$logger = new Logger('sikkerhet');
+$transport = new Gelf\Transport\UdpTransport("127.0.0.1", 12201);
+$publisher = new Gelf\Publisher($transport);
+$handler = new GelfHandler($publisher,Logger::DEBUG);
+$logger->pushHandler($handler);
+
+$logger->pushProcessor(function ($record) {
+$record['extra']['user'] = get_current_user();
+return $record;
+});
+
 $database = new Database();
 $db = $database->connect();
 
-$passlen = 8;
+$minPassLen = 8;
+$maxPassLen = 32;
 define('KB', 1024);
 define('MB', 1048576);
 define('GB', 1073741824);
@@ -39,24 +58,36 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
     if(empty($username)) {
         header("Location: foreleser.php?error=Du må skrive inn navn!");
+        $logger->info("Skrev ikke inn navn under registrering av foreleser");
         exit();
     } else if(empty($email)) {
         header("Location: foreleser.php?error=Du må skrive inn epost!");
+        $logger->info("Skrev ikke inn epost under registrering av foreleser");
         exit();
     } else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: foreleser.php?error=Eposten er ikke gyldig!");
+        $logger->notice("Skrev inn ugyldig epost under registrering av student");
         exit();
     } else if(empty($password)) {
         header("Location: foreleser.php?error=Du må skrive inn passord!");
+        $logger->info("Skrev ikke inn passord under registrering av foreleser");
         exit();
-    } else if(strlen($password) < $passlen) { //Check if pasword is shorter than value of $passlen
+    } else if(strlen($password) < $minPassLen) { //Check if pasword is shorter than value of $passlen
         header("Location: foreleser.php?error=Prøv et sikrere passord");
+        exit();
+    } else if(strlen($password) > $maxPassLen) { //Check if pasword is longer than value of $passlen
+        header("Location: foreleser.php?error=Prøv et mindre sikkert passord ;)");
         exit();
     } else if(empty($course)) {
         header("Location: foreleser.php?error=Du må skrive inn emne!");
+        $logger->info("Valgte ikke emne under registrering av foreleser");
         exit();
     } else if(empty($imgFile)) {
         header("Location: foreleser.php?error=Du har ikke valgt bilde!");
+        $logger->info("La ikke ved et bilde under registrering av foreleser");
+        exit();
+    } else if($sp1 === $sp2) {
+        header("Location: foreleser.php?error=Du kan ikke velge samme sikkerhetsspørsmål!");
         exit();
     } else {
         $query = "SELECT epost FROM foreleser WHERE epost = '$email'";
@@ -66,6 +97,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
 
         if($row_count > 0) {
             header("Location: foreleser.php?error=Eposten er allerede i bruk!");
+            $logger->info("Prøvde å registrere en foreleser bruker med en eksisterende epost");
             exit();
         } else {
             $sql= "INSERT INTO foreleser (navn,epost,passord,glemt_question_1,glemt_svar_1,glemt_question_2,glemt_svar_2,bilde_navn)
@@ -85,10 +117,12 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                     echo "Opplasting ferdig";
                 } else{
                     header("Location: foreleser.php?error=Filen er for stor");
+                    $logger->warning("Prøvde å sende inn for stor fil!");
                     exit();
                 }
             } else{
                 header("Location: foreleser.php?error=Det er ikke gyldig filtype!");
+                $logger->warning("Prøvde å sende inn en uønsket filtype!");
                 exit();
             }
 
@@ -125,6 +159,7 @@ if(isset($_POST["fore_reg"])) { // Requester action fra knappen som er til regis
                 $stmt2->execute();
 
                 header("Location: ../teacher.php");
+                $logger->info("Foreleser bruker opprettet");
                 exit();
             }
 

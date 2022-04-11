@@ -6,7 +6,6 @@
     $db = $database->connect();
     $fid = $_SESSION['foreleser_id'];
 
-
     if(empty($fid)){
         header('Location: index.php');
     } else {

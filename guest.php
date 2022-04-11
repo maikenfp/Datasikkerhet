@@ -50,6 +50,24 @@ session_start();
 
         include_once "config/Database.php";
 
+        require __DIR__ . '/../../vendor/autoload.php';
+        use Monolog\Logger;
+        use Monolog\Handler\StreamHandler;
+        use Monolog\Handler\GelfHandler;
+        use Gelf\Message;
+        use Monolog\Formatter\GelfMessageFormatter;
+
+        $logger = new Logger('sikkerhet'); 
+        $transport = new Gelf\Transport\UdpTransport("127.0.0.1", 12201);
+        $publisher = new Gelf\Publisher($transport);
+        $handler = new GelfHandler($publisher,Logger::DEBUG);
+        $logger->pushHandler($handler);
+
+        $logger->pushProcessor(function ($record) {
+            $record['extra']['user'] = get_current_user();
+            return $record;
+        });
+
         // Forms actions:
         // Pin-kode form:
         if (isset($_POST["PinButton"])) {
@@ -255,7 +273,8 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
             $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
                 VALUES ('$kommentar', '$melding_id', '$currentStudentId')";
             sqlQuery($sql);
-        }
+            $logger->info("Student kommenterte en melding fra gjestesiden");
+        
     } else {
         // If guest users:
         if(strlen($kommentar) > 26){
@@ -264,6 +283,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
         else {
             $sql = "INSERT INTO kommentar (kommentar, melding_id, student_id) 
                     VALUES ('$kommentar', '$melding_id', NULL)";
+                    $logger->info("Gjest kommenterte en melding på gjestesiden");
             sqlQuery($sql);
         }
     }
@@ -275,6 +295,7 @@ function reportMessage($id){
     }
     else{
         $sql = ("UPDATE melding SET upassende_melding = (upassende_melding + 1) WHERE melding_id = ('" . $id . "')");
+        $logger->notice("En melding ble rapportert");
         sqlQuery($sql);
     }
 }

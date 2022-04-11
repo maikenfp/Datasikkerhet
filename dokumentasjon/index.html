@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+        <meta charset="utf-8">
+	</head>
+
+	<body>
+	     <h1>Dokumentasjon</h1>
+
+        <h2>Steg 2</h2>
+        <p> Vi har laget et tilbakemeldingssystem for studenter og forelesere. Vi har jobbet med prosjektet lokalt gjennom git hvor alle har jobbet på
+            hver sine brancher, så koblet vi alt sammen til slutt. Vi brukte XXAMP som webserver for å teste lokalt.
+        </p>
+        <p>
+            For å hente foreleser bilde når endringer ble gjort i en dropdown meny, så har jquery og ajax blitt tatt i bruk.
+        </p>
+
+        <h4>Logg inn</h4>
+        <p>Forsiden vil være en logg inn side hvor du kan logge inn som student, foreleser eller gjest. Det er også en knapp
+            videre til registrering dersom man ikke har en bruker. For å logge inn som student trenger man en eksisterende bruker
+            og må skrive inn riktig epost og passord. Skriver du inn feil epost og/eller feil passord vil du ikke kunne logge inn.
+            Det samme gjelder for foreleser, men for foreleser vil det også være en knapp hvor du kan utføre "glemt passord".
+            For å komme inn på gjestesiden trenger du riktig pinkode til et av fagene, du kommer ikke inn uten riktig pinkode.
+        </p>
+
+        <h4>Student hjemmeside</h4>
+        <p>Når du er logget inn som student vil du ha en dropdown meny hvor du kan velge et emne du er registrert på, da vil bilde
+            av foreleser(e) for det faget komme opp. Etter valgt emne vil du kunne sende melding til foreleserene som har dette emnet. 
+            Tidligere meldinger du har sendt vil også bli listet under, samt eventuell respons fra foreleser. 
+        </p>
+
+        <h4>Foreleser hjemmeside </h4>
+        <p>Når du er logget inn som foreleser vil du kunne velge hvilket emne du vil se tilhørende meldinger til, samt svare på
+            disse meldingene, men bare 1 svar per melding. Tidligere meldinger og svar vil bli listet opp. 
+        </p>
+
+        <h4>Gjest</h4>
+        <p>Som gjest vil du kunne se alle meldinger tilhørende emne og eventuelle svar fra foreleser. Du kan kommentere meldinger,
+            og rapportere meldinger du synes er upassende, du forblir anonym. Dersom du fortsatt er logget inn som student eller 
+            foreleser når du besøker gjestesiden vil meldingen bli koblet til deg(men eventuelle kommentarer blir anonyme for brukere).
+        </p>
+
+        <h4>Registrering </h4>
+        <p>Du kan registrere deg som student eller foreleser. Som student må du fylle inn navn, epost, passord, studieretning og studiekull.
+            Eposten kan ikke allerede være i bruk for registrering av ny bruker. 
+            For å registrere deg som foreleser trenger du navn, epost, passord, emne du ha, bilde, og 2 sikkerhetsspørsmål for mulighet til
+            å utføre "glemt passord". Epost kan ikke allerede være i bruk. 
+        </p>
+
+        <h4>Glemt passord</h4> 
+        <p>For å utføre glemt passord må du svare riktig på 2 sikkerhetsspørsmål for å kunne bytte, er det ikke riktig svar vil
+            du ikke kunne bytte passord.
+        </p>
+
+        <h2>Endringer i steg 2:</h2>
+
+        <h4>Webserver</h4>
+        <p>
+            <ul>
+                <li>I hoved configen for apache2 har vi endret TimeOut tiden til 60sek og fjernet visning av webserver versjon og port, 
+                bortsett fra det har vi ikke endret noe i den.
+                Vi lagde heller en egen site for steg 2 for at endringene ikke skulle påvirke steg 1. I denne site-en har vi da lagt like 
+                ulike sikkerhetsheadere, fjernet HTTP versjon 1.0, blokkert tilgang til noen mapper som composer, vendor etc. Noen eksempler på
+                sikkerhetsheadere som er lagt til: </li>           
+                <li><strong>X-Frame-Options "sameorigin"</strong> ble satt slik at det ikke kan bli hentet/lastet iframes fra andre domener.</li>  	 
+                <li><strong>X-XSS-Protection "1; mode=block"</strong> gir nettleseren et filter som den bruker for å oppdage XXS angrep, og vil "renske" siden 
+                    og samtidig hindre den fra å laste i det hele tatt.</li>
+                <li><strong>Content-Security-Policy "default-src 'self';"</strong> er satt for å hindre XXS, og er en bedre versjon av X-Frame-Options som forteller nettleseren hvilke 
+                    sider den kan laste opp, i dette tilfelle kun sider fra vårt domene.</li>
+                <li><strong>Permission-policy "autoplay 'none'; camera 'none'" er satt for å kontrollere hvilke operasjonner som nettleseren for lov til å
+                    gjøre.
+                </strong></li>
+            </ul>
+        </p>
+
+        <p>SSH har vi ikke gjort noe med, men vi burde laget en bruker for hver av oss og begrenset rettighetene, da vet vi også hvem som
+            utfører hvilke handlinger. Kunne også prøvd å endre portnr til SSH, og vi kunne ha laget en passordløs innlogging, generert en public
+            og en private key eller to-faktor autentisering i tillegg til passord. 
+        </p>
+
+        <h4>Login</h4>
+        <ul>
+            <li>Lagt inn prepared statements og det blir nå brukt php-funksjonene “password_verify()”, “session_regenerate_id()” og “filter_var()”.</li> 
+            <li>Prepared statements: blir brukt for å sende sql-spørringen og dataen til databasen separat. Dette blir i hovedsak brukt for å stoppe sql-injection angrep.</li>
+            <li>“filter_var(input, FILTER_VALIDATE_EMAIL)”: blir brukt for å verifisere at brukeren faktisk skrev inn en gyldig epost i “epost”-feltet. </li>
+            <li>“password_verify(input, hashed_password)”: blir brukt for å verifisere den hashede passordet med det brukeren legger inn i “passord”-feltet. </li>
+            <li>“session_regenerate_id()”: blir brukt for å erstatte gjeldende sesjon-id med en ny en, men fortsatt lagre gjeldende sesjon-informasjon. 
+            Dette kan hjelpe med å unngå “session fixation”-angrep der angriperen har tilgang til brukeren sin sesjon-id.</li>
+        </ul>
+
+        <h4>Registrering</h4>
+        <ul>
+            <li>Lagt til validering av eposter med: else if(!filter_var($email, FILTER_VALIDATE_EMAIL))</li>
+            <li>Lagt til validering av input, slikt at tegn som potensielt kan gjøre slikt at kode blir kjørt, så vil det bli fjernet fra inputet før det lastes opp. Brukt funksjoner under.    
+                
+                preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
+                trim($data);
+                stripslashes($data);
+                htmlspecialchars($data);
+            </li>
+            <li>Lagt til hashing av passord for både student og foreleser</li>
+            <li>La til begrensning på 8MB for alle filer</li>
+            <li>La til minimums- og maksimums lengde på passord</li>
+            <li>La til en tilbakeknapp på registeringssidene</li>
+            <li>Filtyper burde bli sjekket at de er en av noen få godkjente (png, img, gif)</li>
+
+            <li>Skulle gjerne lagt inn en form for begrensning på hvor mange brukere som kan lages av en person, eneste problemet med dette er hvordan vi skal kontrollere at det er samme person lager disse brukerne. Her kan jo kanskje sesjonsIDer tas i bruk, eller eventuelt å sjekke IP adresser men er usikker på hvordan man skal få gjort det. </li>
+        </ul>
+
+
+        <p><a href="https://github.com/maikenfp/Datasikkerhet">Github</a></p>
+
+        <h4>Creators:</h4>
+	     <p>Maiken Fridén Persen - maikenfp@hiof.no</p>
+         <p>Haakon Stangborli - haakost@hiof.no</p>
+         <p>Joakim Johansen Skjelbred - Joakimjs@hiof.no</p>
+         <p>John Ferdie Abueg - johnfa@hiof.no</p>
+         <p>Børre Gjerdrum Stellander - borregs@hiof.no</p>
+         <p>Victor Nilssen - victor.nilssen@hiof.no</p>
+         <p>Andreas Thauland - andretha@hiof.no</p>
+	</body>
+</html>
