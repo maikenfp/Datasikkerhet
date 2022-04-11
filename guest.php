@@ -149,8 +149,8 @@ function getForeleserBilde($pin){
 
 function sqlQuery($sql){
     $database = new Database();
-    $db = $database->connect();
-    // $db = $database->connectGjest();
+    // $db = $database->connect();
+    $db = $database->connectGjest();
     $stmt = $db->query($sql);
     return $stmt;
 }
@@ -166,10 +166,7 @@ function getEmneInfo($pin){
     //     FROM emne WHERE pinkode='$pin' limit 1";
     // View;
     $sql = "SELECT emnekode, emnenavn, pinkode FROM `emneInfo` WHERE pinkode='$pin' limit 1";
-    $row = sqlQuery($sql);
-
-    
-    
+    $row = sqlQuery($sql);    
 
     if ($row) {
         echo "<h2> Emne info: </h2>";

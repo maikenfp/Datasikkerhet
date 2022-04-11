@@ -39,7 +39,7 @@ class Database
     $this->conn = null;
 
     try {
-      $this->conn = new PDO('mysql:host=' . $this->host2 . ';dbname=' . $this->db_name, $this->usernameStudent, $this->passwordStudent);
+      $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->usernameStudent, $this->passwordStudent);
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $this->conn->exec("set names utf8");
     } catch (PDOException $e) {
@@ -54,7 +54,7 @@ class Database
     $this->conn = null;
 
     try {
-      $this->conn = new PDO('mysql:host=' . $this->host2 . ';dbname=' . $this->db_name, $this->usernameForeleser, $this->passwordForeleser);
+      $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->usernameForeleser, $this->passwordForeleser);
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $this->conn->exec("set names utf8");
     } catch (PDOException $e) {
@@ -69,7 +69,7 @@ class Database
     $this->conn = null;
 
     try {
-      $this->conn = new PDO('mysql:host=' . $this->host2 . ';dbname=' . $this->db_name, $this->usernameGjest, $this->passwordGjest);
+      $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->usernameGjest, $this->passwordGjest);
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $this->conn->exec("set names utf8");
     } catch (PDOException $e) {
