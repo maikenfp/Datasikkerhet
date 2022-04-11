@@ -6,7 +6,8 @@ include_once '../../config/Database.php';
 include_once '../../models/Teacher.php';
 
 $database = new Database();
-$db = $database->connect();
+// $db = $database->connect();
+$db = $database->connectForeleser();
 
 $teacher = new Teacher($db);
 
