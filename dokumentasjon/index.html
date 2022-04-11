@@ -152,6 +152,16 @@
             <li>Har lagt inn info, notice og warning logger for graylog.  </li>
             <li>Har lagt til inputvalidering for report message server side og håndterer alt som stringer..</li>
         </ul>
+	
+	 <h4>Database</h4>
+        <ul>
+            <li>Lagt til forskellige databasebrukere for student, foreleser og gjest med begrensende rettigheter.</li>
+            <li>Lagd prepared staments for å hindre SQL injections</li>
+	    <li>Satt maks antall queries for hver bruker til 200 per time</li>
+	    <li>Lagd views med rettigheter til de forskjellige brukerene</li>
+	    <li>Satt opp logging til graylog</li>
+            <li>Hashet passordene i databasen</li>
+        </ul>
 
         <h4>Andre ting</h4>
         <ul>
