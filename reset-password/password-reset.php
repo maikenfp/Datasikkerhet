@@ -25,7 +25,6 @@
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
-        $data = strip_tags($data);
 
         return $data;
     }
@@ -35,7 +34,7 @@
          $_SESSION['epost'] = $epost;
     }
     
-    $epost = validate($_SESSION['epost']);
+    $epost = strip_tags(trim($_SESSION['epost']));
 
     $database = new Database();
     $db = $database->connect();
@@ -45,7 +44,7 @@
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if(($epost === $row['epost'])){
-        $_SESSION['epost'] = validate($epost));
+        $_SESSION['epost'] = strip_tags(trim($epost));
 
     }else{
         validate(header("Location: index.php?error=Email ikke registrert!"));
@@ -69,7 +68,7 @@
         <main>
             <h1>Foreleser</h1>
             <?php if (isset($_GET['error'])) { ?>
-	            <p class="error"><?php echo $_GET['error']; ?></p>
+	            <p class="error"><?php echo validate($_GET['error']); ?></p>
             <?php } ?>
             <form action="new-password.php" method="post" class="form">
                     <label for="svar1"><?php
