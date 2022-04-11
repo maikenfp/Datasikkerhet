@@ -94,7 +94,7 @@ session_start();
             if(!preg_match("/^[a-zA-Z.!?,: 0-9 ]*$/", $_POST["kommenter"]))  
             {  
                     //Ugyldig tegn i kommentar feltet
-                    $logger->notice("Ugyldig tegn i kommentar feltet") 
+                    $logger->notice("Ugyldig tegn i kommentar feltet");
             } 
             else{
                 if ($currentStudentId >= 1) {
@@ -297,7 +297,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
 function reportMessage($id){
     if(!preg_match("/^[0-9]*$/", $id)){
         // Feil input
-        $logger->warning("Variabelen id inneholder noe annet enn tall. Forsøk på SQL-injections?")
+        $logger->warning("Variabelen id inneholder noe annet enn tall. Forsøk på SQL-injections?");
     }
     else{
         $sql = ("UPDATE melding SET upassende_melding = (upassende_melding + 1) WHERE melding_id = ('" . $id . "')");
