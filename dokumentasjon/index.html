@@ -118,6 +118,19 @@
             <li>Har laget student bruker i databasen med begrenset rettigheter, men har ikke fått implementert funksjonaliteten på student hjemmesiden til å bruke denne.</li>
         </ul>
 
+        <h4>Gjestesiden</h4>
+        <ul>
+            <li>Har lagt validering av pin-kode på serverside, som sjekker at det bare er tall som er lagt inn.</li>
+            <li>Har lagt til en tidsdelay på 0,8s når man søker med pin-kode.</li>
+            <li>Har lagt til whitelist validering på kommentar feltet, som ikke tillater farlige tegn.</li>
+            <li>Har prøvd å koble til egen gjestebruker til databasen, men får ikke koblet til.</li>
+            <li>Har prøvd å legge til views for å hente emnekode fra databasen. Fungerer lokalt men ikke på serveren.</li>
+            <li>Har lagt til input validering på emnekode.</li>
+            <li>Har satt min- og maxlengde client og serverside for kommentar. </li>
+            <li>Har lagt inn info, notice og warning logger for graylog.  </li>
+            <li>Har lagt til inputvalidering for report message server side.</li>
+        </ul>
+
         <h4>API</h4>
         <ul>
             <li>Kunne gjort slik at API ikke kjørte på default port, og gjort om til et ikke åpent API.</li>
