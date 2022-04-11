@@ -32,7 +32,8 @@
                 <?php
                     include "../config/Database.php";
                         $database = new Database();
-                        $db = $database->connect();
+                        // $db = $database->connect();
+                        $db = $database->connectStudent();
                         $query = "SELECT * FROM studieretning";
 
                         $stmt = $db->query($query);
