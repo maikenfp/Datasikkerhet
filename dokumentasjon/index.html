@@ -72,6 +72,8 @@
                 <li><strong>Permission-policy "autoplay 'none'; camera 'none'" er satt for å kontrollere hvilke operasjonner som nettleseren for lov til å
                     gjøre.
                 </strong></li>
+                <li><strong>Opprettet lokalt certificate for SSL slik at HTTPS kan aktiveres. HTTP blir også redirectet til HTTPS for å unngå at HTTP kan brukes.
+                </strong></li>
             </ul>
         </p>
 
@@ -116,6 +118,21 @@
             <li>htmlspecialchars() ble tatt i bruk på meldingen som brukeren sender. Den endrer spesielle tegn til HTML entities. - "< = &lt;" "> = &gt" og fnutter blir til "&qt" osv.  </li>
             <li>Bruker en logger for å logge når en ny melding blir sendt.</li>
             <li>Har laget student bruker i databasen med begrenset rettigheter, men har ikke fått implementert funksjonaliteten på student hjemmesiden til å bruke denne.</li>
+        </ul>
+
+        <h4>Foreleser hjemmeside</h4>
+        <ul>
+            <li>Lagt til inputvalidering av dropdown menyen, sjekker om valuen er numerisk eller ikke. (forhindrer sql injections gjennom inspect element)</li>
+            <li>Endret SQL querys til å ha prepared statements for å forhindre sql injections</li>
+            <li>htmlspecialchars() ble tatt i bruk på meldingen som brukeren sender. Den endrer spesielle tegn til HTML entities. - "< = &lt;" "> = &gt" og fnutter blir til "&qt" osv.  </li>
+
+        </ul>
+
+        <h4>Foreleser reset-password</h4>
+        <ul>
+            <li>Lagt til inputvalidering av post statements og for error-meldinger(header) forhindrer sql injections</li>
+
+
         </ul>
 
         <h4>Gjestesiden</h4>

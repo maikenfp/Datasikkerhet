@@ -9,6 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 $emneID = $_SESSION['emneID'];
 
+function validate($data) {
+    $data = preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+
+    return $data;
+}
+
 
 $database = new Database();
 $db = $database->connect();
@@ -40,7 +49,7 @@ if (empty($fid)) {
         <h1>
             Emne:
             <?php
-                echo $emnenavn;
+                echo validate($emnenavn);
             ?>
         </h1>
         <?php
@@ -59,7 +68,7 @@ if (empty($fid)) {
         ?>
                 <form action="response_send.php" method="post" class="teacher-form">
                     <textarea name="reply" rows="4" cols="28" required></textarea>
-                    <input type="hidden" name="responseID" value="<?php echo $meldingID; ?>" />
+                    <input type="hidden" name="responseID" value="<?php echo validate($meldingID); ?>" />
                     <input type="hidden" name="emneID" value="$emneID" />
                     <button type="submit">Svar</button>
                 </form>

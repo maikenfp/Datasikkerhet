@@ -50,7 +50,7 @@
     if(password_verify($sv1, $row['glemt_svar_1']) AND password_verify($sv2, $row['glemt_svar_2'])) {
 
     } else {
-        header("Location: password-reset.php?error=Feil svar!");
+        validate(header("Location: password-reset.php?error=Feil svar!"));
         $logger->warning("Tastet inn feil passord!");
         exit();
     }

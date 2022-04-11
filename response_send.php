@@ -21,12 +21,22 @@ $logger->pushProcessor(function ($record) {
     return $record;
 });
 
+
+function validate($data) {
+  $data = preg_replace('/[^A-Za-z0-9@. ]/i', '', $data);
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+
+  return $data;
+}
+
 $database = new Database();
 $db = $database->connect();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $responseID = strip_tags($_POST['responseID']);
-  $reply = strip_tags($_POST['reply']);
+  $responseID = validate($_POST['responseID']);
+  $reply = validate($_POST['reply']);
 
   $sql = "UPDATE melding SET svar='$reply' WHERE melding_id='$responseID'";
   $result = $db->query($sql);
