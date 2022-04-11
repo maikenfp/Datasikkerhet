@@ -121,6 +121,7 @@ return $record;
         }
         ?>
         </section>
+        <a href="index.php">Tilbake</a>
     </main>
 </body>
 
