@@ -282,7 +282,7 @@ function commentMessage($kommentar, $melding_id, $currentStudentId){
     } else {
         // If guest users:
         if(strlen($kommentar) > 26){
-            // Feil input lengde</p>
+            // Feil input lengde
             $logger->notice("Kommentar lenger en 26 tegn");
         }
         else {
